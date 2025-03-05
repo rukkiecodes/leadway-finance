@@ -1,9 +1,16 @@
 <template>
   <v-app>
-    <router-view />
+    <v-main>
+      <router-view/>
+
+      <v-snackbar v-model="snackbarObject.show" color="snackbarObject.color">
+        {{ snackbarObject.message }}
+      </v-snackbar>
+    </v-main>
   </v-app>
 </template>
+<script setup lang="ts">
+import {useAppStore} from '@/stores/app'
 
-<script setup>
-  //
+const {snackbarObject} = useAppStore()
 </script>
