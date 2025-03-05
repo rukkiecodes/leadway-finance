@@ -3,7 +3,7 @@
     <template v-slot:prepend>
       <router-link to="/">
         <v-img
-          src="./assets/images/logo.png"
+          src="@/assets/images/logo.png"
           width="80"
         />
       </router-link>
