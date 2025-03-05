@@ -1,7 +1,7 @@
 <template>
   <v-app-bar density="compact">
     <template v-slot:prepend>
-      <router-link to="/">
+      <router-link to="/auth">
         <v-img
           src="@/assets/images/logo.png"
           width="80"

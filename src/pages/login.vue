@@ -35,6 +35,9 @@ import {signInWithEmailAndPassword} from 'firebase/auth'
 import {auth} from '../firebase'
 
 import {ref} from "vue";
+import {useRouter} from "vue-router";
+const router = useRouter()
+
 
 const {snackbarObject} = useAppStore()
 
@@ -52,6 +55,7 @@ const signInUser = async () => {
 
       const {user} = await signInWithEmailAndPassword(auth, email.value, password.value);
       localStorage.setItem("LeadWayUser", JSON.stringify(user))
+      router.push('/')
 
       snackbarObject.show = true;
       snackbarObject.message = "Login successful!";
