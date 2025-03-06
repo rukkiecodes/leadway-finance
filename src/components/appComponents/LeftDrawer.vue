@@ -14,12 +14,15 @@
     </template>
 
     <v-sheet class="pa-2">
-      <v-list dense :items="routes" base-color="indigo-accent-4"/>
+      <v-list dense :items="routes"/>
     </v-sheet>
 
     <template v-slot:append>
       <v-sheet class="pa-2">
-        <v-btn @click="signOutUser" prepend-icon="mdi-logout" block class="d-flex justify-start align-center" rounded="lg" variant="tonal" color="red">Logout</v-btn>
+        <v-btn @click="signOutUser" prepend-icon="mdi-logout" block class="d-flex justify-start align-center"
+               rounded="lg" variant="tonal" color="red"
+        >Logout
+        </v-btn>
       </v-sheet>
     </template>
   </v-navigation-drawer>
@@ -28,96 +31,97 @@
 <script setup lang="ts">
 import {useProfileStore} from "@/stores/profile";
 import {useRouter} from "vue-router";
+
 const router = useRouter()
 
 const profile = useProfileStore();
 
 const routes = [
   {
-    to: '/',
-    value: 'Home',
+    value: 'index',
     props: {
+      to: '/overview',
       prependIcon: 'mdi-home',
       title: 'Home',
       class: 'rounded-lg',
     }
   },
   {
-    to: '/',
-    value: 'Plans',
+    value: 'plans',
     props: {
+      to: '/plans',
       prependIcon: 'mdi-currency-usd',
       title: 'Plans',
       class: 'rounded-lg',
     }
   },
   {
-    to: '/',
-    value: 'Mining',
+    value: 'mining',
     props: {
+      to: '/mining',
       prependIcon: 'mdi-server-network',
       title: 'Mining',
       class: 'rounded-lg',
     }
   },
   {
-    to: '/',
-    value: 'Trading',
+    value: 'trading',
     props: {
+      to: '/trading',
       prependIcon: 'mdi-poll',
       title: 'Trading',
       class: 'rounded-lg',
     }
   },
   {
-    to: '/',
-    value: 'Holding',
+    value: 'holding',
     props: {
+      to: '/holding',
       prependIcon: 'mdi-wallet',
       title: 'Holding',
       class: 'rounded-lg',
     }
   },
   {
-    to: '/',
-    value: 'Staking',
+    value: 'staking',
     props: {
+      to: '/staking',
       prependIcon: 'mdi-wallet-membership',
       title: 'Staking',
       class: 'rounded-lg',
     }
   },
   {
-    to: '/',
-    value: 'Deposits',
+    value: 'deposits',
     props: {
+      to: '/deposits',
       prependIcon: 'mdi-bank-plus',
       title: 'Deposits',
       class: 'rounded-lg',
     }
   },
   {
-    to: '/',
-    value: 'My Account',
+    value: 'account',
     props: {
+      to: '/account',
       prependIcon: 'mdi-account',
       title: 'My Account',
       class: 'rounded-lg',
     }
   },
   {
-    to: '/',
-    value: 'Withdrawals',
+    value: 'withdrawals',
     props: {
+      to: '/withdrawals',
       prependIcon: 'mdi-cash-register',
       title: 'Withdrawals',
       class: 'rounded-lg',
     }
   },
   {
-    to: '/',
-    value: 'Copy trading',
+    value: 'copytrading',
     props: {
+    to: '/copytrading',
       prependIcon: 'mdi-account-multiple-outline',
       title: 'Copy trading',
       class: 'rounded-lg',
@@ -127,6 +131,6 @@ const routes = [
 
 const signOutUser = () => {
   localStorage.removeItem('LeadWayUser');
-  router.push('/auth');
+  router.push('/auth/login');
 }
 </script>

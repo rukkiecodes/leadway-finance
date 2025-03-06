@@ -55,7 +55,7 @@ const signInUser = async () => {
 
       const {user} = await signInWithEmailAndPassword(auth, email.value, password.value);
       localStorage.setItem("LeadWayUser", JSON.stringify(user))
-      router.push('/')
+      router.push('/overview')
 
       snackbarObject.show = true;
       snackbarObject.message = "Login successful!";

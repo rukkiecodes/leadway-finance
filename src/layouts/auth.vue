@@ -13,8 +13,8 @@
 
     <template v-slot:append>
       <div class="d-flex ga-2">
-        <v-btn to="/getStarted" variant="text" class="text-capitalize">Register</v-btn>
-        <v-btn to="/login" variant="text" class="text-capitalize">Login</v-btn>
+        <v-btn to="/auth/getStarted" variant="text" class="text-capitalize">Register</v-btn>
+        <v-btn to="/auth/login" variant="text" class="text-capitalize">Login</v-btn>
       </div>
     </template>
   </v-app-bar>

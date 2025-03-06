@@ -122,6 +122,8 @@ import {useAppStore} from '@/stores/app'
 import {createUserWithEmailAndPassword} from 'firebase/auth'
 import {setDoc, doc, serverTimestamp} from 'firebase/firestore'
 import {auth, db} from '../firebase'
+import {useRouter} from "vue-router";
+const router = useRouter()
 
 import {ref} from "vue";
 
@@ -152,7 +154,7 @@ const registerUser = async () => {
       const {user} = await createUserWithEmailAndPassword(auth, email.value, password.value);
       localStorage.setItem("LeadWayUser", JSON.stringify(user))
 
-      await setDoc(doc(db, "users", user.uid), {
+      await setDoc(doc(db, "leadway_users", user.uid), {
         uid: user.uid,
         checkbox: checkbox.value,
         accountType: accountType.value,
@@ -165,6 +167,8 @@ const registerUser = async () => {
         city: city.value,
         timestamp: serverTimestamp()
       });
+
+      router.push('/overview')
 
       snackbarObject.show = true;
       snackbarObject.message = "Registration successful!";

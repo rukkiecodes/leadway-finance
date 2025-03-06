@@ -21,7 +21,7 @@ export const useProfileStore = defineStore('profile', {
       this.loading = true;
 
       try {
-        const userDocRef = doc(db, "users", user.uid);
+        const userDocRef = doc(db, "leadway_users", user.uid);
 
         // 🔥 **Real-time listener**
         onSnapshot(userDocRef, (docSnap) => {

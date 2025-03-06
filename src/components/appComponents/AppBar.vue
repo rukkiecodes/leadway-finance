@@ -1,7 +1,7 @@
 <template>
   <v-app-bar :elevation="0" order="1">
     <template v-slot:prepend>
-      <router-link to="/">
+      <router-link to="/overview">
         <v-img
           src="@/assets/images/logo.png"
           width="80"

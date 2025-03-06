@@ -5,7 +5,6 @@ import {createRouter, createWebHistory} from "vue-router";
 import Auth from "@/layouts/auth.vue";
 import App from "@/layouts/app.vue";
 
-import Home from "@/pages/home.vue";
 import Login from "@/pages/login.vue";
 import GetStarted from "@/pages/getStarted.vue";
 
@@ -15,7 +14,7 @@ const staticRoutes = [
     component: Auth,
     children: [
       {
-        path: "",
+        path: "login",
         name: "login",
         component: Login,
       },
@@ -33,10 +32,55 @@ const staticRoutes = [
     meta: {requiresAuth: true},
     children: [
       {
-        path: "",
+        path: "overview",
         name: "index",
-        component: Home,
-      }
+        component: () => import("@/pages/home.vue"),
+      },
+      {
+        path: "plans",
+        name: "plans",
+        component: () => import("@/pages/plans.vue"),
+      },
+      {
+        path: "mining",
+        name: "mining",
+        component: () => import("@/pages/mining.vue"),
+      },
+      {
+        path: "trading",
+        name: "trading",
+        component: () => import("@/pages/trading.vue"),
+      },
+      {
+        path: "holding",
+        name: "holding",
+        component: () => import("@/pages/holding.vue"),
+      },
+      {
+        path: "staking",
+        name: "staking",
+        component: () => import("@/pages/staking.vue"),
+      },
+      {
+        path: "deposits",
+        name: "deposits",
+        component: () => import("@/pages/deposits.vue"),
+      },
+      {
+        path: "account",
+        name: "account",
+        component: () => import("@/pages/account.vue"),
+      },
+      {
+        path: "withdrawals",
+        name: "withdrawals",
+        component: () => import("@/pages/withdrawals.vue"),
+      },
+      {
+        path: "copytrading",
+        name: "copytrading",
+        component: () => import("@/pages/copytrading.vue"),
+      },
     ],
   },
   // Add other static routes here
@@ -61,9 +105,9 @@ router.beforeEach((to, from, next) => {
   const user = JSON.parse(localStorage.getItem("LeadWayUser") || "null");
 
   if (to.meta.requiresAuth && !user) {
-    next("/auth");
+    next("/auth/login");
   } else if (to.path === "/auth" && user) {
-    next("/");
+    next("/overview");
   } else {
     next();
   }
