@@ -1,27 +1,26 @@
 <template>
-  <v-navigation-drawer border="0">
+  <v-navigation-drawer border="0" permanent :rail="drawer">
     <template v-slot:prepend>
-      <v-sheet class="d-flex flex-column justify-center align-center ga-5" dark height="250">
+      <v-sheet class="d-flex flex-column justify-center align-center ga-5" dark :height="drawer ? 70 : 250">
         <v-avatar
           image="@/assets/images/avatar.png"
-          size="100"
+          :size="drawer ? 50 : 100"
         />
 
-        <span class="text-body-2 text-sm-body-1 text-md-h6 font-weight-black">{{
+        <span v-if="!drawer" class="text-body-2 text-sm-body-1 text-md-h6 font-weight-black">{{
             profile.profile?.firstName
           }} {{ profile.profile?.lastName }}</span>
       </v-sheet>
     </template>
 
-    <v-sheet class="pa-2">
-      <v-list dense :items="routes"/>
-    </v-sheet>
+    <v-list :items="routes" density="compact" color="indigo-accent-4" nav/>
 
     <template v-slot:append>
       <v-sheet class="pa-2">
         <v-btn @click="signOutUser" prepend-icon="mdi-logout" block class="d-flex justify-start align-center"
                rounded="lg" variant="tonal" color="red"
-        >Logout
+        >
+          <span v-if="!drawer">Logout</span>
         </v-btn>
       </v-sheet>
     </template>
@@ -30,15 +29,19 @@
 
 <script setup lang="ts">
 import {useProfileStore} from "@/stores/profile";
+import {useAppStore} from '@/stores/app'
 import {useRouter} from "vue-router";
+import {storeToRefs} from 'pinia';
 
 const router = useRouter()
 
 const profile = useProfileStore();
+const appStore = useAppStore();
+const {drawer} = storeToRefs(appStore);
 
 const routes = [
   {
-    value: 'index',
+    value: 'overview',
     props: {
       to: '/overview',
       prependIcon: 'mdi-home',
@@ -121,7 +124,7 @@ const routes = [
   {
     value: 'copytrading',
     props: {
-    to: '/copytrading',
+      to: '/copytrading',
       prependIcon: 'mdi-account-multiple-outline',
       title: 'Copy trading',
       class: 'rounded-lg',

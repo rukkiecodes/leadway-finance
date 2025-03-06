@@ -1,6 +1,7 @@
 <template>
-  <v-app-bar :elevation="0" order="1">
+  <v-app-bar :elevation="0" order="1" :density="drawer ? 'compact' : 'comfortable'">
     <template v-slot:prepend>
+      <v-app-bar-nav-icon @click="drawer = !drawer" class="mr-5"/>
       <router-link to="/overview">
         <v-img
           src="@/assets/images/logo.png"
@@ -10,7 +11,7 @@
     </template>
 
     <template v-slot:append>
-      <v-chip size="x-large" class="pl-1">
+      <v-chip to="/account" :size="drawer ? 'large' : 'x-large'" class="pl-1">
         <v-avatar size="40">
           <v-img src="@/assets/images/avatar.png"/>
         </v-avatar>
@@ -23,6 +24,10 @@
 
 <script setup lang="ts">
 import {useProfileStore} from "@/stores/profile";
+import {useAppStore} from "@/stores/app";
+import { storeToRefs } from "pinia"
 
 const profile = useProfileStore();
+const appStore = useAppStore();
+const { drawer } = storeToRefs(appStore)
 </script>
