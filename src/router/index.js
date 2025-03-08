@@ -32,14 +32,25 @@ const staticRoutes = [
     meta: {requiresAuth: true},
     children: [
       {
+        path: "",
+        name: "index1",
+        component: () => import("@/pages/home.vue"),
+      },
+      {
         path: "overview",
-        name: "index",
+        name: "index2",
         component: () => import("@/pages/home.vue"),
       },
       {
         path: "plans",
         name: "plans",
-        component: () => import("@/pages/plans.vue"),
+        component: () => import("@/layouts/plans.vue"),
+        children: [
+          {
+            path: "",
+            component: () => import('@/pages/plans/plans.vue')
+          }
+        ]
       },
       {
         path: "mining",

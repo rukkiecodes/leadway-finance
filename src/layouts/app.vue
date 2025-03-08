@@ -1,13 +1,11 @@
 <template>
+  <AppBar/>
+  <LeftDrawer/>
   <v-app>
-    <v-layout>
-      <AppBar/>
-      <LeftDrawer/>
 
-      <v-main>
-        <router-view/>
-      </v-main>
-    </v-layout>
+    <v-main>
+      <router-view/>
+    </v-main>
   </v-app>
 </template>
 
