@@ -16,8 +16,8 @@
           <v-card-text class="d-flex flex-column justify-center align-center ga-5">
             <span class="text-caption text-sm-body-2 text-md-body-1">{{ price.rank }}</span>
             <span class="text-body-1 text-sm-h6 text-md-h5 text-lg-h4 font-weight-bold text-indigo-accent-4"
-            >{{ price._price }}</span>
-            <span>{{ profileStore.profile?.currency }} {{ price.price }}</span>
+            >${{ formatMoney(price.price) }}</span>
+            <span>{{ profileStore.profile?.currency }} {{ formatMoney(price.price) }}</span>
           </v-card-text>
 
           <v-card-text>
@@ -72,7 +72,7 @@
           <template v-slot:item.2>
             <v-card flat>
               <v-card-title class="text-center text-body-2 text-sm-body-1">FUND TRADING BALANCE TOTAL</v-card-title>
-              <v-card-subtitle class="text-center text-h6 text-md-h5 text-lg-h4">{{ dialog._price }}</v-card-subtitle>
+              <v-card-subtitle class="text-center text-h6 text-md-h5 text-lg-h4">${{ formatMoney(dialog.price) }}</v-card-subtitle>
 
               <v-card-text class="mt-5">
                 <v-sheet color="black" class="d-flex flex-column justify-center align-center pa-5" rounded="lg">
@@ -85,9 +85,9 @@
 
           <template v-slot:item.3>
             <v-card flat>
-              <v-card-title class="text-center text-h6 text-md-h5 text-lg-h4">PAY {{ dialog._price }}</v-card-title>
+              <v-card-title class="text-center text-h6 text-md-h5 text-lg-h4">PAY ${{ formatMoney(dialog.price) }}</v-card-title>
               <v-card-subtitle class="text-center">Send Crypto</v-card-subtitle>
-              <v-card-subtitle class="text-center">{{ convertedRate }} ({{ paymentMethod }})</v-card-subtitle>
+              <v-card-subtitle class="text-center">{{ convertedRate }} ({{ paymentMethod.paymentMethod }})</v-card-subtitle>
 
               <v-card-text class="mt-5">
                 <v-select
@@ -96,34 +96,30 @@
                   variant="outlined"
                   v-model="paymentMethod"
                   @update:model-value="convertPrice"
-                  :items="['Ethereum (ETH)', 'Bitcoin (BTC)', 'Ripple (XRP)', 'BnB smart chain (BNB)', 'Litecoin (LTC)']"
+                  item-title="paymentMethod"
+                  return-object
+                  :items="[
+                    {paymentMethod: 'Ethereum (ETH)', code: 'ETH'},
+                    {paymentMethod: 'Bitcoin (BTC)', code: 'BTC'},
+                    {paymentMethod: 'Ripple (XRP)', code: 'XRP'},
+                    {paymentMethod: 'BnB smart chain (BNB)', code: 'BNB'},
+                    {paymentMethod: 'Litecoin (LTC)', code: 'LTC'},
+                  ]"
                 />
               </v-card-text>
 
               <v-card-text class="d-flex flex-column align-center justify-center mt-5">
                 <span>{{ address }}</span>
-
-                <!--                <QRCodeVue3-->
-                <!--                  :width="300"-->
-                <!--                  :height="300"-->
-                <!--                  :value="address"-->
-                <!--                  :qr-options="{ errorCorrectionLevel: 'H' }"-->
-                <!--                  :image-options="{ hideBackgroundDots: true, imageSize: 0.4, margin: 10 }"-->
-                <!--                  :corners-square-options="{ type: 'dot', color: '#34495E' }"-->
-                <!--                  :corners-dot-options="{ type: undefined, color: '#41B883' }"-->
-                <!--                  :dots-options="{ type: 'dots', color: '#41B883', gradient: { type: 'linear', rotation: 0, colorStops: [ { offset: 0, color: '#41B883' }, { offset: 1, color: '#34495E' } ] } }"-->
-                <!--                  image="logo.png"-->
-                <!--                  :download="false"-->
-                <!--                />-->
+                <qrcode-vue :value="address" :size="300" level="H" render-as="svg" />
               </v-card-text>
             </v-card>
           </template>
 
           <template v-slot:item.4>
             <v-card flat>
-              <v-card-title class="text-center text-h6 text-md-h5 text-lg-h4">PAY {{ dialog._price }}</v-card-title>
+              <v-card-title class="text-center text-h6 text-md-h5 text-lg-h4">PAY ${{ formatMoney(dialog.price) }}</v-card-title>
               <v-card-subtitle class="text-center">Send Crypto</v-card-subtitle>
-              <v-card-subtitle class="text-center">{{ convertedRate }} ({{ paymentMethod }})</v-card-subtitle>
+              <v-card-subtitle class="text-center">{{ convertedRate }} ({{ paymentMethod.paymentMethod }})</v-card-subtitle>
 
               <v-card-text class="mt-5">
                 <v-sheet @click="selectProofOfPayment" class="cursor-pointer" color="black" rounded="lg">
@@ -155,7 +151,7 @@ import {usePlansStore} from '@/stores/plans'
 import {useProfileStore} from '@/stores/profile'
 import {useAppStore} from '@/stores/app'
 import {ref as vueRef} from "vue";
-import QRCodeVue3 from "qrcode-vue3"
+import QrcodeVue from 'qrcode.vue'
 import {db} from "@/firebase";
 import {
   addDoc,
@@ -172,13 +168,13 @@ import {
 
 const {plans} = usePlansStore()
 const profileStore = useProfileStore()
-const { snackbarObject } = useAppStore()
+const {snackbarObject} = useAppStore()
 const dialog = vueRef({
   active: false,
 })
 const amount = vueRef(0)
 const account = vueRef('Trading Balance Deposit')
-const paymentMethod = vueRef('Ethereum (ETH)')
+const paymentMethod = vueRef('Select Payment Method')
 const convertedRate = vueRef(0)
 const address = 'https://rukkiecodes.netlify.app'
 const POPImage = vueRef(null)
@@ -197,27 +193,7 @@ const selectedPlan = async (plan, price) => {
 
 const convertPrice = async () => {
   const usdAmount = amount.value;
-  let cryptoSymbol;
-
-  switch (paymentMethod.value) {
-    case 'Ethereum (ETH)':
-      cryptoSymbol = 'ETH';
-      break;
-    case 'Bitcoin (BTC)':
-      cryptoSymbol = 'BTC';
-      break;
-    case 'Ripple (XRP)':
-      cryptoSymbol = 'XRP';
-      break;
-    case 'BnB smart chain (BNB)':
-      cryptoSymbol = 'BNB';
-      break;
-    case 'Litecoin (LTC)':
-      cryptoSymbol = 'LTC';
-      break;
-    default:
-      cryptoSymbol = 'ETH';
-  }
+  let cryptoSymbol = paymentMethod.value.code || 'ETH'
 
   try {
     const response = await fetch(`https://rest.coinapi.io/v1/exchangerate/USD/${cryptoSymbol}`, {
@@ -286,7 +262,7 @@ const submitPOP = async () => {
     loading.value = true;
     const {uid} = profileStore.profile;
 
-    const storage = getStorage();
+    const storage = getStorage()
     const storageRef = ref(
       storage,
       `leadway_proof_of_payment/${POPImage.value.name}/${new Date()}`
@@ -308,23 +284,28 @@ const submitPOP = async () => {
         console.log("File available at:", downloadURL);
         console.log("Path:", uploadTask.snapshot.ref.fullPath);
 
-        const payment = await addDoc(collection(db, 'leadway_users', uid, 'payments'), {
-          amount: amount.value,
+        const convertAmountToNumber = parseFloat(String(amount.value))
+
+        const paymentData = {
+          amount: convertAmountToNumber,
           account: account.value,
           paymentMethod: paymentMethod.value,
           convertedRate: convertedRate.value,
           address: address,
           priceProps: dialog.value,
-          timestamp: serverTimestamp()
-        })
+          POP: {pop: downloadURL, path: uploadTask.snapshot.ref.fullPath}
+        }
 
-        await addDoc(collection(db, 'leadway_users', uid, account.value), {
-          payment: payment.id,
+        const payment = await addDoc(collection(db, 'leadway_users', uid, 'payments'), {
+          ...paymentData,
           timestamp: serverTimestamp()
         })
 
         await setDoc(doc(db, 'leadway_payments', payment.id), {
-          payment: payment.id,
+          payment: {
+            ...paymentData,
+            paymentID: payment.id,
+          },
           user: uid,
           timestamp: serverTimestamp()
         })
@@ -341,4 +322,13 @@ const submitPOP = async () => {
     loading.value = false;
   }
 }
+
+const formatMoney = (amount, currency = 'USD') => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(amount).replace(/\$/g, ''); // Removes the currency symbol if needed
+};
 </script>

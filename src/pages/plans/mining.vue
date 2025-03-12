@@ -1,53 +1,26 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12" sm="sm6" md="5">
-        <v-row>
-          <v-col cols="12">
-            <v-img src="@/assets/images/candleBG.png" cover rounded="lg" height="200">
-              <div class="d-flex justify-space-around align-center" style="height: 100%">
-                <div class="d-flex flex-column justify-center align-center text-center">
-                  <span class="text-body-2 text-sm-body-1 text-md-h6 text-lg-h5 font-weight-bold">{{
-                      holdingBalance
-                    }}</span>
-                  <span class="text-uppercase text-caption text-sm-body-2 mt-2">HOLDING BALANCE</span>
-                </div>
+    <h1 class="text-center mb-16">Mining Plans</h1>
 
-                <div class="d-flex flex-column justify-center align-center text-center">
-                  <span class="text-body-2 text-sm-body-1 text-md-h6 text-lg-h5 font-weight-bold">$0.00</span>
-                  <span class="text-uppercase text-caption text-sm-body-2 mt-2">VALUE OF HOLDING</span>
-                </div>
-              </div>
-            </v-img>
-          </v-col>
+    <v-row class="mb-16">
+      <v-col v-for="(price, index) in miningPlan.prices" :key="index" cols="12" sm="6" md="6" lg="4"
+      >
+        <v-card>
+          <v-card-text class="d-flex flex-column justify-center align-center ga-5">
+            <span class="text-caption text-sm-body-2 text-md-body-1">{{ price.rank }}</span>
+            <span class="text-body-1 text-sm-h6 text-md-h5 text-lg-h4 font-weight-bold text-indigo-accent-4"
+            >{{ price._price }}</span>
+            <span>{{ profileStore.profile?.currency }} {{ price.price }}</span>
+          </v-card-text>
 
-          <v-col cols="12">
-            <v-btn @click="selectedPlan" block variant="outlined" color="indigo-accent-4" rounded="0" size="x-large">
-              DEPOSITE
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-col>
+          <v-card-text>
+            <v-list :items="price.perks"/>
+          </v-card-text>
 
-      <v-col cols="12" sm="sm6" md="7">
-        <v-row>
-          <v-col cols="12" v-for="hold in holding" :key="hold.id">
-            <v-sheet class="d-flex justify-space-between align-center pa-2 pr-5 cursor-pointer" rounded="lg">
-              <div class="d-flex justify-start align-center gc-5 gc-sm-10">
-                <v-avatar :image="hold.image" rounded="lg" size="x-large"/>
-                <div class="d-flex flex-column">
-                  <span class="text-caption text-sm-body-2 text-md-body-1">0.000000000 {{ hold.currency }}</span>
-                  <span class="text-caption text-sm-body-2 text-md-body-1">${{ hold.price }}</span>
-                </div>
-              </div>
-
-              <div class="d-flex flex-column justify-center align-end">
-                <span class="text-caption text-sm-body-2 text-md-body-1">{{hold.currencyName}}</span>
-                <span class="text-caption text-sm-body-2 text-md-body-1">{{hold.marketType}}</span>
-              </div>
-            </v-sheet>
-          </v-col>
-        </v-row>
+          <v-card-actions>
+            <v-btn @click="selectedPlan(price)" color="indigo-accent-4" variant="flat" block>Fund trading</v-btn>
+          </v-card-actions>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -75,15 +48,15 @@
                   variant="outlined"
                   density="compact"
                   v-model="amount"
+                  disabled
                 />
 
                 <v-select
                   label="Account"
                   variant="outlined"
                   density="compact"
-                  :items="['Holding Balance']"
+                  :items="['Trading Balance Deposit', 'Holding Balance', 'Staking Balance']"
                   v-model="account"
-                  disabled
                 />
               </v-card-text>
             </v-card>
@@ -92,7 +65,7 @@
           <template v-slot:item.2>
             <v-card flat>
               <v-card-title class="text-center text-body-2 text-sm-body-1">FUND TRADING BALANCE TOTAL</v-card-title>
-              <v-card-subtitle class="text-center text-h6 text-md-h5 text-lg-h4">${{ formatMoney(amount) }}</v-card-subtitle>
+              <v-card-subtitle class="text-center text-h6 text-md-h5 text-lg-h4">{{ dialog._price }}</v-card-subtitle>
 
               <v-card-text class="mt-5">
                 <v-sheet color="black" class="d-flex flex-column justify-center align-center pa-5" rounded="lg">
@@ -105,9 +78,9 @@
 
           <template v-slot:item.3>
             <v-card flat>
-              <v-card-title class="text-center text-h6 text-md-h5 text-lg-h4">PAY {{ formatMoney(amount) }}</v-card-title>
+              <v-card-title class="text-center text-h6 text-md-h5 text-lg-h4">PAY {{ dialog._price }}</v-card-title>
               <v-card-subtitle class="text-center">Send Crypto</v-card-subtitle>
-              <v-card-subtitle class="text-center">{{ convertedRate }} ({{ paymentMethod.paymentMethod }})</v-card-subtitle>
+              <v-card-subtitle class="text-center">{{ convertedRate }} ({{ paymentMethod }})</v-card-subtitle>
 
               <v-card-text class="mt-5">
                 <v-select
@@ -116,31 +89,34 @@
                   variant="outlined"
                   v-model="paymentMethod"
                   @update:model-value="convertPrice"
-                  item-title="paymentMethod"
-                  return-object
-                  :items="[
-                    {paymentMethod: 'Ethereum (ETH)', code: 'ETH'},
-                    {paymentMethod: 'Bitcoin (BTC)', code: 'BTC'},
-                    {paymentMethod: 'Ripple (XRP)', code: 'XRP'},
-                    {paymentMethod: 'BnB smart chain (BNB)', code: 'BNB'},
-                    {paymentMethod: 'Litecoin (LTC)', code: 'LTC'},
-                  ]"
+                  :items="['Ethereum (ETH)', 'Bitcoin (BTC)', 'Ripple (XRP)', 'BnB smart chain (BNB)', 'Litecoin (LTC)']"
                 />
               </v-card-text>
 
               <v-card-text class="d-flex flex-column align-center justify-center mt-5">
                 <span>{{ address }}</span>
 
-                <qrcode-vue :value="address" :size="300" level="H" render-as="svg" />
+                <QRCodeVue3
+                  :width="300"
+                  :height="300"
+                  :value="address"
+                  :qr-options="{ errorCorrectionLevel: 'H' }"
+                  :image-options="{ hideBackgroundDots: true, imageSize: 0.4, margin: 10 }"
+                  :corners-square-options="{ type: 'dot', color: '#34495E' }"
+                  :corners-dot-options="{ type: undefined, color: '#41B883' }"
+                  :dots-options="{ type: 'dots', color: '#41B883', gradient: { type: 'linear', rotation: 0, colorStops: [ { offset: 0, color: '#41B883' }, { offset: 1, color: '#34495E' } ] } }"
+                  image="logo.png"
+                  :download="false"
+                />
               </v-card-text>
             </v-card>
           </template>
 
           <template v-slot:item.4>
             <v-card flat>
-              <v-card-title class="text-center text-h6 text-md-h5 text-lg-h4">PAY {{ formatMoney(amount) }}</v-card-title>
+              <v-card-title class="text-center text-h6 text-md-h5 text-lg-h4">PAY {{ dialog._price }}</v-card-title>
               <v-card-subtitle class="text-center">Send Crypto</v-card-subtitle>
-              <v-card-subtitle class="text-center">{{ convertedRate }} ({{ paymentMethod.paymentMethod }})</v-card-subtitle>
+              <v-card-subtitle class="text-center">{{ convertedRate }} ({{ paymentMethod }})</v-card-subtitle>
 
               <v-card-text class="mt-5">
                 <v-sheet @click="selectProofOfPayment" class="cursor-pointer" color="black" rounded="lg">
@@ -168,73 +144,65 @@
 </template>
 
 <script setup lang="ts">
-import {useHoldingStore} from '@/stores/holding'
+import {computed, ref as vueRef} from 'vue';
+import {usePlansStore} from '@/stores/plans';
 import {useProfileStore} from '@/stores/profile'
 import {useAppStore} from '@/stores/app'
-import {onMounted, ref as vueRef} from "vue";
-import {db} from '@/firebase';
-import QrcodeVue from 'qrcode.vue'
-import {collection, getDocs, query, where, addDoc, doc, serverTimestamp, setDoc} from "firebase/firestore";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
+import {getDownloadURL, getStorage, ref, uploadBytesResumable} from "firebase/storage";
+import {addDoc, collection, doc, serverTimestamp, setDoc} from "firebase/firestore";
+import QRCodeVue3 from "qrcode-vue3"
 
-const {holding} = useHoldingStore();
-const profileStore = useProfileStore();
-const holdingBalance = vueRef("$0.00");
+const {plans} = usePlansStore();
+const profileStore = useProfileStore()
 const {snackbarObject} = useAppStore()
 const dialog = vueRef({
   active: false,
 })
 const amount = vueRef(0)
-const account = vueRef('Holding Balance')
-const paymentMethod = vueRef('Select Payment Method')
+const account = vueRef('Trading Balance Deposit')
+const paymentMethod = vueRef('Ethereum (ETH)')
 const convertedRate = vueRef(0)
 const address = 'https://rukkiecodes.netlify.app'
 const POPImage = vueRef(null)
 const previewOPO = vueRef(null)
 const loading = vueRef(false)
 
-const fetchHoldingBalance = async () => {
-  const profile = profileStore.profile;
-  if (!profile) return
+// Find the plan with use: 'mining'
+const miningPlan = computed(() => plans.find(plan => plan.use.toLowerCase() === 'mining'));
 
-  try {
-    const paymentsRef = collection(db, "leadway_users", profile.uid, 'payments');
-    const q = query(paymentsRef, where("account", "==", 'Holding Balance'));
-    const querySnapshot = await getDocs(q);
-
-    // Calculate total amount
-    const totalAmount = querySnapshot.docs.reduce((sum, doc) => {
-      const data = doc.data();
-      return sum + (data.amount || 0); // Ensure 'amount' exists and is a number
-    }, 0);
-
-    // Format totalAmount as currency
-    holdingBalance.value = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(totalAmount);
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-onMounted(() => {
-  fetchHoldingBalance();
-});
-
-const selectedPlan = async () => {
+const selectedPlan = async (price) => {
   dialog.value = {
     active: true,
-    use: 'trading'
+    use: 'mining',
+    ...price
   }
+  amount.value = price.price
   convertPrice()
 }
 
 const convertPrice = async () => {
   const usdAmount = amount.value;
-  let cryptoSymbol = paymentMethod.value.code
+  let cryptoSymbol;
+
+  switch (paymentMethod.value) {
+    case 'Ethereum (ETH)':
+      cryptoSymbol = 'ETH';
+      break;
+    case 'Bitcoin (BTC)':
+      cryptoSymbol = 'BTC';
+      break;
+    case 'Ripple (XRP)':
+      cryptoSymbol = 'XRP';
+      break;
+    case 'BnB smart chain (BNB)':
+      cryptoSymbol = 'BNB';
+      break;
+    case 'Litecoin (LTC)':
+      cryptoSymbol = 'LTC';
+      break;
+    default:
+      cryptoSymbol = 'ETH';
+  }
 
   try {
     const response = await fetch(`https://rest.coinapi.io/v1/exchangerate/USD/${cryptoSymbol}`, {
@@ -325,28 +293,23 @@ const submitPOP = async () => {
         console.log("File available at:", downloadURL);
         console.log("Path:", uploadTask.snapshot.ref.fullPath);
 
-        const convertAmountToNumber = parseFloat(String(amount.value))
-
-        const paymentData = {
-          amount: convertAmountToNumber,
+        const payment = await addDoc(collection(db, 'leadway_users', uid, 'payments'), {
+          amount: amount.value,
           account: account.value,
           paymentMethod: paymentMethod.value,
           convertedRate: convertedRate.value,
           address: address,
           priceProps: dialog.value,
-          POP: {pop: downloadURL, path: uploadTask.snapshot.ref.fullPath}
-        }
+          timestamp: serverTimestamp()
+        })
 
-        const payment = await addDoc(collection(db, 'leadway_users', uid, 'payments'), {
-          ...paymentData,
+        await addDoc(collection(db, 'leadway_users', uid, account.value), {
+          payment: payment.id,
           timestamp: serverTimestamp()
         })
 
         await setDoc(doc(db, 'leadway_payments', payment.id), {
-          payment: {
-            ...paymentData,
-            paymentID: payment.id,
-          },
+          payment: payment.id,
           user: uid,
           timestamp: serverTimestamp()
         })
@@ -363,14 +326,4 @@ const submitPOP = async () => {
     loading.value = false;
   }
 }
-
-const formatMoney = (amount, currency = 'USD') => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(amount).replace(/\$/g, ''); // Removes the currency symbol if needed
-};
 </script>
-

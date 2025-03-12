@@ -13,12 +13,15 @@
     <template v-slot:append>
       <v-chip to="/account" :size="drawer ? 'large' : 'x-large'" class="pl-1">
         <v-avatar size="40">
-          <v-img src="@/assets/images/avatar.png"/>
+          <v-img :src="profile.profile?.displayImage?.image" lazy-src="@/assets/images/avatar.png" />
         </v-avatar>
 
         <span class="ml-2 text-caption text-sm-body-2 text-md-body-1">{{ profile.profile?.firstName }}</span>
       </v-chip>
     </template>
+  </v-app-bar>
+  <v-app-bar :elevation="0" order="1" density="compact">
+    <Marquee />
   </v-app-bar>
 </template>
 

@@ -2,10 +2,9 @@
   <v-navigation-drawer border="0" permanent :rail="drawer">
     <template v-slot:prepend>
       <v-sheet class="d-flex flex-column justify-center align-center ga-5" dark :height="drawer ? 70 : 250">
-        <v-avatar
-          image="@/assets/images/avatar.png"
-          :size="drawer ? 50 : 100"
-        />
+        <v-avatar :size="drawer ? 50 : 100">
+          <v-img :src="profile.profile?.displayImage?.image" lazy-src="@/assets/images/avatar.png" />
+        </v-avatar>
 
         <span v-if="!drawer" class="text-body-2 text-sm-body-1 text-md-h6 font-weight-black">{{
             profile.profile?.firstName
@@ -104,15 +103,6 @@ const routes = [
     }
   },
   {
-    value: 'account',
-    props: {
-      to: '/account',
-      prependIcon: 'mdi-account',
-      title: 'My Account',
-      class: 'rounded-lg',
-    }
-  },
-  {
     value: 'withdrawals',
     props: {
       to: '/withdrawals',
@@ -127,6 +117,15 @@ const routes = [
       to: '/copytrading',
       prependIcon: 'mdi-account-multiple-outline',
       title: 'Copy trading',
+      class: 'rounded-lg',
+    }
+  },
+  {
+    value: 'account',
+    props: {
+      to: '/account',
+      prependIcon: 'mdi-account',
+      title: 'My Account',
       class: 'rounded-lg',
     }
   },

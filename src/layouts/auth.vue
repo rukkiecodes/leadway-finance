@@ -18,6 +18,7 @@
       </div>
     </template>
   </v-app-bar>
+  
   <router-view />
 </template>
 

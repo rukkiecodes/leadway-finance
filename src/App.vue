@@ -3,7 +3,7 @@
     <v-main>
       <router-view/>
 
-      <v-snackbar v-model="snackbarObject.show" color="snackbarObject.color">
+      <v-snackbar v-model="snackbarObject.show" :color="snackbarObject.color || 'indigo-accent-4'" location="top right">
         {{ snackbarObject.message }}
       </v-snackbar>
     </v-main>

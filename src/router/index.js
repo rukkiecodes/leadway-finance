@@ -48,8 +48,19 @@ const staticRoutes = [
         children: [
           {
             path: "",
+            name: "_plans",
             component: () => import('@/pages/plans/plans.vue')
-          }
+          },
+          {
+            path: "mining",
+            name: "_mining",
+            component: () => import('@/pages/plans/mining.vue')
+          },
+          {
+            path: "staking",
+            name: "_staking",
+            component: () => import('@/pages/plans/staking.vue')
+          },
         ]
       },
       {
@@ -60,7 +71,20 @@ const staticRoutes = [
       {
         path: "trading",
         name: "trading",
-        component: () => import("@/pages/trading.vue"),
+        component: () => import("@/layouts/trading.vue"),
+
+        children: [
+          {
+            path: "",
+            name: "_trading",
+            component: () => import('@/pages/trading/trading.vue')
+          },
+          {
+            path: ":symbol",
+            name: "_symbol",
+            component: () => import('@/pages/trading/symbol.vue')
+          },
+        ]
       },
       {
         path: "holding",
@@ -80,7 +104,40 @@ const staticRoutes = [
       {
         path: "account",
         name: "account",
-        component: () => import("@/pages/account.vue"),
+        component: () => import("@/layouts/account.vue"),
+
+        children: [
+          {
+            path: "",
+            name: "profile",
+            component: () => import('@/pages/account/account.vue')
+          },
+          {
+            path: "updateContactInformation",
+            name: "updateContactInformation",
+            component: () => import('@/pages/account/updateContactInformation.vue')
+          },
+          {
+            path: "updateAvatar",
+            name: "updateAvatar",
+            component: () => import('@/pages/account/updateAvatar.vue')
+          },
+          {
+            path: "updatePassword",
+            name: "updatePassword",
+            component: () => import('@/pages/account/updatePassword.vue')
+          },
+          {
+            path: "updateEmail",
+            name: "updateEmail",
+            component: () => import('@/pages/account/updateEmail.vue')
+          },
+          {
+            path: "viewNotifications",
+            name: "viewNotifications",
+            component: () => import('@/pages/account/viewNotifications.vue')
+          },
+        ]
       },
       {
         path: "withdrawals",

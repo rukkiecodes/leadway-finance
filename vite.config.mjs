@@ -54,8 +54,8 @@ export default defineConfig({
         description: "The Niger Delta Development Commission official website.",
         start_url: "/",
         display: "standalone", // Ensure it's standalone instead of fullscreen
-        theme_color: "#212121", // White theme color
-        background_color: "#212121",
+        theme_color: "#0B1118", // White theme color
+        background_color: "#0B1118",
         orientation: "portrait",
         scope: "/",
         lang: "en-US",
