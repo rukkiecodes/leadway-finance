@@ -9,6 +9,8 @@
               density="compact"
               label="Market"
               hide-details
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -18,6 +20,8 @@
               density="compact"
               label="Price"
               hide-details
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -27,6 +31,8 @@
               density="compact"
               label="Diration"
               hide-details
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -62,6 +68,8 @@
               inputmode="numeric"
               type="number"
               hide-details
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -74,6 +82,8 @@
               inputmode="numeric"
               type="number"
               hide-details
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -86,6 +96,8 @@
               inputmode="numeric"
               type="number"
               hide-details
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -98,6 +110,8 @@
               inputmode="numeric"
               type="number"
               hide-details
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 

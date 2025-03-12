@@ -75,6 +75,8 @@
                   variant="outlined"
                   density="compact"
                   v-model="amount"
+                  rounded="lg"
+                  color="indigo-accent-4"
                 />
 
                 <v-select
@@ -84,6 +86,8 @@
                   :items="['Holding Balance']"
                   v-model="account"
                   disabled
+                  rounded="lg"
+                  color="indigo-accent-4"
                 />
               </v-card-text>
             </v-card>
@@ -118,6 +122,8 @@
                   @update:model-value="convertPrice"
                   item-title="paymentMethod"
                   return-object
+                  rounded="lg"
+                  color="indigo-accent-4"
                   :items="[
                     {paymentMethod: 'Ethereum (ETH)', code: 'ETH'},
                     {paymentMethod: 'Bitcoin (BTC)', code: 'BTC'},

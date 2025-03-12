@@ -11,6 +11,10 @@
     </template>
 
     <template v-slot:append>
+      <v-btn icon @click="rightDrawer = !rightDrawer" class="mr-5">
+        <v-icon>mdi-broadcast</v-icon>
+      </v-btn>
+
       <v-chip to="/account" :size="drawer ? 'large' : 'x-large'" class="pl-1">
         <v-avatar size="40">
           <v-img :src="profile.profile?.displayImage?.image" lazy-src="@/assets/images/avatar.png" />
@@ -20,6 +24,7 @@
       </v-chip>
     </template>
   </v-app-bar>
+
   <v-app-bar :elevation="0" order="1" density="compact">
     <Marquee />
   </v-app-bar>
@@ -32,5 +37,5 @@ import { storeToRefs } from "pinia"
 
 const profile = useProfileStore();
 const appStore = useAppStore();
-const { drawer } = storeToRefs(appStore)
+const { drawer, rightDrawer } = storeToRefs(appStore)
 </script>

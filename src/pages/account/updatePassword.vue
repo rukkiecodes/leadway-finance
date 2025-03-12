@@ -8,6 +8,8 @@
           density="compact"
           type="password"
           v-model="password"
+          rounded="lg"
+          color="indigo-accent-4"
         />
       </v-card-text>
 

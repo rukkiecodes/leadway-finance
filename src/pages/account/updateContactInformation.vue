@@ -11,6 +11,8 @@
               density="compact"
               label="Phone Number"
               v-model="phone"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -20,6 +22,8 @@
               density="compact"
               label="Address"
               v-model="address"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -29,6 +33,8 @@
               density="compact"
               label="Zip Code"
               v-model="zip"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -38,6 +44,8 @@
               density="compact"
               label="City"
               v-model="city"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -47,6 +55,8 @@
               density="compact"
               label="State"
               v-model="state"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -57,6 +67,8 @@
               label="Country"
               :items="countries"
               v-model="country"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
         </v-row>

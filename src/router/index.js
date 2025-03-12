@@ -145,6 +145,11 @@ const staticRoutes = [
         component: () => import("@/pages/withdrawals.vue"),
       },
       {
+        path: "news",
+        name: "news",
+        component: () => import("@/pages/news.vue"),
+      },
+      {
         path: "copytrading",
         name: "copytrading",
         component: () => import("@/pages/copytrading.vue"),

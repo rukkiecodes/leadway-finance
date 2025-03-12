@@ -1,6 +1,7 @@
 <template>
   <AppBar/>
   <LeftDrawer/>
+  <RightDrawer />
   <v-app>
 
     <v-main>
@@ -14,6 +15,7 @@ import {onMounted} from "vue";
 import {useProfileStore} from "@/stores/profile";
 import AppBar from "@/components/appComponents/AppBar.vue";
 import LeftDrawer from "@/components/appComponents/LeftDrawer.vue";
+import RightDrawer from "@/components/appComponents/RightDrawer.vue";
 
 const profileStore = useProfileStore();
 

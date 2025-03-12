@@ -8,6 +8,7 @@ export const useAppStore = defineStore('app', {
       message: '',
       color: ''
     },
-    drawer: true
+    drawer: true,
+    rightDrawer: false,
   }),
 })

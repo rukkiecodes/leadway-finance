@@ -115,8 +115,17 @@ const routes = [
     value: 'copytrading',
     props: {
       to: '/copytrading',
-      prependIcon: 'mdi-account-multiple-outline',
+      prependIcon: 'mdi-file-tree',
       title: 'Copy trading',
+      class: 'rounded-lg',
+    }
+  },
+  {
+    value: 'news',
+    props: {
+      to: '/news',
+      prependIcon: 'mdi-newspaper-variant-multiple-outline',
+      title: 'News',
       class: 'rounded-lg',
     }
   },

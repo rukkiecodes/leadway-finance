@@ -8,6 +8,8 @@
           density="compact"
           inputmode="email"
           v-model="email"
+          rounded="lg"
+          color="indigo-accent-4"
         />
       </v-card-text>
 

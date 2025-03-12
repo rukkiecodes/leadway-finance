@@ -56,6 +56,8 @@
                   density="compact"
                   v-model="amount"
                   disabled
+                  rounded="lg"
+                  color="indigo-accent-4"
                 />
 
                 <v-select
@@ -64,6 +66,8 @@
                   density="compact"
                   :items="['Trading Balance Deposit', 'Holding Balance', 'Staking Balance']"
                   v-model="account"
+                  rounded="lg"
+                  color="indigo-accent-4"
                 />
               </v-card-text>
             </v-card>
@@ -98,6 +102,8 @@
                   @update:model-value="convertPrice"
                   item-title="paymentMethod"
                   return-object
+                  rounded="lg"
+                  color="indigo-accent-4"
                   :items="[
                     {paymentMethod: 'Ethereum (ETH)', code: 'ETH'},
                     {paymentMethod: 'Bitcoin (BTC)', code: 'BTC'},

@@ -48,6 +48,8 @@
                   density="compact"
                   v-model="amount"
                   disabled
+                  rounded="lg"
+                  color="indigo-accent-4"
                 />
 
                 <v-select
@@ -56,6 +58,8 @@
                   density="compact"
                   :items="['Trading Balance Deposit', 'Holding Balance', 'Staking Balance']"
                   v-model="account"
+                  rounded="lg"
+                  color="indigo-accent-4"
                 />
               </v-card-text>
             </v-card>
@@ -88,6 +92,8 @@
                   variant="outlined"
                   v-model="paymentMethod"
                   @update:model-value="convertPrice"
+                  rounded="lg"
+                  color="indigo-accent-4"
                   :items="['Ethereum (ETH)', 'Bitcoin (BTC)', 'Ripple (XRP)', 'BnB smart chain (BNB)', 'Litecoin (LTC)']"
                 />
               </v-card-text>

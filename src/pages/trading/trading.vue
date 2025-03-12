@@ -103,10 +103,11 @@ const filteredTrades = computed(() => {
             variant="outlined"
             label="Search"
             prepend-inner-icon="mdi-magnify"
-            rounded="lg"
             clearable
             hide-details
             v-model="searchQuery"
+            rounded="lg"
+            color="indigo-accent-4"
           />
         </v-col>
 
@@ -114,8 +115,9 @@ const filteredTrades = computed(() => {
           <v-select
             variant="outlined"
             label="Filter"
-            rounded="lg"
             hide-details
+            rounded="lg"
+            color="indigo-accent-4"
             :items="['All', 'Cryptocurrencies', 'Meme', 'Stocks', 'Commodities', 'Forex', 'Indices', 'ETFs']"
             v-model="filter"
             @update:model-value="fetchTrades()"

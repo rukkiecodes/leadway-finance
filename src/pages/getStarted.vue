@@ -10,6 +10,8 @@
               label="Account Type"
               :items="['Demo', 'Live']"
               v-model="accountType"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -20,6 +22,8 @@
               label="Email"
               inputmode="email"
               v-model="email"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -30,6 +34,8 @@
               label="Password"
               type="password"
               v-model="password"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -40,6 +46,8 @@
               label="Confirm Password"
               type="password"
               v-model="confirmPassword"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -49,6 +57,8 @@
               density="compact"
               label="First Name"
               v-model="firstName"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -58,6 +68,8 @@
               density="compact"
               label="Last Name"
               v-model="lastName"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -67,6 +79,8 @@
               density="compact"
               label="Phone Number"
               v-model="phone"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -77,6 +91,8 @@
               label="Currency"
               :items="['USD', 'CAD', 'EUR', 'GBP', 'AUD']"
               v-model="currency"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -87,6 +103,8 @@
               label="Country"
               :items="countries"
               v-model="country"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 
@@ -96,6 +114,8 @@
               density="compact"
               label="City"
               v-model="city"
+              rounded="lg"
+              color="indigo-accent-4"
             />
           </v-col>
 

@@ -8,6 +8,8 @@
           label="Email"
           inputmode="email"
           v-model="email"
+          rounded="lg"
+          color="indigo-accent-4"
         />
 
         <v-text-field
@@ -16,6 +18,8 @@
           label="Password"
           type="password"
           v-model="password"
+          rounded="lg"
+          color="indigo-accent-4"
         />
       </v-card-text>
 
