@@ -1,12 +1,12 @@
 <template>
-  <v-navigation-drawer border="0" permanent :rail="drawer">
+  <v-navigation-drawer border="0" v-model="drawer">
     <template v-slot:prepend>
-      <v-sheet class="d-flex flex-column justify-center align-center ga-5" dark :height="drawer ? 70 : 250">
-        <v-avatar :size="drawer ? 50 : 100">
-          <v-img :src="profile.profile?.displayImage?.image" lazy-src="@/assets/images/avatar.png" />
+      <v-sheet class="d-flex flex-column justify-center align-center ga-5" dark :height="250">
+        <v-avatar :size="100">
+          <v-img :src="profile.profile?.displayImage?.image" lazy-src="@/assets/images/avatar.png"/>
         </v-avatar>
 
-        <span v-if="!drawer" class="text-body-2 text-sm-body-1 text-md-h6 font-weight-black">{{
+        <span class="text-body-2 text-sm-body-1 text-md-h6 font-weight-black">{{
             profile.profile?.firstName
           }} {{ profile.profile?.lastName }}</span>
       </v-sheet>
@@ -19,7 +19,7 @@
         <v-btn @click="signOutUser" prepend-icon="mdi-logout" block class="d-flex justify-start align-center"
                rounded="lg" variant="tonal" color="red"
         >
-          <span v-if="!drawer">Logout</span>
+          <span>Logout</span>
         </v-btn>
       </v-sheet>
     </template>
@@ -27,10 +27,16 @@
 </template>
 
 <script setup lang="ts">
+import {onMounted} from "vue"
 import {useProfileStore} from "@/stores/profile";
 import {useAppStore} from '@/stores/app'
 import {useRouter} from "vue-router";
 import {storeToRefs} from 'pinia';
+import {useDisplay} from "vuetify";
+import {auth} from '@/firebase'
+import {signOut} from "firebase/auth";
+
+const {name} = useDisplay()
 
 const router = useRouter()
 
@@ -140,8 +146,16 @@ const routes = [
   },
 ]
 
-const signOutUser = () => {
-  localStorage.removeItem('LeadWayUser');
+const signOutUser = async () => {
+  await signOut(auth)
   router.push('/auth/login');
 }
+
+const validateDrawer = () => {
+  drawer.value = ['xs', 'sm', 'md'].includes(name.value) ? false : true;
+};
+
+onMounted(() => {
+  validateDrawer()
+})
 </script>

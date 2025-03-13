@@ -1,11 +1,8 @@
-// src/firebase.js
-
-// Import Firebase modules
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
 
-// Firebase configuration (use import.meta.env for Vite)
+// Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_apiKey,
   authDomain: import.meta.env.VITE_authDomain,
@@ -19,6 +16,15 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Export Firebase services
+// Initialize services
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+
+// Ensure authentication persistence
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("Auth persistence set to LOCAL.");
+  })
+  .catch((error) => {
+    console.error("Error setting auth persistence:", error);
+  });

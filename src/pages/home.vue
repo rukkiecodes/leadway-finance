@@ -1,12 +1,8 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12" sm="6">
+      <v-col cols="12">
         <Sumary />
-      </v-col>
-
-      <v-col cols="12" sm="6" class="mt-10 mt-sm-0">
-        <TradeTab />
       </v-col>
 
       <v-col cols="12" class="mt-10">
@@ -22,7 +18,6 @@
 
 <script setup lang="ts">
 import Sumary from "@/components/appComponents/home/Sumary.vue";
-import TradeTab from "@/components/appComponents/home/TradeTab.vue";
 import LiveChart from "@/components/appComponents/home/LiveChart.vue";
 import MarketData from "@/components/appComponents/home/MarketData.vue";
 </script>

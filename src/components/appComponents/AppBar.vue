@@ -1,7 +1,7 @@
 <template>
   <v-app-bar :elevation="0" order="1" :density="drawer ? 'compact' : 'comfortable'">
     <template v-slot:prepend>
-      <v-app-bar-nav-icon @click="drawer = !drawer" class="mr-5"/>
+      <v-app-bar-nav-icon @click="drawer = !drawer" class="mr-5 d-flex d-lg-none" />
       <router-link to="/overview">
         <v-img
           src="@/assets/images/logo.png"

@@ -28,8 +28,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-*{
-  box-sizing: border-box;
+.tradingview-widget-container__widget {
+  mix-blend-mode: difference;
+  background: black;
   border: none;
 }
 </style>

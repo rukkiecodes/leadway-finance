@@ -1,35 +1,29 @@
 // Existing imports
-import {createRouter, createWebHistory} from "vue-router";
-
-// Static Routes
-import Auth from "@/layouts/auth.vue";
-import App from "@/layouts/app.vue";
-
-import Login from "@/pages/login.vue";
-import GetStarted from "@/pages/getStarted.vue";
+import { createRouter, createWebHistory } from "vue-router";
+import { auth } from "@/firebase";
 
 const staticRoutes = [
   {
-    path: '/auth',
-    component: Auth,
+    path: "/auth",
+    component: () => import("@/layouts/auth.vue"),
     children: [
       {
         path: "login",
         name: "login",
-        component: Login,
+        component: () => import("@/pages/login.vue"),
       },
       {
         path: "getStarted",
         name: "getStarted",
-        component: GetStarted,
+        component: () => import("@/pages/getStarted.vue"),
       },
-    ]
+    ],
   },
   {
     path: "/",
     name: "home",
-    component: App,
-    meta: {requiresAuth: true},
+    component: () => import("@/layouts/app.vue"),
+    meta: { requiresAuth: true },
     children: [
       {
         path: "",
@@ -49,19 +43,19 @@ const staticRoutes = [
           {
             path: "",
             name: "_plans",
-            component: () => import('@/pages/plans/plans.vue')
+            component: () => import("@/pages/plans/plans.vue"),
           },
           {
             path: "mining",
             name: "_mining",
-            component: () => import('@/pages/plans/mining.vue')
+            component: () => import("@/pages/plans/mining.vue"),
           },
           {
             path: "staking",
             name: "_staking",
-            component: () => import('@/pages/plans/staking.vue')
+            component: () => import("@/pages/plans/staking.vue"),
           },
-        ]
+        ],
       },
       {
         path: "mining",
@@ -72,19 +66,18 @@ const staticRoutes = [
         path: "trading",
         name: "trading",
         component: () => import("@/layouts/trading.vue"),
-
         children: [
           {
             path: "",
             name: "_trading",
-            component: () => import('@/pages/trading/trading.vue')
+            component: () => import("@/pages/trading/trading.vue"),
           },
           {
             path: ":symbol",
             name: "_symbol",
-            component: () => import('@/pages/trading/symbol.vue')
+            component: () => import("@/pages/trading/symbol.vue"),
           },
-        ]
+        ],
       },
       {
         path: "holding",
@@ -105,39 +98,39 @@ const staticRoutes = [
         path: "account",
         name: "account",
         component: () => import("@/layouts/account.vue"),
-
         children: [
           {
             path: "",
             name: "profile",
-            component: () => import('@/pages/account/account.vue')
+            component: () => import("@/pages/account/account.vue"),
           },
           {
             path: "updateContactInformation",
             name: "updateContactInformation",
-            component: () => import('@/pages/account/updateContactInformation.vue')
+            component: () =>
+              import("@/pages/account/updateContactInformation.vue"),
           },
           {
             path: "updateAvatar",
             name: "updateAvatar",
-            component: () => import('@/pages/account/updateAvatar.vue')
+            component: () => import("@/pages/account/updateAvatar.vue"),
           },
           {
             path: "updatePassword",
             name: "updatePassword",
-            component: () => import('@/pages/account/updatePassword.vue')
+            component: () => import("@/pages/account/updatePassword.vue"),
           },
           {
             path: "updateEmail",
             name: "updateEmail",
-            component: () => import('@/pages/account/updateEmail.vue')
+            component: () => import("@/pages/account/updateEmail.vue"),
           },
           {
             path: "viewNotifications",
             name: "viewNotifications",
-            component: () => import('@/pages/account/viewNotifications.vue')
+            component: () => import("@/pages/account/viewNotifications.vue"),
           },
-        ]
+        ],
       },
       {
         path: "withdrawals",
@@ -165,6 +158,35 @@ const router = createRouter({
   routes: staticRoutes,
 });
 
+let isAuthChecked = false;
+
+router.beforeEach(async (to, from, next) => {
+  if (!isAuthChecked) {
+    await new Promise((resolve) => {
+      auth.onAuthStateChanged((user) => {
+        isAuthChecked = true;
+        if (to.meta.requiresAuth && !user) {
+          next("/auth/login");
+        } else if (to.path === "/auth" && user) {
+          next("/overview");
+        } else {
+          next();
+        }
+        resolve();
+      });
+    });
+  } else {
+    const user = auth.currentUser;
+    if (to.meta.requiresAuth && !user) {
+      next("/auth/login");
+    } else if (to.path === "/auth" && user) {
+      next("/overview");
+    } else {
+      next();
+    }
+  }
+});
+
 // Function to dynamically add a route
 export function addDynamicRoute(route) {
   if (!router.hasRoute(route.name)) {
@@ -172,19 +194,6 @@ export function addDynamicRoute(route) {
     console.log(`Dynamic route added: ${route.name}`);
   }
 }
-
-// Navigation Guard
-router.beforeEach((to, from, next) => {
-  const user = JSON.parse(localStorage.getItem("LeadWayUser") || "null");
-
-  if (to.meta.requiresAuth && !user) {
-    next("/auth/login");
-  } else if (to.path === "/auth" && user) {
-    next("/overview");
-  } else {
-    next();
-  }
-});
 
 // Handle dynamic import errors
 router.onError((err, to) => {

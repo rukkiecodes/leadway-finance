@@ -60,8 +60,7 @@ const sendmail = async () => {
 }
 
 const signOutUser = async () => {
-  signOut(auth)
-  localStorage.removeItem('LeadWayUser');
+  await signOut(auth)
   router.push('/auth/login');
 }
 </script>

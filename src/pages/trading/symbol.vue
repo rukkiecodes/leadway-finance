@@ -53,7 +53,8 @@
           frameborder="0"
           scrolling="no"
           width="100%"
-          height="600"
+          height="550"
+          id="marketData"
         />
       </v-col>
 
@@ -140,7 +141,16 @@ export default {
   }),
   created() {
     const symbol = this.$route.params?.symbol || 'BTC'
-    this.frameSRC = `https://freeserv.dukascopy.com/2.0/?path=chart/index&showUI=true&showTabs=true&showParameterToolbar=true&showOfferSide=true&allowInstrumentChange=true&allowPeriodChange=true&allowOfferSideChange=true&showAdditionalToolbar=true&showDetachButton=true&presentationType=candle&axisX=true&axisY=true&legend=true&timeline=true&showDateSeparators=true&showZoom=true&showScrollButtons=true&showAutoShiftButton=true&crosshair=true&borders=false&theme=Dark&uiColor=%23000&candleUpColor=%2300FF00&candleDownColor=%23F60002&wickUpColor=%2300ff00&wickDownColor=%23ff0000&barUpColor=%2300ff00&barDownColor=%23ff0000&availableInstruments=l%3A&instrument=${symbol}/USD&period=7&offerSide=BID&timezone=0&live=true&panLock=false&width=100%25&height=535&adv=popup`
+    this.frameSRC = `https://freeserv.dukascopy.com/2.0/?path=chart/index&showUI=true&showTabs=true&showParameterToolbar=true&showOfferSide=true&allowInstrumentChange=true&allowPeriodChange=true&allowOfferSideChange=true&showAdditionalToolbar=true&showDetachButton=true&presentationType=candle&axisX=true&axisY=true&legend=true&timeline=true&showDateSeparators=true&showZoom=true&showScrollButtons=true&showAutoShiftButton=true&crosshair=true&borders=false&uiColor=%23000&candleUpColor=%2300FF00&candleDownColor=%23F60002&wickUpColor=%2300ff00&wickDownColor=%23ff0000&barUpColor=%2300ff00&barDownColor=%23ff0000&availableInstruments=l%3A&instrument=${symbol}/USD&period=7&offerSide=BID&timezone=0&live=true&panLock=false&width=100%25&height=535&adv=popup`
   }
 }
 </script>
+
+
+<style scoped>
+#marketData {
+  filter: invert(1) hue-rotate(180deg);
+  width: 100%;
+  border: none;
+}
+</style>

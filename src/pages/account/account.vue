@@ -112,12 +112,14 @@
 <script setup lang="ts">
 import {useProfileStore} from '@/stores/profile'
 import {useRouter} from "vue-router";
+import {signOut} from "firebase/auth";
+import {auth} from "@/firebase";
 
 const profileStore = useProfileStore()
 const router = useRouter()
 
-const signOutUser = () => {
-  localStorage.removeItem('LeadWayUser');
+const signOutUser = async () => {
+  await signOut(auth)
   router.push('/auth/login');
 }
 </script>

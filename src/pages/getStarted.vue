@@ -172,7 +172,6 @@ const registerUser = async () => {
       loading.value = true;
 
       const {user} = await createUserWithEmailAndPassword(auth, email.value, password.value);
-      localStorage.setItem("LeadWayUser", JSON.stringify(user))
 
       await setDoc(doc(db, "leadway_users", user.uid), {
         uid: user.uid,
