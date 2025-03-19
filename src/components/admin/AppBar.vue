@@ -24,10 +24,6 @@
       </v-chip>
     </template>
   </v-app-bar>
-
-  <v-app-bar :elevation="0" order="1" density="compact">
-    <Marquee />
-  </v-app-bar>
 </template>
 
 <script setup lang="ts">

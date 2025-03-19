@@ -82,8 +82,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useCopyTradeStore } from '@/stores/copyTrade'
-import { useProfileStore } from '@/stores/profile'
+import { useCopyTradeStore } from '@/stores/user/copyTrade'
+import { useProfileStore } from '@/stores/user/profile'
 
 const {copyTraders} = useCopyTradeStore()
 const profileStore = useProfileStore()

@@ -48,99 +48,27 @@ const routes = [
   {
     value: 'overview',
     props: {
-      to: '/overview',
+      to: '/admin/overview',
       prependIcon: 'mdi-home',
       title: 'Home',
       class: 'rounded-lg',
     }
   },
   {
-    value: 'plans',
+    value: 'Clients',
     props: {
-      to: '/plans',
-      prependIcon: 'mdi-currency-usd',
-      title: 'Plans',
+      to: '/admin/clients',
+      prependIcon: 'mdi-account-group',
+      title: 'Clients',
       class: 'rounded-lg',
     }
   },
   {
-    value: 'mining',
+    value: 'copyTrading',
     props: {
-      to: '/mining',
-      prependIcon: 'mdi-server-network',
-      title: 'Mining',
-      class: 'rounded-lg',
-    }
-  },
-  {
-    value: 'trading',
-    props: {
-      to: '/trading',
-      prependIcon: 'mdi-poll',
-      title: 'Trading',
-      class: 'rounded-lg',
-    }
-  },
-  {
-    value: 'holding',
-    props: {
-      to: '/holding',
-      prependIcon: 'mdi-wallet',
-      title: 'Holding',
-      class: 'rounded-lg',
-    }
-  },
-  {
-    value: 'staking',
-    props: {
-      to: '/staking',
-      prependIcon: 'mdi-wallet-membership',
-      title: 'Staking',
-      class: 'rounded-lg',
-    }
-  },
-  {
-    value: 'deposits',
-    props: {
-      to: '/deposits',
-      prependIcon: 'mdi-bank-plus',
-      title: 'Deposits',
-      class: 'rounded-lg',
-    }
-  },
-  {
-    value: 'withdrawals',
-    props: {
-      to: '/withdrawals',
-      prependIcon: 'mdi-cash-register',
-      title: 'Withdrawals',
-      class: 'rounded-lg',
-    }
-  },
-  {
-    value: 'copytrading',
-    props: {
-      to: '/copytrading',
+      to: '/admin/copyTrading',
       prependIcon: 'mdi-file-tree',
       title: 'Copy trading',
-      class: 'rounded-lg',
-    }
-  },
-  {
-    value: 'news',
-    props: {
-      to: '/news',
-      prependIcon: 'mdi-newspaper-variant-multiple-outline',
-      title: 'News',
-      class: 'rounded-lg',
-    }
-  },
-  {
-    value: 'account',
-    props: {
-      to: '/account',
-      prependIcon: 'mdi-account',
-      title: 'My Account',
       class: 'rounded-lg',
     }
   },
