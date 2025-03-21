@@ -179,18 +179,22 @@ const staticRoutes = [
       {
         path: "copyTrading",
         name: 'admin_copyTrading',
-        component: () => import('@/layouts/admin/copyTrading.vue'),
-
-        children: [
-          {
-            path: "",
-            component: () => import('@/pages/admin/copyTrade/copyTrade.vue')
-          },
-          {
-            path: ":trader",
-            component: () => import('@/pages/admin/copyTrade/trader.vue')
-          },
-        ]
+        component: () => import('@/pages/admin/copyTrade.vue'),
+      },
+      {
+        path: "tradeHistory",
+        name: 'admin_tradeHistory',
+        component: () => import('@/pages/admin/tradeHistory.vue'),
+      },
+      {
+        path: "transactionHistory",
+        name: 'admin_transactionHistory',
+        component: () => import('@/pages/admin/transactionHistory.vue'),
+      },
+      {
+        path: "settings",
+        name: 'admin_settings',
+        component: () => import('@/pages/admin/settings.vue'),
       },
       {
         path: "account",

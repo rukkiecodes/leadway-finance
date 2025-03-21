@@ -1,170 +1,379 @@
 <template>
   <v-container>
-    <h1 class="text-center mb-16">Pricing</h1>
-    <v-row v-for="(plan, index) in plans" :key="index" class="mb-16">
-      <v-col cols="12" class="d-flex justify-center mb-10">
-        <span class="text-body-1 text-sm-h6 text-md-h5 text-lg-h4 font-weight-bold"
-        >{{ plan.use }}</span>
+    <v-row>
+      <v-col cols="12" sm="5">
+        <v-card rounded="lg" min-height="300">
+          <v-img src="@/assets/images/hue.png" min-height="300" cover>
+            <v-sheet class="d-flex flex-column justify-space-between align-start pa-5" min-height="300"
+                     color="transparent">
+              <div class="d-flex flex-column">
+                <p class="text-caption text-sm-body-2 text-md-body-1">Total Balance</p>
+                <p class="text-body-1 text-sm-h6 text-md-h5">${{ formatMoney(profile?.totalBalance || 0) }}</p>
+              </div>
+
+              <div class="d-flex flex-column">
+                <p class="text-caption text-sm-body-2 font-weight-light">
+                  Upon Confirmation, our system will automatically convert your cryptocurrency to its live fiat value if
+                  you
+                  choose the cryptocurrency payment method. Please ensure that you deposit the exact amount of Crypto to
+                  the
+                  address provided on the payment page
+                </p>
+
+                <div class="d-flex">
+                  <v-hover>
+                    <template v-slot:default="{ isHovering, props }">
+                      <v-btn
+                        v-bind="props"
+                        @click="dialog = true"
+                        elevation="0"
+                        :variant="isHovering ? 'flat' : 'outlined'"
+                        :color="isHovering ? 'indigo-accent-4' : 'white'"
+                        rounded="0"
+                        class="mt-4 text-caption text-sm-body-2"
+                      >
+                        Make a deposit
+                      </v-btn>
+                    </template>
+                  </v-hover>
+                </div>
+              </div>
+            </v-sheet>
+          </v-img>
+        </v-card>
       </v-col>
 
-      <v-col v-for="(price, index) in plan.prices" :key="index" cols="12"
-             :sm="plan.prices.length < 2 ? '12' : plan.prices.length < 4 ? '4' : '3'"
-             :md="plan.prices.length < 2 ? '12' : '6'"
-             :lg="plan.prices.length < 2 ? '12' : (plan.prices.length < 4 ? '4' : '3')"
-      >
-        <v-card>
-          <v-card-text class="d-flex flex-column justify-center align-center ga-5">
-            <span class="text-caption text-sm-body-2 text-md-body-1">{{ price.rank }}</span>
-            <span class="text-body-1 text-sm-h6 text-md-h5 text-lg-h4 font-weight-bold text-indigo-accent-4"
-            >${{ formatMoney(price.price) }}</span>
-            <span>{{ profileStore.profile?.currency }} {{ formatMoney(price.price) }}</span>
-          </v-card-text>
+      <v-col cols="12" sm="7">
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-card>
+              <v-card-title class="text-body-1 text-sm-h6">
+                <span class="text-capitalize">Trading</span>
+              </v-card-title>
+              <v-card-subtitle>Fund trading wallet</v-card-subtitle>
 
-          <v-card-text>
-            <v-list :items="price.perks"/>
-          </v-card-text>
+              <v-card-text style="min-height: 220px">
+                <v-text-field
+                  v-model="trading"
+                  label="Trading fund"
+                  variant="outlined"
+                  flat
+                  density="compact"
+                  rounded="lg"
+                  color="indigo-accent-4"
+                  type="number"
+                  prepend-inner-icon="mdi-currency-usd"
+                />
 
-          <v-card-actions>
-            <v-btn @click="selectedPlan(plan, price)" color="indigo-accent-4" variant="flat" block>Fund trading</v-btn>
-          </v-card-actions>
-        </v-card>
+                <p class="text-caption">
+                  Enter the amount you wish to add to your trading wallet. Ensure you have sufficient balance before proceeding.
+                  The minimum deposit amount is <strong>$10</strong>. Transactions below this amount will not be processed.
+                  Funds will be credited instantly, but in rare cases, processing may take up to <strong>5 minutes</strong>.
+                  For security reasons, all deposits are final and cannot be reversed. Please double-check the amount before confirming.
+                </p>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer />
+                <v-hover>
+                  <template v-slot:default="{ isHovering, props }">
+                    <v-btn
+                      @click="fundAccount('trading', trading)"
+                      v-bind="props"
+                      class="text-caption text-sm-body-2 font-weight-light px-5"
+                      rounded="sm"
+                      :color="isHovering ? 'indigo-accent-4' : 'white'"
+                      :variant="isHovering ? 'flat' : 'outlined'"
+                      elevation="0"
+                    >
+                      Get Started
+                    </v-btn>
+                  </template>
+                </v-hover>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-card>
+              <v-card-title class="text-body-1 text-sm-h6">
+                <span class="text-capitalize">signals</span>
+              </v-card-title>
+              <v-card-subtitle>Fund signals wallet</v-card-subtitle>
+
+              <v-card-text style="min-height: 220px">
+                <v-text-field
+                  v-model="signals"
+                  label="Signals fund"
+                  variant="outlined"
+                  flat
+                  density="compact"
+                  rounded="lg"
+                  color="indigo-accent-4"
+                  type="number"
+                  prepend-inner-icon="mdi-currency-usd"
+                />
+
+                <p class="text-caption">
+                  Add funds to your signals wallet to access premium trading insights.
+                  Ensure your balance is sufficient before proceeding. The minimum deposit is <strong>$5</strong>.
+                  Funds are credited instantly, but in rare cases, processing may take up to <strong>5 minutes</strong>.
+                  Deposits are non-refundable, so please verify the amount before confirming your transaction.
+                </p>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer />
+                <v-hover>
+                  <template v-slot:default="{ isHovering, props }">
+                    <v-btn
+                      @click="fundAccount('signals', signals)"
+                      v-bind="props"
+                      class="text-caption text-sm-body-2 font-weight-light px-5"
+                      rounded="sm"
+                      :color="isHovering ? 'indigo-accent-4' : 'white'"
+                      :variant="isHovering ? 'flat' : 'outlined'"
+                      elevation="0"
+                    >
+                      Get Started
+                    </v-btn>
+                  </template>
+                </v-hover>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-card>
+              <v-card-title class="text-body-1 text-sm-h6">
+                <span class="text-capitalize">mining</span>
+              </v-card-title>
+              <v-card-subtitle>Fund mining wallet</v-card-subtitle>
+
+              <v-card-text style="min-height: 220px">
+                <v-text-field
+                  v-model="mining"
+                  label="Mining fund"
+                  variant="outlined"
+                  flat
+                  density="compact"
+                  rounded="lg"
+                  color="indigo-accent-4"
+                  type="number"
+                  prepend-inner-icon="mdi-currency-usd"
+                />
+
+                <p class="text-caption">
+                  Fund your mining wallet to start earning passive rewards through our secure mining pools.
+                  Your mining balance is used to purchase computational power for generating returns.
+                  Rewards are distributed daily, and withdrawal options are available based on your plan.
+                  Ensure you maintain a minimum balance of <strong>$10</strong> for uninterrupted mining operations.
+                </p>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer />
+                <v-hover>
+                  <template v-slot:default="{ isHovering, props }">
+                    <v-btn
+                      @click="fundAccount('mining', mining)"
+                      v-bind="props"
+                      class="text-caption text-sm-body-2 font-weight-light px-5"
+                      rounded="sm"
+                      :color="isHovering ? 'indigo-accent-4' : 'white'"
+                      :variant="isHovering ? 'flat' : 'outlined'"
+                      elevation="0"
+                    >
+                      Get Started
+                    </v-btn>
+                  </template>
+                </v-hover>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-card>
+              <v-card-title class="text-body-1 text-sm-h6">
+                <span class="text-capitalize">staking</span>
+              </v-card-title>
+              <v-card-subtitle>Fund staking wallet</v-card-subtitle>
+
+              <v-card-text style="min-height: 220px">
+                <v-text-field
+                  v-model="staking"
+                  label="Staking fund"
+                  variant="outlined"
+                  flat
+                  density="compact"
+                  rounded="lg"
+                  color="indigo-accent-4"
+                  type="number"
+                  prepend-inner-icon="mdi-currency-usd"
+                />
+
+                <p class="text-caption">
+                  Stake your funds to earn rewards over time with our staking program.
+                  The longer you stake, the higher your potential returns.
+                  Withdrawals are subject to a minimum lock-in period, depending on your staking plan.
+                  Ensure you review the terms before proceeding with staking.
+                </p>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer />
+                <v-hover>
+                  <template v-slot:default="{ isHovering, props }">
+                    <v-btn
+                      @click="fundAccount('staking', staking)"
+                      v-bind="props"
+                      class="text-caption text-sm-body-2 font-weight-light px-5"
+                      rounded="sm"
+                      :color="isHovering ? 'indigo-accent-4' : 'white'"
+                      :variant="isHovering ? 'flat' : 'outlined'"
+                      elevation="0"
+                    >
+                      Get Started
+                    </v-btn>
+                  </template>
+                </v-hover>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+        <!--        <v-row>-->
+        <!--          <v-col v-for="(plan, index) in plans" :key="index" cols="12" md="6">-->
+        <!--            <v-card-->
+        <!--              rounded="lg"-->
+        <!--              min-height="300"-->
+        <!--              :disabled="plan.price < (parseFloat(profile?.totalBalance) || 0) ? false : true"-->
+        <!--            >-->
+        <!--              <v-card-title class="text-body-1 text-sm-h6">-->
+        <!--                <span class="text-capitalize">{{ plan.use }}</span>-->
+        <!--              </v-card-title>-->
+
+        <!--              <v-card-text>-->
+        <!--                <div class="d-flex justify-start align-end">-->
+        <!--                  <span class="text-h6 text-sm-h5 font-weight-light">${{ formatMoney(plan.price || 0) }}</span>-->
+        <!--                </div>-->
+
+
+        <!--                <v-hover>-->
+        <!--                  <template v-slot:default="{ isHovering, props }">-->
+        <!--                    <v-btn-->
+        <!--                      block-->
+        <!--                      @click="fundAccount(plan.use, plan.price)"-->
+        <!--                      v-bind="props"-->
+        <!--                      class="my-10 text-caption text-sm-body-2 text-md-body-1 font-weight-light"-->
+        <!--                      rounded="pill"-->
+        <!--                      :color="isHovering ? 'indigo-accent-4' : 'white'"-->
+        <!--                      :variant="isHovering ? 'flat' : 'outlined'"-->
+        <!--                      elevation="0"-->
+        <!--                    >-->
+        <!--                      Get Started-->
+        <!--                    </v-btn>-->
+        <!--                  </template>-->
+        <!--                </v-hover>-->
+
+        <!--                <div v-for="(perks, id) in plan?.perks" :key="id" class="d-flex justify-start align-center ga-5">-->
+        <!--                  <v-icon color="green">mdi-check</v-icon>-->
+        <!--                  <p>{{ perks.title }}</p>-->
+        <!--                </div>-->
+        <!--              </v-card-text>-->
+        <!--            </v-card>-->
+        <!--          </v-col>-->
+        <!--        </v-row>-->
       </v-col>
     </v-row>
   </v-container>
 
-  <v-dialog width="600" v-model="dialog.active" persistent>
-    <v-card rounded="lg">
-      <v-toolbar color="transparent" dark>
-        <v-toolbar-title>{{ dialog?.use }} {{ dialog?.rank }}</v-toolbar-title>
+  <v-dialog v-model="dialog" width="600" persistent>
+    <v-card rounded="lg" :loading="loading" :disabled="loading">
+      <v-toolbar density="compact" color="transparent">
         <v-spacer/>
 
-        <v-btn @click="dialog.active = false" icon flat>
+        <v-btn icon text @click="dialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-
-      <v-card-text class="pa-0">
-        <v-stepper elevation="0" :items="['Step 1', 'Step 2', 'Step 3', 'Step 4']">
-          <template v-slot:item.1>
-            <v-card flat>
-              <v-card-title class="text-center">Fund Account</v-card-title>
-
-              <v-card-text class="mt-5">
-                <v-text-field
-                  label="Amount"
-                  variant="outlined"
-                  density="compact"
-                  v-model="amount"
-                  disabled
-                  rounded="lg"
-                  color="indigo-accent-4"
-                />
-
-                <v-select
-                  label="Account"
-                  variant="outlined"
-                  density="compact"
-                  :items="['Trading Balance Deposit', 'Holding Balance', 'Staking Balance']"
-                  v-model="account"
-                  rounded="lg"
-                  color="indigo-accent-4"
-                />
-              </v-card-text>
-            </v-card>
-          </template>
-
-          <template v-slot:item.2>
-            <v-card flat>
-              <v-card-title class="text-center text-body-2 text-sm-body-1">FUND TRADING BALANCE TOTAL</v-card-title>
-              <v-card-subtitle class="text-center text-h6 text-md-h5 text-lg-h4">${{ formatMoney(dialog.price) }}</v-card-subtitle>
-
-              <v-card-text class="mt-5">
-                <v-sheet color="black" class="d-flex flex-column justify-center align-center pa-5" rounded="lg">
-                  <span class="text-indigo-accent-4 font-weight-bold">Send Crypto</span>
-                  <span class="text-caption">Send supported crypto currencies</span>
-                </v-sheet>
-              </v-card-text>
-            </v-card>
-          </template>
-
-          <template v-slot:item.3>
-            <v-card flat>
-              <v-card-title class="text-center text-h6 text-md-h5 text-lg-h4">PAY ${{ formatMoney(dialog.price) }}</v-card-title>
-              <v-card-subtitle class="text-center">Send Crypto</v-card-subtitle>
-              <v-card-subtitle class="text-center">{{ convertedRate }} ({{ paymentMethod.paymentMethod }})</v-card-subtitle>
-
-              <v-card-text class="mt-5">
-                <v-select
-                  density="compact"
-                  label="Payment Method"
-                  variant="outlined"
-                  v-model="paymentMethod"
-                  @update:model-value="convertPrice"
-                  item-title="paymentMethod"
-                  return-object
-                  rounded="lg"
-                  color="indigo-accent-4"
-                  :items="[
-                    {paymentMethod: 'Ethereum (ETH)', code: 'ETH'},
-                    {paymentMethod: 'Bitcoin (BTC)', code: 'BTC'},
-                    {paymentMethod: 'Ripple (XRP)', code: 'XRP'},
-                    {paymentMethod: 'BnB smart chain (BNB)', code: 'BNB'},
-                    {paymentMethod: 'Litecoin (LTC)', code: 'LTC'},
-                  ]"
-                />
-              </v-card-text>
-
-              <v-card-text class="d-flex flex-column align-center justify-center mt-5">
-                <span>{{ address }}</span>
-                <qrcode-vue :value="address" :size="300" level="H" render-as="svg" />
-              </v-card-text>
-            </v-card>
-          </template>
-
-          <template v-slot:item.4>
-            <v-card flat>
-              <v-card-title class="text-center text-h6 text-md-h5 text-lg-h4">PAY ${{ formatMoney(dialog.price) }}</v-card-title>
-              <v-card-subtitle class="text-center">Send Crypto</v-card-subtitle>
-              <v-card-subtitle class="text-center">{{ convertedRate }} ({{ paymentMethod.paymentMethod }})</v-card-subtitle>
-
-              <v-card-text class="mt-5">
-                <v-sheet @click="selectProofOfPayment" class="cursor-pointer" color="black" rounded="lg">
-                  <div v-if="!POPImage" class="d-flex justify-start align-center ga-2 pa-4">
-                    <v-icon>mdi-image-outline</v-icon>
-
-                    <span>Attached image of the Proof of Payment</span>
-                  </div>
-                  <v-img v-else :src="previewOPO" height="300" cover rounded="lg"/>
-                </v-sheet>
-              </v-card-text>
-
-              <v-card-actions v-if="POPImage">
-                <v-btn @click="submitPOP" :loading="loading" :disabled="loading" block variant="flat"
-                       color="indigo-accent-4"
-                >Submit
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </template>
-        </v-stepper>
+      <v-card-text>
+        <v-card color="white" rounded="xl" width="250" class="d-flex align-center justify-center mx-auto">
+          <v-card-text>
+            <qrcode-vue :value="address.wallet" :size="220" level="H" render-as="svg"/>
+          </v-card-text>
+        </v-card>
       </v-card-text>
+
+      <v-card-text>
+        <p class="text-caption text-sm-body-2 text-center mb-8">{{ convertedRate }} {{ address?.code }}</p>
+
+        <v-sheet class="d-flex justify-space-between align-center mb-8 pl-2" width="100%" color="white" rounded="lg">
+          <p class="text-caption">{{ address.wallet }}</p>
+
+          <v-btn @click="copyToClipboard(address.wallet)" prepend-icon="mdi-content-copy" rounded-lg
+                 color="indigo-accent-4" class="text-caption text-sm-body-2">
+            Copy Address
+          </v-btn>
+        </v-sheet>
+
+        <v-select
+          density="compact"
+          label="Payment Method"
+          variant="outlined"
+          v-model="address"
+          @update:model-value="convertPrice"
+          item-title="paymentMethod"
+          return-object
+          rounded="lg"
+          color="indigo-accent-4"
+          :items="addresses"
+        />
+
+        <v-text-field
+          density="compact"
+          label="Amount"
+          type="number"
+          variant="outlined"
+          v-model="amount"
+          rounded="lg"
+          color="indigo-accent-4"
+          @update:modelValue="convertPrice"
+        />
+
+        <v-file-input
+          density="compact"
+          label="Proof Of Payment"
+          variant="outlined"
+          rounded="lg"
+          color="indigo-accent-4"
+          @change="selectImage"
+        />
+      </v-card-text>
+
+      <v-card-actions>
+        <v-btn @click="submitPOP" :loading="loading" :disabled="loading" variant="flat" color="indigo-accent-4">
+          Submit
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
-import {usePlansStore} from '@/stores/user/plans'
 import {useProfileStore} from '@/stores/user/profile'
 import {useAppStore} from '@/stores/app'
-import {ref as vueRef} from "vue";
+import {storeToRefs} from "pinia"
+import {ref as vueRef, onMounted} from 'vue'
 import QrcodeVue from 'qrcode.vue'
-import {db} from "@/firebase";
+import {db, auth} from '@/firebase'
 import {
-  addDoc,
   doc,
+  getDoc,
+  addDoc,
   collection,
-  serverTimestamp, setDoc,
-} from "firebase/firestore";
+  serverTimestamp,
+  setDoc, updateDoc,
+} from 'firebase/firestore'
 import {
   getDownloadURL,
   getStorage,
@@ -172,34 +381,54 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 
-const {plans} = usePlansStore()
-const profileStore = useProfileStore()
+const profieStore = useProfileStore()
+const {profile} = storeToRefs(profieStore)
+const dialog = vueRef(false)
 const {snackbarObject} = useAppStore()
-const dialog = vueRef({
-  active: false,
-})
-const amount = vueRef(0)
-const account = vueRef('Trading Balance Deposit')
-const paymentMethod = vueRef('Select Payment Method')
-const convertedRate = vueRef(0)
-const address = 'https://rukkiecodes.netlify.app'
+
+const address = vueRef({paymentMethod: 'Bitcoin (BTC)', code: 'BTC', wallet: 'jnljvnui2h4v892h4of78h34o9h3gqhglqwrj'})
+const addresses = vueRef([])
+const amount = vueRef('')
+const convertedRate = vueRef('')
 const POPImage = vueRef(null)
-const previewOPO = vueRef(null)
 const loading = vueRef(false)
 
-const selectedPlan = async (plan, price) => {
-  dialog.value = {
-    active: true,
-    use: plan.use,
-    ...price
-  }
-  amount.value = price.price
-  convertPrice()
+const trading = vueRef('')
+const signals = vueRef('')
+const mining = vueRef('')
+const staking = vueRef('')
+
+
+const formatMoney = (amount, currency = 'USD') => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(amount).replace(/\$/g, ''); // Removes the currency symbol if needed
+};
+
+const fetchAddresses = async () => {
+  const admin = import.meta.env.VITE_ADMIN1
+
+  const adminProfile = (await getDoc(doc(db, 'leadway_users', admin))).data()
+  // console.log(adminProfile)
+  addresses.value = [
+    {paymentMethod: 'Ethereum (ETH)', code: 'ETH', wallet: adminProfile?.ethereum},
+    {paymentMethod: 'Bitcoin (BTC)', code: 'BTC', wallet: adminProfile?.bitcoinWallet},
+    {paymentMethod: 'Ripple (XRP)', code: 'XRP', wallet: adminProfile?.XRP},
+    {paymentMethod: 'Litecoin (LTC)', code: 'LTC', wallet: adminProfile?.LTC},
+    {paymentMethod: 'USDT', code: 'USDT', wallet: adminProfile?.USDT},
+  ]
 }
+
+onMounted(() => {
+  fetchAddresses()
+})
 
 const convertPrice = async () => {
   const usdAmount = amount.value;
-  let cryptoSymbol = paymentMethod.value.code || 'ETH'
+  let cryptoSymbol = address.value.code || 'ETH'
 
   try {
     const response = await fetch(`https://rest.coinapi.io/v1/exchangerate/USD/${cryptoSymbol}`, {
@@ -229,28 +458,18 @@ const convertPrice = async () => {
   }
 };
 
-const selectProofOfPayment = () => {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text)
 
-  input.onchange = async (event) => {
-    const file = event.target.files[0];
+  snackbarObject.show = true
+  snackbarObject.message = "Copied";
+  snackbarObject.color = "indigo"
+}
 
-    if (file) {
-      console.log(file);
-      const reader = new FileReader();
-      POPImage.value = file;
+const selectImage = (event) => {
+  const file = event.target.files[0];
 
-      reader.onload = (e) => {
-        previewOPO.value = e.target.result;
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
-
-  input.click()
+  if (file) POPImage.value = file
 }
 
 const submitPOP = async () => {
@@ -266,7 +485,8 @@ const submitPOP = async () => {
   try {
     // Initialize Firebase Storage
     loading.value = true;
-    const {uid} = profileStore.profile;
+    const {uid} = auth.currentUser;
+    if (!uid) return
 
     const storage = getStorage()
     const storageRef = ref(
@@ -293,12 +513,11 @@ const submitPOP = async () => {
         const convertAmountToNumber = parseFloat(String(amount.value))
 
         const paymentData = {
+          address: address.value,
+          type: 'deposit',
+          status: 'pending',
           amount: convertAmountToNumber,
-          account: account.value,
-          paymentMethod: paymentMethod.value,
           convertedRate: convertedRate.value,
-          address: address,
-          priceProps: dialog.value,
           POP: {pop: downloadURL, path: uploadTask.snapshot.ref.fullPath}
         }
 
@@ -320,7 +539,7 @@ const submitPOP = async () => {
         snackbarObject.show = true
         snackbarObject.message = "Successfully uploaded";
         snackbarObject.color = "green"
-        dialog.value.active = false
+        dialog.value = false
       }
     )
   } catch (error) {
@@ -329,12 +548,27 @@ const submitPOP = async () => {
   }
 }
 
-const formatMoney = (amount, currency = 'USD') => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(amount).replace(/\$/g, ''); // Removes the currency symbol if needed
-};
+const fundAccount = async (account, amount) => {
+  if(!amount || amount < 10) return
+
+  const {uid} = auth.currentUser;
+  if (!uid) return
+
+  const ballance = profile.value?.[account] ? profile.value?.[account] : 0;
+  const newBallance = parseFloat(ballance) + parseFloat(amount);
+
+  const subtractTotalBallance = parseFloat(profile.value?.totalBalance) - amount
+
+  await updateDoc(doc(db, 'leadway_users', uid), {
+    [account]: newBallance
+  })
+
+  await updateDoc(doc(db, 'leadway_users', uid), {
+    totalBalance: subtractTotalBallance
+  })
+
+  snackbarObject.show = true
+  snackbarObject.message = `$${formatMoney(amount)} successfully added to ${account} account`;
+  snackbarObject.color = "green"
+}
 </script>

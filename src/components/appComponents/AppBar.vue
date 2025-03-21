@@ -2,7 +2,7 @@
   <v-app-bar :elevation="0" order="1" :density="drawer ? 'compact' : 'comfortable'">
     <template v-slot:prepend>
       <v-app-bar-nav-icon @click="drawer = !drawer" class="mr-5 d-flex d-lg-none" />
-      <router-link to="/overview">
+      <router-link to="/app/overview">
         <v-img
           src="@/assets/images/logo.png"
           width="80"
@@ -15,7 +15,7 @@
         <v-icon>mdi-broadcast</v-icon>
       </v-btn>
 
-      <v-chip to="/account" :size="drawer ? 'large' : 'x-large'" class="pl-1">
+      <v-chip to="/app/account" :size="drawer ? 'large' : 'x-large'" class="pl-1">
         <v-avatar size="40">
           <v-img :src="profile.profile?.displayImage?.image" lazy-src="@/assets/images/avatar.png" />
         </v-avatar>

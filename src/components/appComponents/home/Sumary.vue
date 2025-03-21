@@ -15,7 +15,7 @@
 
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
-            <p class="font-weight-bold text-body-1 text-sm-h6">$100,500.00</p>
+            <p class="font-weight-bold text-body-1 text-sm-h6">${{ formatMoney(profile?.investment || 0) }}</p>
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">INVESTMENT</p>
           </div>
 
@@ -39,7 +39,7 @@
 
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
-            <p class="font-weight-bold text-body-1 text-sm-h6">$316,895.00</p>
+            <p class="font-weight-bold text-body-1 text-sm-h6">${{ formatMoney(profile?.totalBalance || 0) }}</p>
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">TOTAL BALANCE</p>
           </div>
 
@@ -48,12 +48,12 @@
       </v-sheet>
     </v-col>
 
-    <v-col cols="12" sm="6" md="4" lg="3" class="d-none d-md-inline">
+    <v-col v-if="profile?.tradersCopied" cols="12" sm="6" md="4" lg="3" class="d-none d-md-inline">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
             <p class="font-weight-bold text-body-1 text-sm-h6 blink">
-              {{ truncateText((copyTraders[profileStore.profile?.tradersCopied[0]]?.name || 'NONE'), 20) }}
+              {{ truncateText((copyTraders[profile?.tradersCopied[0]]?.name || 'NONE'), 20) }}
             </p>
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">LINKED TO TRADER</p>
           </div>
@@ -68,7 +68,7 @@
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
             <p class="font-weight-bold text-body-1 text-sm-h6 blink">
-              <v-icon>mdi-check-circle</v-icon> VERIFIED
+              <v-icon>{{ profile?.verified ? 'mdi-check-circle' : 'mdi-close-circle' }}</v-icon> {{ profile?.verified ? 'VERIFIED' : 'NOT VERIFIED' }}
             </p>
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">LINKED TO TRADER</p>
           </div>
@@ -84,9 +84,11 @@
 import { ref } from "vue";
 import { useCopyTradeStore } from '@/stores/user/copyTrade'
 import { useProfileStore } from '@/stores/user/profile'
+import { storeToRefs } from "pinia"
 
 const {copyTraders} = useCopyTradeStore()
 const profileStore = useProfileStore()
+const { profile } = storeToRefs(profileStore)
 
 
 const investment = ref([]);
@@ -117,6 +119,15 @@ generateRandomTotal()
 const truncateText = (text, maxLength) => {
   if (!text) return "";
   return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+};
+
+const formatMoney = (amount, currency = 'USD') => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(amount).replace(/\$/g, ''); // Removes the currency symbol if needed
 };
 </script>
 

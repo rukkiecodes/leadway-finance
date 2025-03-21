@@ -1,38 +1,11 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from "vue";
-import axios from "axios";
-import {collection, doc, getDocs, query, serverTimestamp, setDoc, orderBy, where} from "firebase/firestore";
+import {collection, getDocs, query, orderBy, where} from "firebase/firestore";
 import {db} from '@/firebase'
 
-const isLoading = ref(true);
-const errorMessage = ref("");
 const trades = ref([]);
 const searchQuery = ref('')
 const filter = ref('All')
-
-const fetchCryptoData = async (symbol) => {
-  try {
-    const response = await axios.get(`http://localhost:3002/trade?symbol=${symbol}`);
-
-    if (!response.status == 200) throw new Error("Failed to fetch data");
-
-    console.log("Crypto Data:", response.data.data);
-    saveToFirebase(response.data.data, symbol);
-    return response.data;
-  } catch (error) {
-    errorMessage.value = error.message;
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-const saveToFirebase = async (data, symbol) => {
-  await setDoc(doc(db, "trades", symbol), {
-    ...data,
-    market: 'indices',
-    timestamp: serverTimestamp(),
-  });
-}
 
 const fetchTrades = async () => {
   const convertFilterToLowerCase = filter.value.toLowerCase()
@@ -124,7 +97,7 @@ const filteredTrades = computed(() => {
         </v-col>
 
         <v-col cols="12" v-for="trade in filteredTrades" :key="trade.id">
-          <router-link :to="`/trading/${trade.symbol}`" class="text-decoration-none">
+          <router-link :to="`/app/trading/${trade.symbol}`" class="text-decoration-none">
             <v-sheet rounded="lg" class="px-2 py-2 cursor-pointer">
               <v-row no-gutters>
                 <v-col cols="12" sm="2">

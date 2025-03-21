@@ -19,5 +19,7 @@ import RightDrawer from "@/components/appComponents/RightDrawer.vue";
 
 const profileStore = useProfileStore();
 
-onMounted(() => profileStore.fetchUserProfile());
+onMounted(() => {
+  profileStore.fetchUserProfile()
+});
 </script>

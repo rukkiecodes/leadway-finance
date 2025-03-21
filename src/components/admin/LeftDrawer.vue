@@ -16,10 +16,17 @@
 
     <template v-slot:append>
       <v-sheet class="pa-2">
-        <v-btn @click="signOutUser" prepend-icon="mdi-logout" block class="d-flex justify-start align-center"
+        <v-btn to="/auth/accountType" prepend-icon="mdi-rotate-3d-variant" block
+               class="d-flex justify-start align-center text-caption text-sm-body-2 text-md-body-1 mb-2"
+               rounded="lg" variant="tonal" color="indigo-accent-4">
+          Switch Account
+        </v-btn>
+
+        <v-btn @click="signOutUser" prepend-icon="mdi-logout" block
+               class="d-flex justify-start align-center text-caption text-sm-body-2 text-md-body-1"
                rounded="lg" variant="tonal" color="red"
         >
-          <span>Logout</span>
+          Logout
         </v-btn>
       </v-sheet>
     </template>
@@ -69,6 +76,33 @@ const routes = [
       to: '/admin/copyTrading',
       prependIcon: 'mdi-file-tree',
       title: 'Copy trading',
+      class: 'rounded-lg',
+    }
+  },
+  {
+    value: 'tradeHistory',
+    props: {
+      to: '/admin/tradeHistory',
+      prependIcon: 'mdi-swap-horizontal',
+      title: 'Trade History',
+      class: 'rounded-lg',
+    }
+  },
+  {
+    value: 'transactionHistory',
+    props: {
+      to: '/admin/transactionHistory',
+      prependIcon: 'mdi-swap-horizontal',
+      title: 'Transaction History',
+      class: 'rounded-lg',
+    }
+  },
+  {
+    value: 'settings',
+    props: {
+      to: '/admin/settings',
+      prependIcon: 'mdi-cog',
+      title: 'Settings',
       class: 'rounded-lg',
     }
   },
