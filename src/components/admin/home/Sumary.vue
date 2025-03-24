@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="12" sm="6" md="4" lg="3">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
@@ -8,12 +8,12 @@
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">TOTAL INVESTMENT</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-currency-usd</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-currency-usd</v-icon>
         </div>
       </v-sheet>
     </v-col>
 
-    <v-col cols="12" sm="6" md="4" lg="3">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
@@ -21,12 +21,12 @@
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">PENDING WITHDRAWALS</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-currency-usd</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-currency-usd</v-icon>
         </div>
       </v-sheet>
     </v-col>
 
-    <v-col cols="12" sm="6" md="4" lg="3">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
@@ -34,12 +34,12 @@
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">TOTAL WITHDRAWALS</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-currency-usd</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-currency-usd</v-icon>
         </div>
       </v-sheet>
     </v-col>
 
-    <v-col cols="12" sm="6" md="4" lg="3">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
@@ -47,12 +47,12 @@
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">VERIFIED ACCOUNTS</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-account-group</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-account-group</v-icon>
         </div>
       </v-sheet>
     </v-col>
 
-    <v-col cols="12" sm="6" md="4" lg="3">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
@@ -60,12 +60,12 @@
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">REGISTERED ACCOUNTS</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-account-group</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-account-group</v-icon>
         </div>
       </v-sheet>
     </v-col>
 
-    <v-col cols="12" sm="6" md="4" lg="3">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
@@ -73,12 +73,12 @@
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">DISABLED ACCOUNTS</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-account-group</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-account-group</v-icon>
         </div>
       </v-sheet>
     </v-col>
 
-    <v-col cols="12" sm="6" md="4" lg="3">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
@@ -86,12 +86,12 @@
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">AUTO TRADE</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-account-group</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-account-group</v-icon>
         </div>
       </v-sheet>
     </v-col>
 
-    <v-col cols="12" sm="6" md="4" lg="3">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
@@ -99,7 +99,7 @@
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">UPGRADE ACCOUNTS</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-account-group</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-account-group</v-icon>
         </div>
       </v-sheet>
     </v-col>

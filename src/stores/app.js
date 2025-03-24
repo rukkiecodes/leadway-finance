@@ -9,6 +9,20 @@ export const useAppStore = defineStore('app', {
       color: ''
     },
     drawer: true,
-    rightDrawer: false,
+    rightDrawer: true,
+    bottomDrawer: false,
+    switchAccount: false
   }),
-})
+
+  actions: {
+    async setSwitchAccount() {
+      if (this.switchAccount) {
+        // Wait for 5 seconds
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        return true; // Return true after 5 seconds
+      } else {
+        return false; // Return false if switchAccount is not true
+      }
+    }
+  }
+});

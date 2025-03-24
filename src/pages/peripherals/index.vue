@@ -10,8 +10,8 @@
         <p class="text-caption text-sm-body-2 text-md-body-1">Seamlessly merging complexity with ease, NexbitCapital offers top-notch security, 24/7 support, and an intuitive platform for your trading needs.</p>
 
         <div class="d-flex ga-2 mt-5">
-          <v-btn to="/getStarted" color="indigo-accent-4" elevation="0" rounded="0" class="text-capitalize text-caption text-sm-body-2 text-md-body-1">Get Started</v-btn>
-          <v-btn to="/login" color="white" variant="outlined" elevation="0" rounded="0" class="text-capitalize text-caption text-sm-body-2 text-md-body-1">Login</v-btn>
+          <v-btn to="/auth/getStarted" color="indigo-accent-4" elevation="0" rounded="0" class="text-capitalize text-caption text-sm-body-2 text-md-body-1">Get Started</v-btn>
+          <v-btn to="/auth/login" color="white" variant="outlined" elevation="0" rounded="0" class="text-capitalize text-caption text-sm-body-2 text-md-body-1">Login</v-btn>
         </div>
       </v-sheet>
     </div>

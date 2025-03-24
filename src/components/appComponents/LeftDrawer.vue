@@ -12,13 +12,13 @@
       </v-sheet>
     </template>
 
-    <v-list :items="routes" density="compact" color="indigo-accent-4" nav />
+    <v-list :items="routes" density="compact" color="indigo-accent-4" nav/>
 
     <template v-slot:append>
       <v-sheet class="pa-2">
         <v-btn
           v-if="profile?.admin"
-          to="/auth/accountType"
+          @click="swtchToAdmin"
           prepend-icon="mdi-rotate-3d-variant"
           block
           class="d-flex justify-start align-center text-caption text-sm-body-2 text-md-body-1 mb-2"
@@ -61,7 +61,7 @@ const router = useRouter()
 
 const profileStore = useProfileStore();
 const appStore = useAppStore();
-const {drawer} = storeToRefs(appStore);
+const {drawer, switchAccount} = storeToRefs(appStore);
 const {profile} = storeToRefs(profileStore);
 
 const routes = [
@@ -75,74 +75,92 @@ const routes = [
     }
   },
   {
-    value: 'plans',
+    value: 'copyTrading',
+    props: {
+      to: '/app/copyTrading',
+      prependIcon: 'mdi-file-tree',
+      title: 'Copy trading',
+      class: 'rounded-lg',
+    }
+  },
+  {
+    value: 'deposit',
     props: {
       to: '/app/plans',
       prependIcon: 'mdi-currency-usd',
-      title: 'Plans',
+      title: 'Deposit',
       class: 'rounded-lg',
     }
   },
   {
-    value: 'mining',
+    value: 'history',
     props: {
-      to: '/app/mining',
-      prependIcon: 'mdi-server-network',
-      title: 'Mining',
+      to: '/app/history',
+      prependIcon: 'mdi-swap-horizontal',
+      title: 'History',
       class: 'rounded-lg',
     }
   },
   {
-    value: 'trading',
+    value: 'transactions',
     props: {
-      to: '/app/trading',
-      prependIcon: 'mdi-poll',
-      title: 'Trading',
+      to: '/app/transactions',
+      prependIcon: 'mdi-swap-horizontal',
+      title: 'Transactions',
       class: 'rounded-lg',
     }
   },
-  {
-    value: 'holding',
-    props: {
-      to: '/app/holding',
-      prependIcon: 'mdi-wallet',
-      title: 'Holding',
-      class: 'rounded-lg',
-    }
-  },
-  {
-    value: 'staking',
-    props: {
-      to: '/app/staking',
-      prependIcon: 'mdi-wallet-membership',
-      title: 'Staking',
-      class: 'rounded-lg',
-    }
-  },
-  {
-    value: 'deposits',
-    props: {
-      to: '/app/deposits',
-      prependIcon: 'mdi-bank-plus',
-      title: 'Deposits',
-      class: 'rounded-lg',
-    }
-  },
+  // {
+  //   value: 'mining',
+  //   props: {
+  //     to: '/app/mining',
+  //     prependIcon: 'mdi-server-network',
+  //     title: 'Mining',
+  //     class: 'rounded-lg',
+  //   }
+  // },
+  // {
+  //   value: 'trading',
+  //   props: {
+  //     to: '/app/trading',
+  //     prependIcon: 'mdi-poll',
+  //     title: 'Trading',
+  //     class: 'rounded-lg',
+  //   }
+  // },
+  // {
+  //   value: 'holding',
+  //   props: {
+  //     to: '/app/holding',
+  //     prependIcon: 'mdi-wallet',
+  //     title: 'Holding',
+  //     class: 'rounded-lg',
+  //   }
+  // },
+  // {
+  //   value: 'staking',
+  //   props: {
+  //     to: '/app/staking',
+  //     prependIcon: 'mdi-wallet-membership',
+  //     title: 'Staking',
+  //     class: 'rounded-lg',
+  //   }
+  // },
+  // {
+  //   value: 'deposits',
+  //   props: {
+  //     to: '/app/deposits',
+  //     prependIcon: 'mdi-bank-plus',
+  //     title: 'Deposits',
+  //     class: 'rounded-lg',
+  //   }
+  // },
   {
     value: 'withdrawals',
     props: {
       to: '/app/withdrawals',
       prependIcon: 'mdi-cash-register',
       title: 'Withdrawals',
-      class: 'rounded-lg',
-    }
-  },
-  {
-    value: 'copytrading',
-    props: {
-      to: '/app/copytrading',
-      prependIcon: 'mdi-file-tree',
-      title: 'Copy trading',
       class: 'rounded-lg',
     }
   },
@@ -156,9 +174,18 @@ const routes = [
     }
   },
   {
-    value: 'account',
+    value: 'support',
     props: {
-      to: '/app/account',
+      to: '/app/support',
+      prependIcon: 'mdi-wechat',
+      title: 'Support',
+      class: 'rounded-lg',
+    }
+  },
+  {
+    value: 'profile',
+    props: {
+      to: '/app/profile',
       prependIcon: 'mdi-account',
       title: 'My Account',
       class: 'rounded-lg',
@@ -178,4 +205,20 @@ const validateDrawer = () => {
 onMounted(() => {
   validateDrawer()
 })
+
+async function checkSwitchAccount() {
+  const result = await appStore.setSwitchAccount();
+  if (result) {
+    router.push('/admin/overview')
+    setTimeout(() => {
+      switchAccount.value = false
+    }, 2000)
+  }
+}
+
+const swtchToAdmin = () => {
+  switchAccount.value = true
+
+  checkSwitchAccount()
+}
 </script>

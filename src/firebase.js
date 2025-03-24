@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
+import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged } from "firebase/auth";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -23,7 +23,10 @@ export const auth = getAuth(app);
 // Ensure authentication persistence
 setPersistence(auth, browserLocalPersistence)
   .then(() => {
-    console.log("Auth persistence set to LOCAL.");
+    // You can now sign in the user or check the auth state
+    onAuthStateChanged(auth, (user) => {
+      return user
+    });
   })
   .catch((error) => {
     console.error("Error setting auth persistence:", error);

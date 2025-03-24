@@ -8,9 +8,9 @@
 
         <template v-slot:append>
           <div class="d-flex ga-2">
-            <span class="text-body-2 text-sm-body-1 font-weight-bold">Ballance:</span><span
+            <span class="text-body-2 text-sm-body-1 font-weight-bold">Balance:</span><span
             class="text-body-2 text-sm-body-1 text-green-darken-3 font-weight-bold"
-          >$0.00</span>
+          >${{ formatMoney(profile.totalBalance) }}</span>
           </div>
         </template>
       </v-toolbar>
@@ -26,7 +26,7 @@
         </v-col>
 
         <v-col cols="4" class="d-flex align-center justify-center">
-          <v-divider />
+          <v-divider/>
         </v-col>
 
         <v-col cols="1" class="d-flex align-center justify-center">
@@ -38,11 +38,12 @@
         </v-col>
 
         <v-col cols="4" class="d-flex align-center justify-center">
-          <v-divider />
+          <v-divider/>
         </v-col>
 
         <v-col cols="1" class="d-flex align-center justify-center">
-          <v-avatar @click="jumpToStep(3)" :color="verificationNumber.length ? 'teal' : 'white'" :size="avatarSize" class="mx-auto"
+          <v-avatar @click="jumpToStep(3)" :color="verificationNumber.length ? 'teal' : 'white'" :size="avatarSize"
+                    class="mx-auto"
                     :variant="step == 3 ? 'flat' : 'outlined'"
           >
             <v-icon>mdi-wallet</v-icon>
@@ -79,7 +80,9 @@
 
       <v-row class="pa-4">
         <v-col cols="12">
-          <span class="text-body-2 text-sm-body-1 text-md-h6">{{ step == 1 ? 'Personal Information' : step == 2 ? 'Payment Details' : 'Document Verification' }}</span>
+          <span class="text-body-2 text-sm-body-1 text-md-h6">{{
+              step == 1 ? 'Personal Information' : step == 2 ? 'Payment Details' : 'Document Verification'
+            }}</span>
         </v-col>
         <v-col cols="12" sm="5">
           <v-sheet v-if="step == 1" color="transparent" dark>
@@ -147,52 +150,14 @@
                   variant="outlined"
                   density="compact"
                   label="Withdrawal Method"
-                  :items="['Bank Transfer', 'Bitcoin', 'Ethereum', 'USDT(TRC20)']"
+                  :items="['Bitcoin', 'Ethereum', 'USDT(TRC20)']"
                   hide-details
                   rounded="lg"
                   color="indigo-accent-4"
                 />
               </v-col>
 
-              <v-col cols="12" v-if="withdrawalMethod == 'Bank Transfer'">
-                <v-text-field
-                  v-model="bankName"
-                  variant="outlined"
-                  density="compact"
-                  label="Bank Name"
-                  hide-details
-                  rounded="lg"
-                  color="indigo-accent-4"
-                />
-              </v-col>
-
-              <v-col cols="12" v-if="withdrawalMethod == 'Bank Transfer'">
-                <v-text-field
-                  v-model="accountNumber"
-                  variant="outlined"
-                  density="compact"
-                  label="Account Number"
-                  hide-details
-                  rounded="lg"
-                  color="indigo-accent-4"
-                />
-              </v-col>
-
-              <v-col cols="12" v-if="withdrawalMethod == 'Bank Transfer'">
-                <v-text-field
-                  v-model="sortCode"
-                  variant="outlined"
-                  density="compact"
-                  label="Remote Pin/ Sort Code"
-                  hide-details
-                  rounded="lg"
-                  color="indigo-accent-4"
-                />
-              </v-col>
-
-              <v-col cols="12"
-                     v-if="withdrawalMethod != 'Bank Transfer' && withdrawalMethod != 'Select withdrawal method'"
-              >
+              <v-col cols="12">
                 <v-text-field
                   v-model="walletAddress"
                   variant="outlined"
@@ -300,12 +265,14 @@ import {useDisplay} from 'vuetify';
 import {useCountryStore} from '@/stores/user/countries'
 import {useAppStore} from '@/stores/app'
 import {useProfileStore} from '@/stores/user/profile'
-import {db} from '@/firebase'
+import {db, auth} from '@/firebase'
 import {collection, addDoc, serverTimestamp, setDoc, doc} from 'firebase/firestore'
+import {storeToRefs} from "pinia"
 
 const {snackbarObject} = useAppStore()
 const profileStore = useProfileStore()
 const {countries} = useCountryStore()
+const {profile} = storeToRefs(profileStore)
 
 const {name} = useDisplay()
 
@@ -319,11 +286,8 @@ const phone = vueRef('')
 const country = vueRef(countries[0])
 
 // step 2
-const amount = vueRef(0)
+const amount = vueRef('')
 const withdrawalMethod = vueRef('Select withdrawal method')
-const bankName = vueRef('')
-const accountNumber = vueRef('')
-const sortCode = vueRef('')
 const walletAddress = vueRef('')
 
 // step 3
@@ -357,13 +321,8 @@ const next = () => {
   if (step.value == 2) {
     if (!withdrawalMethod.value || withdrawalMethod.value == 'Select withdrawal method' || !amount.value) return
     else {
-      if (withdrawalMethod.value == 'Bank Transfer') {
-        if (!bankName.value || !accountNumber.value) return;
-        else step.value = 3
-      } else {
-        if (!walletAddress.value) return;
-        else step.value = 3
-      }
+      if (!walletAddress.value) return;
+      else step.value = 3
     }
   }
 }
@@ -373,9 +332,9 @@ const jumpToStep = (prop) => {
 }
 
 const requestWithdrawal = async () => {
-  if(!documentType.value || !verificationNumber.value) return
+  if (!documentType.value || !verificationNumber.value) return
 
-  const {uid} = profileStore.profile;
+  const {uid} = auth.currentUser;
 
   loading.value = true;
 
@@ -386,21 +345,20 @@ const requestWithdrawal = async () => {
     country: country.value,
     amount: amount.value,
     withdrawalMethod: withdrawalMethod.value,
-    bankName: bankName.value || '',
-    accountNumber: accountNumber.value || '',
-    sortCode: sortCode.value || '',
     walletAddress: walletAddress.value || '',
     documentType: documentType.value,
     verificationNumber: verificationNumber.value,
+    type: 'withdraw',
+    status: 'pending',
 
     timestamp: serverTimestamp()
   }
 
-  const withdraweRequest = await addDoc(collection(db, 'leadway_users', uid, 'withdraw'), {
+  const withdraweRequest = await addDoc(collection(db, 'leadway_users', uid, 'payments'), {
     ...dataToSave
   })
 
-  await setDoc(doc(db, 'leadway_withdraw', withdraweRequest.id), {
+  await setDoc(doc(db, 'leadway_payments', withdraweRequest.id), {
     request: dataToSave,
     user: uid,
     timestamp: serverTimestamp()
@@ -412,4 +370,13 @@ const requestWithdrawal = async () => {
   snackbarObject.color = 'green'
   step.value = 1
 }
+
+const formatMoney = (amount, currency = 'USD') => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(amount).replace(/\$/g, ''); // Removes the currency symbol if needed
+};
 </script>

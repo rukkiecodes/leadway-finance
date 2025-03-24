@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="12" sm="6" md="4" lg="3">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <v-sparkline
           :model-value="investment"
@@ -19,12 +19,12 @@
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">INVESTMENT</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-currency-usd</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-currency-usd</v-icon>
         </div>
       </v-sheet>
     </v-col>
 
-    <v-col cols="12" sm="6" md="4" lg="3">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <v-sparkline
           :model-value="total"
@@ -43,27 +43,27 @@
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">TOTAL BALANCE</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-chart-multiple</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-chart-multiple</v-icon>
         </div>
       </v-sheet>
     </v-col>
 
-    <v-col v-if="profile?.tradersCopied" cols="12" sm="6" md="4" lg="3" class="d-none d-md-inline">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: linear-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
             <p class="font-weight-bold text-body-1 text-sm-h6 blink">
-              {{ truncateText((copyTraders[profile?.tradersCopied[0]]?.name || 'NONE'), 20) }}
+              {{ profile?.tradersCopied ? (truncateText((copyTraders[profile?.tradersCopied[0]]?.name || 'NONE'), 20)) : 'None' }}
             </p>
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">LINKED TO TRADER</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-file-tree</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-file-tree</v-icon>
         </div>
       </v-sheet>
     </v-col>
 
-    <v-col cols="12" sm="6" md="4" lg="3" class="d-none d-lg-inline">
+    <v-col cols="6" sm="6" md="4" lg="3">
       <v-sheet rounded="lg" style="position: relative; background: line ar-gradient(90deg, #0B1118, #0B111850); overflow: hidden;" height="150">
         <div class="d-flex justify-space-between align-center rounded-lg pa-5" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0B111880">
           <div class="d-flex flex-column">
@@ -73,7 +73,7 @@
             <p class="text-caption text-sm-body-2 text-md-body-1 text-uppercase">LINKED TO TRADER</p>
           </div>
 
-          <v-icon size="40" class="opacity-60">mdi-card-account-details</v-icon>
+          <v-icon size="40" class="opacity-60 d-none d-sm-inline">mdi-card-account-details</v-icon>
         </div>
       </v-sheet>
     </v-col>

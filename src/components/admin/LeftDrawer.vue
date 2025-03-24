@@ -16,9 +16,13 @@
 
     <template v-slot:append>
       <v-sheet class="pa-2">
-        <v-btn to="/auth/accountType" prepend-icon="mdi-rotate-3d-variant" block
-               class="d-flex justify-start align-center text-caption text-sm-body-2 text-md-body-1 mb-2"
-               rounded="lg" variant="tonal" color="indigo-accent-4">
+        <v-btn
+          @click="swtchToUser"
+          prepend-icon="mdi-rotate-3d-variant"
+          block
+          class="d-flex justify-start align-center text-caption text-sm-body-2 text-md-body-1 mb-2"
+          rounded="lg" variant="tonal" color="indigo-accent-4"
+        >
           Switch Account
         </v-btn>
 
@@ -49,7 +53,7 @@ const router = useRouter()
 
 const profile = useProfileStore();
 const appStore = useAppStore();
-const {drawer} = storeToRefs(appStore);
+const {drawer, switchAccount} = storeToRefs(appStore);
 
 const routes = [
   {
@@ -98,6 +102,24 @@ const routes = [
     }
   },
   {
+    value: 'support',
+    props: {
+      to: '/admin/support',
+      prependIcon: 'mdi-wechat',
+      title: 'Customer Support',
+      class: 'rounded-lg',
+    }
+  },
+  {
+    value: 'account',
+    props: {
+      to: '/admin/account',
+      prependIcon: 'mdi-account',
+      title: 'account',
+      class: 'rounded-lg',
+    }
+  },
+  {
     value: 'settings',
     props: {
       to: '/admin/settings',
@@ -120,4 +142,20 @@ const validateDrawer = () => {
 onMounted(() => {
   validateDrawer()
 })
+
+async function checkSwitchAccount() {
+  const result = await appStore.setSwitchAccount();
+  if (result) {
+    router.push('/app/overview')
+    setTimeout(() => {
+      switchAccount.value = false
+    }, 2000)
+  }
+}
+
+const swtchToUser = () => {
+  switchAccount.value = true
+
+  checkSwitchAccount()
+}
 </script>

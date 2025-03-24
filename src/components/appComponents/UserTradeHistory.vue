@@ -5,10 +5,6 @@
       :items="trades"
       :headers="headers"
     >
-      <template v-slot:item.user="{ item }">
-        <TradeHistoryUser :user="item.user" />
-      </template>
-
       <template v-slot:item.asset="{ item }">
         <p class="text-caption text-sm-body-2">{{item.asset}}</p>
       </template>
@@ -38,23 +34,20 @@
 
 
 <script lang="ts">
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import {db} from '@/firebase'
-import TradeHistoryUser from "@/components/admin/TradeHistoryUser.vue";
+import {collection, query, orderBy, onSnapshot, where} from "firebase/firestore";
+import {db, auth} from '@/firebase'
 
 export default {
-  components: {TradeHistoryUser},
-  data () {
+  data() {
     return {
       trades: [],
       headers: [
-        { key: 'user', title: 'User' },
-        { key: 'asset', title: 'Asset' },
-        { key: 'contract', title: 'WIN / LOSS' },
-        { key: 'tradingAmount', title: 'Trade' },
-        { key: 'timestamp', title: 'Date' },
-        { key: 'tradeStatus', title: 'Status' },
-        { key: 'profitOrLossPayout', title: 'Payout' },
+        {key: 'asset', title: 'Asset'},
+        {key: 'contract', title: 'WIN / LOSS'},
+        {key: 'tradingAmount', title: 'Trade'},
+        {key: 'timestamp', title: 'Date'},
+        {key: 'tradeStatus', title: 'Status'},
+        {key: 'profitOrLossPayout', title: 'Payout'},
       ],
     }
   },
@@ -65,7 +58,7 @@ export default {
 
   methods: {
     async fetchTrades() {
-      const q = query(collection(db, "trade_history"), orderBy("timestamp", 'desc'));
+      const q = query(collection(db, "trade_history"), where('user', '==', auth.currentUser.uid), orderBy("timestamp", 'desc'));
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         this.trades = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));

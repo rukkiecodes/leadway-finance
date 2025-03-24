@@ -58,22 +58,13 @@ const signInUser = async () => {
     try {
       loading.value = true;
 
-      const user = await signInWithEmailAndPassword(auth, email.value, password.value);
+      await signInWithEmailAndPassword(auth, email.value, password.value);
 
       snackbarObject.show = true;
       snackbarObject.message = "Login successful!";
       snackbarObject.color = "info";
 
       loading.value = false
-
-      const profile = (await getDoc(doc(db, 'leadway_users', user.user.uid))).data()
-
-      if (profile.admin) {
-        window.localStorage.setItem('leadway_admin', JSON.stringify(profile.admin))
-        router.push('/auth/accountType')
-      } else {
-        router.push('/app/overview')
-      }
     } catch (error) {
       snackbarObject.show = true;
       snackbarObject.message = `Error: ${error.message}`;

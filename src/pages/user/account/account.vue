@@ -22,7 +22,7 @@
         <v-col cols="12" sm="8" class="mt-sm-16">
           <v-row>
             <v-col cols="12" sm="6">
-              <router-link to="/account/updateContactInformation" class="text-decoration-none">
+              <router-link to="/app/profile/updateContactInformation" class="text-decoration-none">
                 <v-sheet rounded="lg" class="pa-2 d-flex align-center ga-4">
                   <v-sheet width="50" height="50" color="teal" class="d-flex justify-center align-center" dark
                            rounded="lg"
@@ -36,7 +36,7 @@
             </v-col>
 
             <v-col cols="12" sm="6">
-              <router-link to="/account/updateAvatar" class="text-decoration-none">
+              <router-link to="/app/profile/updateAvatar" class="text-decoration-none">
                 <v-sheet rounded="lg" class="pa-2 d-flex align-center ga-4">
                   <v-sheet width="50" height="50" color="purple" class="d-flex justify-center align-center" dark
                            rounded="lg"
@@ -50,7 +50,7 @@
             </v-col>
 
             <v-col cols="12" sm="6">
-              <router-link to="/account/updatePassword" class="text-decoration-none">
+              <router-link to="/app/profile/updatePassword" class="text-decoration-none">
                 <v-sheet rounded="lg" class="pa-2 d-flex align-center ga-4">
                   <v-sheet width="50" height="50" color="indigo" class="d-flex justify-center align-center" dark
                            rounded="lg"
@@ -64,7 +64,7 @@
             </v-col>
 
             <v-col cols="12" sm="6">
-              <router-link to="/account/updateEmail" class="text-decoration-none">
+              <router-link to="/app/profile/updateEmail" class="text-decoration-none">
                 <v-sheet rounded="lg" class="pa-2 d-flex align-center ga-4">
                   <v-sheet width="50" height="50" color="indigo" class="d-flex justify-center align-center" dark
                            rounded="lg"
@@ -78,7 +78,7 @@
             </v-col>
 
             <v-col cols="12" sm="6">
-              <router-link to="/account/viewNotifications" class="text-decoration-none">
+              <router-link to="/app/profile/viewNotifications" class="text-decoration-none">
                 <v-sheet rounded="lg" class="pa-2 d-flex align-center ga-4">
                   <v-sheet width="50" height="50" color="indigo" class="d-flex justify-center align-center" dark
                            rounded="lg"

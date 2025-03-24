@@ -1,27 +1,32 @@
 <template>
-  <v-navigation-drawer order="1" location="end" v-model="rightDrawer" width="500">
-    <iframe
-      src="https://www.tradingview-widget.com/embed-widget/screener/?locale=en#%7B%22width%22%3A%22220%22%2C%22height%22%3A600%2C%22defaultColumn%22%3A%22overview%22%2C%22defaultScreen%22%3A%22general%22%2C%22market%22%3A%22forex%22%2C%22showToolbar%22%3Afalse%2C%22colorTheme%22%3A%22%2C%22isTransparent%22%3Afalse%2C%22enableScrolling%22%3Atrue%2C%22utm_source%22%3A%22marketstockspro.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22forexscreener%22%7D"
-      width="100%"
-      height="100%"
-      allowtransparency="true"
-      frameborder="0"
-    />
+  <v-navigation-drawer order="1" location="end" border="none" v-model="rightDrawer" width="300">
+    <v-row>
+      <v-col cols="12" v-for="item in clients" :key="item.id">
+        <router-link :to="`/admin/support/${item.id}`" class="text-decoration-none">
+          <v-sheet class="d-flex justify-start align-center ga-4 pa-2 mx-2" color="#292E34" rounded="pill">
+            <v-avatar>
+              <v-img :src="item?.displayImage?.image"/>
+            </v-avatar>
+
+            <div class="d-flex flex-column">
+              <span class="text-body-2 text-sm-body-1">{{ item?.firstName }}</span>
+              <MessageCount :user="item?.id" />
+            </div>
+          </v-sheet>
+        </router-link>
+      </v-col>
+    </v-row>
   </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
-import {useAppStore} from '@/stores/app'
-import {storeToRefs} from 'pinia';
+import { useClientsStore } from '@/stores/admin/clients';
+import { useAppStore } from '@/stores/app';
+import { storeToRefs } from 'pinia';
+import MessageCount from "@/components/admin/MessageCount.vue";
 
 const appStore = useAppStore();
-const {rightDrawer} = storeToRefs(appStore);
+const { rightDrawer } = storeToRefs(appStore);
+const clientStore = useClientsStore();
+const { clients } = storeToRefs(clientStore);
 </script>
-
-<style scoped>
-iframe {
-  filter: invert(1) hue-rotate(180deg);
-  width: 100%;
-  border: none;
-}
-</style>

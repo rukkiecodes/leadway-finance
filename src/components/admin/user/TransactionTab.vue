@@ -109,156 +109,345 @@
 
       <v-col cols="12">
         <v-card flat>
-          <v-card-title class="d-flex align-center pe-2">
-            <v-spacer />
+          <v-tabs v-model="tab">
+            <v-tab value="deposit" class="text-caption text-sm-body-2 text-md-body-1">Deposits</v-tab>
+            <v-tab value="withdraw" class="text-caption text-sm-body-2 text-md-body-1">Withdrawals</v-tab>
+          </v-tabs>
 
-            <v-text-field
-              v-model="search"
-              density="compact"
-              label="Search"
-              prepend-inner-icon="mdi-magnify"
-              variant="solo-filled"
-              flat
-              hide-details
-              single-line
-              rounded="lg"
-            />
-          </v-card-title>
+          <v-card-text>
+            <v-tabs-window v-model="tab">
+              <v-tabs-window-item value="deposit">
+                <v-card-title class="d-flex align-center">
+                  <v-spacer/>
 
-          <v-data-table
-            v-model:search="search"
-            :headers="headers"
-            :items="allTransactions"
-            :filter-keys="['status', 'id']"
-            show-expand
-            item-value="id"
-          >
-            <template v-slot:item.id="{ item }">
-              <p class="text-caption text--sm-body-2">{{ item?.id }}</p>
-            </template>
+                  <v-text-field
+                    v-model="search"
+                    density="compact"
+                    label="Search"
+                    prepend-inner-icon="mdi-magnify"
+                    variant="solo-filled"
+                    flat
+                    hide-details
+                    single-line
+                    rounded="lg"
+                  />
+                </v-card-title>
 
-            <template v-slot:item.amount="{ item }">
-              <p class="text-caption text--sm-body-2">${{ formatMoney(item?.amount) }}</p>
-            </template>
+                <v-data-table
+                  v-model:search="search"
+                  :headers="headers"
+                  :items="deposits"
+                  :filter-keys="['status', 'id']"
+                  show-expand
+                  item-value="id"
+                >
+                  <template v-slot:item.id="{ item }">
+                    <p class="text-caption text--sm-body-2">{{ item?.id }}</p>
+                  </template>
 
-            <template v-slot:item.convertedRate="{ item }">
-              <p class="text-caption text--sm-body-2">{{ item?.convertedRate }} {{ item?.address?.code }}</p>
-            </template>
+                  <template v-slot:item.amount="{ item }">
+                    <p class="text-caption text--sm-body-2">${{ formatMoney(item?.amount) }}</p>
+                  </template>
 
-            <template v-slot:item.type="{ item }">
-              <v-chip>
-                <v-icon v-if="item?.type == 'deposit'">mdi-arrow-up</v-icon>
-                <v-icon v-if="item?.type == 'withdraw'">mdi-arrow-down</v-icon>
-                <span class="text-caption text--sm-body-2 text-capitalize ml-2">{{ item?.type }}</span>
-              </v-chip>
-            </template>
+                  <template v-slot:item.convertedRate="{ item }">
+                    <p class="text-caption text--sm-body-2">{{ item?.convertedRate }} {{ item?.address?.code }}</p>
+                  </template>
 
-            <template v-slot:item.status="{ item }">
-              <v-chip
-                class="text-caption text--sm-body-2 text-capitalize"
-                :color="item?.status == 'Completed' ? 'green' : item?.status == 'Canceled' ? 'red' : 'amber'"
-              >
-                {{ item?.status }}
-              </v-chip>
-            </template>
+                  <template v-slot:item.type="{ item }">
+                    <v-chip>
+                      <v-icon v-if="item?.type == 'deposit'">mdi-arrow-up</v-icon>
+                      <v-icon v-if="item?.type == 'withdraw'">mdi-arrow-down</v-icon>
+                      <span class="text-caption text--sm-body-2 text-capitalize ml-2">{{ item?.type }}</span>
+                    </v-chip>
+                  </template>
 
-            <template v-slot:item.timestamp="{ item }">
-              <p class="text-caption text--sm-body-2">{{ new Date(item?.timestamp?.seconds * 1000).toDateString() }}</p>
-            </template>
+                  <template v-slot:item.status="{ item }">
+                    <v-chip
+                      class="text-caption text--sm-body-2 text-capitalize"
+                      :color="item?.status == 'Completed' ? 'green' : item?.status == 'Canceled' ? 'red' : 'amber'"
+                    >
+                      {{ item?.status }}
+                    </v-chip>
+                  </template>
+
+                  <template v-slot:item.timestamp="{ item }">
+                    <p class="text-caption text--sm-body-2">{{ new Date(item?.timestamp?.seconds * 1000).toDateString() }}</p>
+                  </template>
 
 
-            <template v-slot:expanded-row="{ columns, item }">
-              <tr>
-                <td :colspan="columns.length" class="mx-0 px-0">
-                  <v-card color="transparent" flat width="500">
-                    <v-card-text>
-                      <v-dialog max-width="800">
-                        <template v-slot:activator="{ props: activatorProps }">
-                          <v-avatar :image="item?.POP?.pop" v-bind="activatorProps" size="100"
-                                    class="cursor-pointer"/>
-                        </template>
+                  <template v-slot:expanded-row="{ columns, item }">
+                    <tr>
+                      <td :colspan="columns.length" class="mx-0 px-0">
+                        <v-card color="transparent" flat width="500">
+                          <v-card-text>
+                            <v-dialog max-width="800">
+                              <template v-slot:activator="{ props: activatorProps }">
+                                <v-avatar :image="item?.POP?.pop" v-bind="activatorProps" size="100"
+                                          class="cursor-pointer"/>
+                              </template>
 
-                        <template v-slot:default="{ isActive }">
-                          <v-card rounded="lg">
-                            <v-img :src="item?.POP?.pop" cover/>
-                          </v-card>
-                        </template>
-                      </v-dialog>
+                              <template v-slot:default="{ isActive }">
+                                <v-card rounded="lg">
+                                  <v-img :src="item?.POP?.pop" cover/>
+                                </v-card>
+                              </template>
+                            </v-dialog>
 
-                      <div class="d-flex justify-start align-center ga-5 mt-5">
-                        <span style="width: 150px">Payment ID</span>
-                        <span>{{ item?.id }}</span>
-                      </div>
+                            <div class="d-flex justify-start align-center ga-5 mt-5">
+                              <span style="width: 150px">Payment ID</span>
+                              <span>{{ item?.id }}</span>
+                            </div>
 
-                      <div class="d-flex justify-start align-center ga-5 mt-2">
-                        <span style="width: 150px">Amount</span>
-                        <span>${{ formatMoney(item?.amount) }}</span>
-                      </div>
+                            <div class="d-flex justify-start align-center ga-5 mt-2">
+                              <span style="width: 150px">Amount</span>
+                              <span>${{ formatMoney(item?.amount) }}</span>
+                            </div>
 
-                      <div class="d-flex justify-start align-center ga-5 mt-2">
-                        <span style="width: 150px">Converted amount</span>
-                        <span>{{ item?.convertedRate }} {{ item?.address?.code }}</span>
-                      </div>
+                            <div class="d-flex justify-start align-center ga-5 mt-2">
+                              <span style="width: 150px">Converted amount</span>
+                              <span>{{ item?.convertedRate }} {{ item?.address?.code }}</span>
+                            </div>
 
-                      <div class="d-flex justify-start align-center ga-5 mt-2">
-                        <span style="width: 150px">Transaction Type</span>
-                        <span>{{ item?.type }}</span>
-                      </div>
+                            <div class="d-flex justify-start align-center ga-5 mt-2">
+                              <span style="width: 150px">Transaction Type</span>
+                              <span>{{ item?.type }}</span>
+                            </div>
 
-                      <div class="d-flex justify-start align-center ga-5 mt-2">
-                        <span style="width: 150px">Transaction Status</span>
-                        <v-chip
-                          :color="item?.status == 'Completed' ? 'green' : item?.status == 'Canceled' ? 'red' : 'amber'">
-                          {{
-                            item?.status
-                          }}
-                        </v-chip>
-                      </div>
+                            <div class="d-flex justify-start align-center ga-5 mt-2">
+                              <span style="width: 150px">Transaction Status</span>
+                              <v-chip
+                                :color="item?.status == 'Completed' ? 'green' : item?.status == 'Canceled' ? 'red' : 'amber'">
+                                {{
+                                  item?.status
+                                }}
+                              </v-chip>
+                            </div>
 
-                      <div class="d-flex justify-start align-center ga-5 mt-2">
-                        <span style="width: 150px">Transaction Date</span>
-                        <p>{{ new Date(item?.timestamp?.seconds * 1000).toDateString() }}}</p>
-                      </div>
-                    </v-card-text>
+                            <div class="d-flex justify-start align-center ga-5 mt-2">
+                              <span style="width: 150px">Transaction Date</span>
+                              <p>{{ new Date(item?.timestamp?.seconds * 1000).toDateString() }}}</p>
+                            </div>
+                          </v-card-text>
 
-                    <v-divider class="my-5"/>
+                          <v-divider class="my-5"/>
 
-                    <v-card-text>
-                    <span class="text-caption text-sm-body-2">
-                      Upon transaction Completion, the transaction amount will automatically be added to the client's total amount
-                    </span>
+                          <v-card-text>
+                            <span class="text-caption text-sm-body-2">
+                              Upon transaction Completion, the transaction amount will automatically be added to the client's total amount
+                            </span>
 
-                      <v-select
-                        density="compact"
-                        label="Transaction Status"
-                        variant="outlined"
-                        v-model="status"
-                        rounded="lg"
-                        color="indigo-accent-4"
-                        :items="['Completed', 'Processing', 'Pending', 'Canceled']"
-                        class="mt-5"
-                        @update:modelValue="updateStatus(status, item)"
-                      />
-                    </v-card-text>
-                  </v-card>
-                </td>
-              </tr>
-            </template>
+                            <v-select
+                              density="compact"
+                              label="Transaction Status"
+                              variant="outlined"
+                              v-model="status"
+                              rounded="lg"
+                              color="indigo-accent-4"
+                              :items="['Completed', 'Processing', 'Pending', 'Canceled']"
+                              class="mt-5"
+                              @update:modelValue="updateStatus(status, item)"
+                            />
+                          </v-card-text>
+                        </v-card>
+                      </td>
+                    </tr>
+                  </template>
 
-            <template v-slot:item.data-table-expand="{ internalItem, isExpanded, toggleExpand, item }">
-              <v-btn
-                :append-icon="isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                :text="isExpanded(internalItem) ? 'Collapse' : 'More info'"
-                class="text-none"
-                color="medium-emphasis"
-                size="small"
-                variant="text"
-                border
-                slim
-                @click="() => {toggleExpand(internalItem); autoCompleteStatus(item?.status)}"
-              ></v-btn>
-            </template>
-          </v-data-table>
+                  <template v-slot:item.data-table-expand="{ internalItem, isExpanded, toggleExpand, item }">
+                    <v-btn
+                      class="text-none"
+                      color="medium-emphasis"
+                      size="small"
+                      icon
+                      @click="() => {toggleExpand(internalItem); autoCompleteStatus(item?.status)}"
+                    >
+                      <v-icon>{{isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
+                    </v-btn>
+                  </template>
+                </v-data-table>
+              </v-tabs-window-item>
+
+              <v-tabs-window-item value="withdraw">
+                <v-card-title class="d-flex align-center">
+                  <v-spacer/>
+
+                  <v-text-field
+                    v-model="search"
+                    density="compact"
+                    label="Search"
+                    prepend-inner-icon="mdi-magnify"
+                    variant="solo-filled"
+                    flat
+                    hide-details
+                    single-line
+                    rounded="lg"
+                  />
+                </v-card-title>
+
+                <v-data-table
+                  v-model:search="search"
+                  :headers="withdrawHeaders"
+                  :items="withdrawals"
+                  :filter-keys="['status', 'id']"
+                  show-expand
+                  item-value="id"
+                >
+                  <template v-slot:item.id="{ item }">
+                    <p class="text-caption text--sm-body-2">{{ item?.id }}</p>
+                  </template>
+
+                  <template v-slot:item.user="{ item }">
+                    <TradeHistoryUser :user="user?.uid"/>
+                  </template>
+
+                  <template v-slot:item.amount="{ item }">
+                    <p class="text-caption text--sm-body-2">${{ formatMoney(item?.amount) }}</p>
+                  </template>
+
+                  <template v-slot:item.type="{ item }">
+                    <v-chip>
+                      <v-icon v-if="item?.type == 'deposit'">mdi-arrow-up</v-icon>
+                      <v-icon v-if="item?.type == 'withdraw'">mdi-arrow-down</v-icon>
+                      <span class="text-caption text--sm-body-2 text-capitalize ml-2">{{ item?.type }}</span>
+                    </v-chip>
+                  </template>
+
+                  <template v-slot:item.status="{ item }">
+                    <v-chip
+                      class="text-caption text--sm-body-2 text-capitalize"
+                      :color="item?.status == 'Completed' ? 'green' : item?.status == 'Canceled' ? 'red' : 'amber'"
+                    >
+                      {{ item?.status }}
+                    </v-chip>
+                  </template>
+
+                  <template v-slot:item.timestamp="{ item }">
+                    <p class="text-caption text--sm-body-2">{{ new Date(item?.timestamp?.seconds * 1000).toDateString() }}</p>
+                  </template>
+
+
+                  <template v-slot:expanded-row="{ columns, item }">
+                    <tr>
+                      <td :colspan="columns.length" class="mx-0 px-0">
+                        <v-card color="transparent" flat width="500">
+                          <v-card-text>
+                            <div class="d-flex justify-start align-center ga-5 mt-5">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Full Name</span>
+                              <span class="text-caption text--sm-body-2">{{ item?.fulName }}</span>
+                            </div>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-5">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Email</span>
+                              <span class="text-caption text--sm-body-2">{{ item?.email }}</span>
+                            </div>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-5">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Phone</span>
+                              <span class="text-caption text--sm-body-2">{{ item?.phone }}</span>
+                            </div>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-5">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Country</span>
+                              <span class="text-caption text--sm-body-2">{{ item?.country }}</span>
+                            </div>
+
+                            <v-divider class="mt-5"/>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-5">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Amount</span>
+                              <span class="text-caption text--sm-body-2">${{ formatMoney(item?.amount) }}</span>
+                            </div>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-5">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Withdrawal Method</span>
+                              <span class="text-caption text--sm-body-2">{{ item?.withdrawalMethod }}</span>
+                            </div>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-5">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Wallet Address</span>
+                              <span class="text-caption text--sm-body-2">{{ item?.walletAddress }}</span>
+                            </div>
+
+                            <v-divider class="mt-5"/>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-5">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Document Type</span>
+                              <span class="text-caption text--sm-body-2">{{ item?.documentType }}</span>
+                            </div>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-5">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Verification Number</span>
+                              <span class="text-caption text--sm-body-2">{{ item?.verificationNumber }}</span>
+                            </div>
+
+                            <v-divider class="mt-5"/>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-5">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Request ID</span>
+                              <span class="text-caption text--sm-body-2">{{ item?.id }}</span>
+                            </div>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-2">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Transaction Type</span>
+                              <span class="text-caption text--sm-body-2">{{ item?.type }}</span>
+                            </div>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-2">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Transaction Status</span>
+                              <v-chip
+                                class="text-caption text--sm-body-2 text-capitalize"
+                                :color="item?.status == 'Completed' ? 'green' : item?.status == 'Canceled' ? 'red' : 'amber'"
+                              >
+                                {{ item?.status }}
+                              </v-chip>
+                            </div>
+
+                            <div class="d-flex justify-start align-center ga-5 mt-2">
+                              <span class="text-caption text--sm-body-2" style="width: 150px">Transaction Date</span>
+                              <p class="text-caption text--sm-body-2">
+                                {{ new Date(item?.timestamp.seconds * 1000).toDateString() }}}</p>
+                            </div>
+                          </v-card-text>
+
+                          <v-divider class="my-5"/>
+
+                          <v-card-text>
+                            <span class="text-caption text-sm-body-2">
+                              Upon transaction Completion, the transaction amount will automatically be added to the client's total amount
+                            </span>
+
+                            <v-select
+                              density="compact"
+                              label="Transaction Status"
+                              variant="outlined"
+                              v-model="status"
+                              rounded="lg"
+                              color="indigo-accent-4"
+                              :items="['Completed', 'Processing', 'Pending', 'Canceled']"
+                              class="mt-5"
+                              @update:modelValue="updateStatusWithdrawStatus(status, item)"
+                            />
+                          </v-card-text>
+                        </v-card>
+                      </td>
+                    </tr>
+                  </template>
+
+                  <template v-slot:item.data-table-expand="{ internalItem, isExpanded, toggleExpand, item }">
+                    <v-btn
+                      class="text-none"
+                      color="medium-emphasis"
+                      size="small"
+                      icon
+                      @click="() => {toggleExpand(internalItem); autoCompleteStatus(item?.status)}"
+                    >
+                      <v-icon>{{isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
+                    </v-btn>
+                  </template>
+                </v-data-table>
+              </v-tabs-window-item>
+            </v-tabs-window>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -277,7 +466,7 @@ import {
   orderBy,
   setDoc,
   doc,
-  updateDoc, getDoc
+  updateDoc, getDoc, where
 } from "firebase/firestore";
 import {
   getDownloadURL,
@@ -288,6 +477,7 @@ import {
 import {db} from "@/firebase";
 import {useAppStore} from '@/stores/app'
 import QrcodeVue from "qrcode.vue";
+import TradeHistoryUser from "@/components/admin/TradeHistoryUser.vue";
 
 // Define props
 const props = defineProps<{
@@ -305,9 +495,12 @@ const amount = ref("");
 const convertedRate = vueRef(0)
 const POPImage = vueRef(null)
 
+const tab = vueRef(null)
+
 const loading = ref(false)
 
-const allTransactions = ref([])
+const deposits = ref([])
+const withdrawals = ref([])
 
 const headers = [
   {key: 'id', title: 'Payment ID'},
@@ -318,17 +511,38 @@ const headers = [
   {key: 'timestamp', title: 'Date'}
 ]
 
-const fetchTransactionHistory = async () => {
-  const q = query(collection(db, "leadway_users", props.user?.uid, 'payments'), orderBy("timestamp", "desc"));
+const withdrawHeaders = [
+    {key: 'id', title: 'Payment ID'},
+    {key: 'user', title: 'User'},
+    {key: 'amount', title: 'Amount'},
+    {key: 'withdrawalMethod', title: 'Method'},
+    {key: 'type', title: 'Type'},
+    {key: 'status', title: 'Status'},
+    {key: 'timestamp', title: 'Date'}
+  ]
+
+const fetchDeposits = async () => {
+  const q = query(collection(db, "leadway_users", props.user?.uid, 'payments'), where('type', '==', 'deposit'), orderBy("timestamp", "desc"));
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    allTransactions.value = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
+    deposits.value = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
+  });
+
+  return unsubscribe;
+}
+
+const fetchWithdrawals = async () => {
+  const q = query(collection(db, "leadway_users", props.user?.uid, 'payments'), where('type', '==', 'withdraw'), orderBy("timestamp", "desc"));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    withdrawals.value = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
   });
 
   return unsubscribe;
 }
 
 onMounted(() => {
-  fetchTransactionHistory();
+  fetchDeposits();
+  fetchWithdrawals();
+
   fetchAddresses()
 })
 
@@ -356,6 +570,29 @@ const updateStatus = async (status, item) => {
     const totalAmount = parseFloat(clientProfile?.totalBalance) + parseFloat(item?.amount)
     const totalDeposit = parseFloat(clientProfile?.totalDeposit) + parseFloat(item?.amount)
     const totalBalance = parseFloat(clientProfile?.totalBalance) + parseFloat(item?.amount)
+
+    await updateDoc(doc(db, 'leadway_users', props.user?.uid), {
+      totalAmount,
+      totalDeposit,
+      totalBalance
+    })
+  }
+}
+
+const updateStatusWithdrawStatus = async (status, item) => {
+  await updateDoc(doc(db, "leadway_payments", item.id), {
+    'payment.status': status
+  });
+
+  await updateDoc(doc(db, "leadway_users", props.user?.uid, 'payments', item.id), {
+    status: status
+  })
+
+  if (status === 'Completed') {
+    const clientProfile = (await getDoc(doc(db, 'leadway_users', props.user?.uid))).data()
+    const totalAmount = parseFloat(clientProfile?.totalBalance) - parseFloat(item?.amount)
+    const totalDeposit = parseFloat(clientProfile?.totalDeposit) - parseFloat(item?.amount)
+    const totalBalance = parseFloat(clientProfile?.totalBalance) - parseFloat(item?.amount)
 
     await updateDoc(doc(db, 'leadway_users', props.user?.uid), {
       totalAmount,

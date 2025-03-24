@@ -1,8 +1,23 @@
 // Existing imports
-import { createRouter, createWebHistory } from "vue-router";
-import { auth } from "@/firebase";
+import {createRouter, createWebHistory} from "vue-router";
+import {auth} from "@/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 const staticRoutes = [
+  {
+    path: '/',
+    name: 'Peripheral_Home',
+    component: () => import('@/layouts/peripherals/default.vue'),
+
+    children: [
+      {
+        path: '',
+        name: 'Peripheral_Home_index',
+        component: () => import('@/pages/peripherals/index.vue')
+      }
+    ]
+  },
+
   {
     path: "/auth",
     component: () => import("@/layouts/user/auth.vue"),
@@ -17,55 +32,40 @@ const staticRoutes = [
         name: "getStarted",
         component: () => import("@/pages/auth/getStarted.vue"),
       },
-      {
-        path: "accountType",
-        name: "accountType",
-        component: () => import("@/pages/auth/accountType.vue"),
-      },
     ],
   },
+
+
   {
     path: "/app",
     name: "home",
     component: () => import("@/layouts/user/app.vue"),
-    meta: { requiresAuth: true },
+    meta: {requiresAuth: true},
     children: [
       {
         path: "",
         name: "index1",
-        component: () => import("@/pages/useer/home.vue"),
+        component: () => import("@/pages/user/home.vue"),
       },
       {
         path: "overview",
         name: "index2",
-        component: () => import("@/pages/useer/home.vue"),
+        component: () => import("@/pages/user/home.vue"),
       },
       {
         path: "plans",
         name: "plans",
-        component: () => import("@/layouts/user/plans.vue"),
-        children: [
-          {
-            path: "",
-            name: "_plans",
-            component: () => import("@/pages/useer/plans/plans.vue"),
-          },
-          {
-            path: "mining",
-            name: "_mining",
-            component: () => import("@/pages/useer/plans/mining.vue"),
-          },
-          {
-            path: "staking",
-            name: "_staking",
-            component: () => import("@/pages/useer/plans/staking.vue"),
-          },
-        ],
+        component: () => import("@/pages/user/plans.vue")
       },
       {
-        path: "mining",
-        name: "mining",
-        component: () => import("@/pages/useer/mining.vue"),
+        path: "history",
+        name: "history",
+        component: () => import("@/pages/user/history.vue"),
+      },
+      {
+        path: "transactions",
+        name: "transactions",
+        component: () => import("@/pages/user/transactions.vue"),
       },
       {
         path: "trading",
@@ -75,82 +75,77 @@ const staticRoutes = [
           {
             path: "",
             name: "_trading",
-            component: () => import("@/pages/useer/trading/trading.vue"),
+            component: () => import("@/pages/user/trading/trading.vue"),
           },
           {
             path: ":symbol",
             name: "_symbol",
-            component: () => import("@/pages/useer/trading/symbol.vue"),
+            component: () => import("@/pages/user/trading/symbol.vue"),
           },
         ],
       },
       {
-        path: "holding",
-        name: "holding",
-        component: () => import("@/pages/useer/holding.vue"),
-      },
-      {
-        path: "staking",
-        name: "staking",
-        component: () => import("@/pages/useer/staking.vue"),
-      },
-      {
         path: "deposits",
         name: "deposits",
-        component: () => import("@/pages/useer/deposits.vue"),
+        component: () => import("@/pages/user/deposits.vue"),
       },
       {
-        path: "account",
-        name: "account",
+        path: "profile",
+        name: "profile_page",
         component: () => import("@/layouts/user/account.vue"),
         children: [
           {
             path: "",
-            name: "profile",
-            component: () => import("@/pages/useer/account/account.vue"),
+            name: "user_profile_page",
+            component: () => import("@/pages/user/account/account.vue"),
           },
           {
             path: "updateContactInformation",
-            name: "updateContactInformation",
+            name: "user_profile_updateContactInformation",
             component: () =>
-              import("@/pages/useer/account/updateContactInformation.vue"),
+              import("@/pages/user/account/updateContactInformation.vue"),
           },
           {
             path: "updateAvatar",
-            name: "updateAvatar",
-            component: () => import("@/pages/useer/account/updateAvatar.vue"),
+            name: "user_profile_updateAvatar",
+            component: () => import("@/pages/user/account/updateAvatar.vue"),
           },
           {
             path: "updatePassword",
-            name: "updatePassword",
-            component: () => import("@/pages/useer/account/updatePassword.vue"),
+            name: "user_profile_updatePassword",
+            component: () => import("@/pages/user/account/updatePassword.vue"),
           },
           {
             path: "updateEmail",
-            name: "updateEmail",
-            component: () => import("@/pages/useer/account/updateEmail.vue"),
+            name: "user_profile_updateEmail",
+            component: () => import("@/pages/user/account/updateEmail.vue"),
           },
           {
             path: "viewNotifications",
-            name: "viewNotifications",
-            component: () => import("@/pages/useer/account/viewNotifications.vue"),
+            name: "user_profile_viewNotifications",
+            component: () => import("@/pages/user/account/viewNotifications.vue"),
           },
         ],
       },
       {
         path: "withdrawals",
         name: "withdrawals",
-        component: () => import("@/pages/useer/withdrawals.vue"),
+        component: () => import("@/pages/user/withdrawals.vue"),
       },
       {
         path: "news",
         name: "news",
-        component: () => import("@/pages/useer/news.vue"),
+        component: () => import("@/pages/user/news.vue"),
       },
       {
-        path: "copytrading",
-        name: "copytrading",
-        component: () => import("@/pages/useer/copytrading.vue"),
+        path: "support",
+        name: "support",
+        component: () => import("@/pages/user/support.vue"),
+      },
+      {
+        path: "copyTrading",
+        name: "user_copyTrading_page",
+        component: () => import("@/pages/user/copyTrading.vue"),
       },
     ],
   },
@@ -159,6 +154,7 @@ const staticRoutes = [
     path: '/admin',
     name: "admin",
     component: () => import('@/layouts/admin/default.vue'),
+    meta: {requiresAuth: true},
 
     children: [
       {
@@ -192,13 +188,31 @@ const staticRoutes = [
         component: () => import('@/pages/admin/transactionHistory.vue'),
       },
       {
+        path: "support",
+        name: 'admin_support',
+        component: () => import('@/layouts/admin/support.vue'),
+
+        children: [
+          {
+            path: "",
+            name: "_admin_support_conversation",
+            component: () => import('@/pages/admin/support/conversations.vue')
+          },
+          {
+            path: ":chat",
+            name: "_admin_support_chat",
+            component: () => import('@/pages/admin/support/chat.vue')
+          },
+        ]
+      },
+      {
         path: "settings",
         name: 'admin_settings',
         component: () => import('@/pages/admin/settings.vue'),
       },
       {
         path: "account",
-        name: "account",
+        name: "admin_account",
         component: () => import("@/layouts/admin/account.vue"),
         children: [
           {
@@ -250,92 +264,40 @@ const router = createRouter({
   routes: staticRoutes,
 });
 
-let isAuthChecked = false;
-
-// router.beforeEach(async (to, from, next) => {
-//   if (!isAuthChecked) {
-//     await new Promise((resolve) => {
-//       auth.onAuthStateChanged((user) => {
-//         isAuthChecked = true;
-//         if (to.meta.requiresAuth && !user) {
-//           next("/auth/login");
-//         } else if (to.path === "/auth" && user) {
-//           next("/overview");
-//         } else {
-//           next();
-//         }
-//         resolve();
-//       });
-//     });
-//   } else {
-//     const user = auth.currentUser;
-//     if (to.meta.requiresAuth && !user) {
-//       next("/auth/login");
-//     } else if (to.path === "/auth" && user) {
-//       next("/overview");
-//     } else {
-//       next();
-//     }
-//   }
-// });
+// Function to check authentication state
+const checkAuthState = () => {
+  return new Promise((resolve) => {
+    onAuthStateChanged(auth, (user) => {
+      resolve(user);
+    });
+  });
+};
 
 router.beforeEach(async (to, from, next) => {
-  if (!isAuthChecked) {
-    await new Promise((resolve) => {
-      auth.onAuthStateChanged((user) => {
-        isAuthChecked = true;
-        handleNavigation(user, to, next);
-        resolve();
-      });
-    });
+  const user = await checkAuthState();
+
+  // Check if the route requires authentication
+  if (to.meta.requiresAuth && !user) {
+    next('/auth/login');
+  } else if (to.path === '/auth/login' && user) {
+    next('/app/overview');
   } else {
-    handleNavigation(auth.currentUser, to, next);
+    next();
   }
 });
 
-function handleNavigation(user, to, next) {
-  const isAdmin = JSON.parse(localStorage.getItem("leadway_admin"));
-  const hasCompletedSetup = localStorage.getItem("leadway_setup_complete"); // Add a flag
+router.beforeEach((to, from, next) => {
+  const user = auth.currentUser;
 
-  if (to.meta.requiresAuth && !user) {
-    return next("/auth/login");
+  // Check if the route requires authentication
+  if(to.meta.requiresAuth && !user) {
+    next('/auth/login');
+  } else if(to.path === '/login' && user) {
+    next('/app/overview');
+  } else {
+    next();
   }
-
-  // Prevent infinite redirect to /auth/accountType
-  if (isAdmin && !hasCompletedSetup && to.path !== "/auth/accountType" && !to.path.startsWith("/admin")) {
-    return next("/auth/accountType");
-  }
-
-  // If user completes setup, set the flag
-  if (to.path === "/auth/accountType") {
-    localStorage.setItem("leadway_setup_complete", "true");
-  }
-
-  if (to.path === "/auth" && user) {
-    return next("/app/overview");
-  }
-
-  next();
-}
-
-
-// function handleNavigation(user, to, next) {
-//   const isAdmin = JSON.parse(localStorage.getItem("leadway_admin")); // Check if admin exists in localStorage
-//
-//   if (to.meta.requiresAuth && !user) {
-//     return next("/auth/login");
-//   }
-//
-//   if (isAdmin && to.path !== "/auth/accountType" && !to.path.startsWith("/admin")) {
-//     return next("/auth/accountType");
-//   }
-//
-//   if (to.path === "/auth" && user) {
-//     return next("/app/overview");
-//   }
-//
-//   next();
-// }
+});
 
 // Function to dynamically add a route
 export function addDynamicRoute(route) {
@@ -344,21 +306,6 @@ export function addDynamicRoute(route) {
     console.log(`Dynamic route added: ${route.name}`);
   }
 }
-
-// Handle dynamic import errors
-router.onError((err, to) => {
-  if (err?.message?.includes?.("Failed to fetch dynamically imported module")) {
-    if (!localStorage.getItem("vuetify:dynamic-reload")) {
-      console.log("Reloading page to fix dynamic import error");
-      localStorage.setItem("vuetify:dynamic-reload", "true");
-      location.assign(to.fullPath);
-    } else {
-      console.error("Dynamic import error, reloading page did not fix it", err);
-    }
-  } else {
-    console.error(err);
-  }
-});
 
 router.isReady().then(() => {
   localStorage.removeItem("vuetify:dynamic-reload");

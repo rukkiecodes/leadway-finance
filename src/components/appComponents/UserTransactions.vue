@@ -38,10 +38,6 @@
               <p class="text-caption text--sm-body-2">{{ item?.paymentID }}</p>
             </template>
 
-            <template v-slot:item.user="{ item }">
-              <TradeHistoryUser :user="item?.user"/>
-            </template>
-
             <template v-slot:item.amount="{ item }">
               <p class="text-caption text--sm-body-2">${{ formatMoney(item?.amount) }}</p>
             </template>
@@ -127,26 +123,6 @@
                           {{ new Date(item?.timestamp.seconds * 1000).toDateString() }}}</p>
                       </div>
                     </v-card-text>
-
-                    <v-divider class="my-5"/>
-
-                    <v-card-text>
-                <span class="text-caption text-sm-body-2">
-                Upon transaction Completion, the transaction amount will automatically be added to the client's total amount
-              </span>
-
-                      <v-select
-                        density="compact"
-                        label="Transaction Status"
-                        variant="outlined"
-                        v-model="status"
-                        rounded="lg"
-                        color="indigo-accent-4"
-                        :items="['Completed', 'Processing', 'Pending', 'Canceled']"
-                        class="mt-5"
-                        @update:modelValue="updateStatus(status, item)"
-                      />
-                    </v-card-text>
                   </v-card>
                 </td>
               </tr>
@@ -162,7 +138,7 @@
                 variant="text"
                 border
                 slim
-                @click="() => {toggleExpand(internalItem); autoCompleteStatus(item?.status)}"
+                @click="toggleExpand(internalItem)"
               ></v-btn>
             </template>
           </v-data-table>
@@ -308,26 +284,6 @@
                           {{ new Date(item?.timestamp.seconds * 1000).toDateString() }}}</p>
                       </div>
                     </v-card-text>
-
-                    <v-divider class="my-5"/>
-
-                    <v-card-text>
-                      <span class="text-caption text-sm-body-2">
-                        Upon transaction Completion, the transaction amount will automatically be deducted from the client's total amount
-                      </span>
-
-                      <v-select
-                        density="compact"
-                        label="Transaction Status"
-                        variant="outlined"
-                        v-model="status"
-                        rounded="lg"
-                        color="indigo-accent-4"
-                        :items="['Completed', 'Processing', 'Pending', 'Canceled']"
-                        class="mt-5"
-                        @update:modelValue="updateStatusWithdrawStatus(status, item)"
-                      />
-                    </v-card-text>
                   </v-card>
                 </td>
               </tr>
@@ -343,7 +299,7 @@
                 variant="text"
                 border
                 slim
-                @click="() => {toggleExpand(internalItem); autoCompleteStatus(item?.status)}"
+                @click="toggleExpand(internalItem)"
               ></v-btn>
             </template>
           </v-data-table>
@@ -356,11 +312,9 @@
 
 <script lang="ts">
 import {collection, query, orderBy, onSnapshot, updateDoc, doc, getDoc, where} from "firebase/firestore";
-import {db} from '@/firebase'
-import TradeHistoryUser from "@/components/admin/TradeHistoryUser.vue";
+import {db, auth} from '@/firebase'
 
 export default {
-  components: {TradeHistoryUser},
   data() {
     return {
       deposits: [],
@@ -370,7 +324,6 @@ export default {
       tab: null,
       headers: [
         {key: 'paymentID', title: 'Payment ID'},
-        {key: 'user', title: 'User'},
         {key: 'amount', title: 'Amount'},
         {key: 'convertedRate', title: 'Rate'},
         {key: 'type', title: 'Type'},
@@ -379,7 +332,6 @@ export default {
       ],
       withdrawHeaders: [
         {key: 'id', title: 'Payment ID'},
-        {key: 'user', title: 'User'},
         {key: 'amount', title: 'Amount'},
         {key: 'withdrawalMethod', title: 'Method'},
         {key: 'type', title: 'Type'},
@@ -389,11 +341,6 @@ export default {
     }
   },
 
-  setup() {
-
-    return {}
-  },
-
   mounted() {
     this.fetchDeposits()
     this.fetchWithdraws()
@@ -401,7 +348,7 @@ export default {
 
   methods: {
     async fetchDeposits() {
-      const q = query(collection(db, "leadway_payments"), where('payment.type', '==', 'deposit'), orderBy("timestamp", 'desc'));
+      const q = query(collection(db, "leadway_payments"), where('payment.type', '==', 'deposit'), where('user', '==', auth.currentUser.uid), orderBy("timestamp", 'desc'));
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         this.deposits = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data(), ...doc.data().payment}));
@@ -411,7 +358,7 @@ export default {
     },
 
     async fetchWithdraws() {
-      const q = query(collection(db, "leadway_payments"), where('request.type', '==', 'withdraw'), orderBy("timestamp", 'desc'));
+      const q = query(collection(db, "leadway_payments"), where('request.type', '==', 'withdraw'), where('user', '==', auth.currentUser.uid), orderBy("timestamp", 'desc'));
 
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         this.withdraws = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data(), ...doc.data().request}));
@@ -427,57 +374,6 @@ export default {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       }).format(amount).replace(/\$/g, ''); // Removes the currency symbol if needed
-    },
-
-    async updateStatus(status, item) {
-      console.log(status, '=>', item.id, item.user)
-      await updateDoc(doc(db, "leadway_payments", item.id), {
-        'payment.status': status
-      });
-
-      await updateDoc(doc(db, "leadway_users", item.user, 'payments', item.id), {
-        status: status
-      })
-
-      if (status === 'Completed') {
-        const clientProfile = (await getDoc(doc(db, 'leadway_users', item.user))).data()
-        const totalAmount = parseFloat(clientProfile?.totalBalance) + parseFloat(item?.amount)
-        const totalDeposit = parseFloat(clientProfile?.totalDeposit) + parseFloat(item?.amount)
-        const totalBalance = parseFloat(clientProfile?.totalBalance) + parseFloat(item?.amount)
-
-        await updateDoc(doc(db, 'leadway_users', item.user), {
-          totalAmount,
-          totalDeposit,
-          totalBalance
-        })
-      }
-    },
-
-    async updateStatusWithdrawStatus(status, item) {
-      await updateDoc(doc(db, "leadway_payments", item.id), {
-        'request.status': status
-      });
-
-      await updateDoc(doc(db, "leadway_users", item.user, 'payments', item.id), {
-        status: status
-      })
-
-      if (status === 'Completed') {
-        const clientProfile = (await getDoc(doc(db, 'leadway_users', item.user))).data()
-        const totalAmount = parseFloat(clientProfile?.totalBalance) - parseFloat(item?.amount)
-        const totalDeposit = parseFloat(clientProfile?.totalDeposit) - parseFloat(item?.amount)
-        const totalBalance = parseFloat(clientProfile?.totalBalance) - parseFloat(item?.amount)
-
-        await updateDoc(doc(db, 'leadway_users', item.user), {
-          totalAmount,
-          totalDeposit,
-          totalBalance
-        })
-      }
-    },
-
-    autoCompleteStatus(status) {
-      this.status = status;
     }
   }
 }
