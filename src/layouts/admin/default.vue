@@ -15,7 +15,7 @@
                  class="d-flex flex-column justify-center align-center">
           <v-progress-circular indeterminate size="200" color="indigo-accent-4">
             <v-avatar size="180">
-              <v-img :src="profile?.displayImage?.image" lazy-src="@/assets/images/avatar.png"/>
+              <v-img :src="profile?.displayImage?.image || '@/assets/images/avatar.png'" lazy-src="@/assets/images/avatar.png"/>
             </v-avatar>
           </v-progress-circular>
           <p class="mt-5 text-body-2 text-sm-body-1 text-md-h6 font-weight-bold">Switching {{ profile?.firstName }}'s privileges</p>

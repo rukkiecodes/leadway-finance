@@ -7,14 +7,33 @@
             <v-col cols="12" sm="3">
               <v-dialog max-width="500">
                 <template v-slot:activator="{ props: activatorProps }">
-                  <v-img :src="user?.displayImage?.image" v-bind="activatorProps" cover width="200" height="200"
-                         rounded="lg" class="cursor-pointer"/>
+                  <v-img
+                    :src="user?.displayImage?.image || '@/assets/images/avatar.png'"
+                    v-if="user?.displayImage"
+                    v-bind="activatorProps"
+                    cover
+                    width="200"
+                    height="200"
+                    rounded="lg"
+                    class="cursor-pointer"
+                  />
+                  <v-img
+                    v-else
+                    src="@/assets/images/avatar.png"
+                    v-bind="activatorProps"
+                    cover
+                    width="200"
+                    height="200"
+                    rounded="lg"
+                    class="cursor-pointer"
+                  />
                 </template>
 
                 <template v-slot:default="{ isActive }">
                   <v-card rounded="lg">
                     <v-card-text class="pa-0">
-                      <v-img :src="user?.displayImage?.image" cover width="100%" rounded="lg" class="cursor-pointer"/>
+                      <v-img v-if="user?.displayImage" :src="user?.displayImage?.image || '@/assets/images/avatar.png'" cover width="100%" rounded="lg" class="cursor-pointer"/>
+                      <v-img v-else src="@/assets/images/avatar.png" cover width="100%" rounded="lg" class="cursor-pointer"/>
                     </v-card-text>
 
                     <v-card-actions>

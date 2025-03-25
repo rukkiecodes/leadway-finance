@@ -3,7 +3,7 @@
     <template v-slot:prepend>
       <v-sheet class="d-flex flex-column justify-center align-center ga-5" dark :height="250">
         <v-avatar :size="100">
-          <v-img :src="profile?.displayImage?.image" lazy-src="@/assets/images/avatar.png"/>
+          <v-img :src="profile?.displayImage?.image || '@/assets/images/avatar.png'" lazy-src="@/assets/images/avatar.png"/>
         </v-avatar>
 
         <span class="text-body-2 text-sm-body-1 text-md-h6 font-weight-black">{{

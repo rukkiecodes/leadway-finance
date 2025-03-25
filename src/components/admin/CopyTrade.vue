@@ -26,7 +26,7 @@
     >
       <template v-slot:item.displayImage="{ item }">
         <v-avatar size="50" class="my-2">
-          <v-img :src="item?.displayImage?.image" cover/>
+          <v-img :src="item?.displayImage?.image || '@/assets/images/avatar.png'" cover/>
         </v-avatar>
       </template>
 

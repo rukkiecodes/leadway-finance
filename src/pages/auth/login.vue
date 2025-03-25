@@ -36,11 +36,12 @@
 <script setup lang="ts">
 import {useAppStore} from '@/stores/app'
 import {signInWithEmailAndPassword} from 'firebase/auth'
-import { getDoc, doc} from 'firebase/firestore'
+import {updateDoc, doc} from 'firebase/firestore'
 import {auth, db} from '@/firebase'
 
 import {ref} from "vue";
 import {useRouter} from "vue-router";
+
 const router = useRouter()
 
 
@@ -58,11 +59,14 @@ const signInUser = async () => {
     try {
       loading.value = true;
 
-      await signInWithEmailAndPassword(auth, email.value, password.value);
+      const {user} = await signInWithEmailAndPassword(auth, email.value, password.value);
 
       snackbarObject.show = true;
       snackbarObject.message = "Login successful!";
       snackbarObject.color = "info";
+
+      router.push('/app/overview')
+      verifyUser(user)
 
       loading.value = false
     } catch (error) {
@@ -73,5 +77,17 @@ const signInUser = async () => {
       loading.value = false;
     }
   }
+}
+
+const verifyUser = async (user) => {
+  if(!user?.emailVerified) return
+
+  await updateDoc(doc(db, 'leadway_users', user?.uid), {
+    verified: true
+  })
+
+  snackbarObject.show = true;
+  snackbarObject.message = "Account verification successful!";
+  snackbarObject.color = "green";
 }
 </script>

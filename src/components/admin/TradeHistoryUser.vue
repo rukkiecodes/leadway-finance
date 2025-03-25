@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-start align-center ga-5">
-    <v-avatar :image="profile?.displayImage?.image"/>
+    <v-avatar :image="profile?.displayImage?.image || '@/assets/images/avatar.png'" />
     <p class="text-caption text--sm-body-2">{{ profile?.firstName }} {{ profile?.lastName }}</p>
   </div>
 </template>

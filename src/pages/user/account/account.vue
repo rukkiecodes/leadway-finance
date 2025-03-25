@@ -6,7 +6,7 @@
           <v-card flat color="transparent" dark>
             <v-card-text class="d-flex flex-column justify-center">
               <v-avatar size="200" class="mx-auto mb-5">
-                <v-img :src="profileStore.profile?.displayImage?.image" lazy-src="@/assets/images/avatar.png"/>
+                <v-img :src="profileStore.profile?.displayImage?.image || '@/assets/images/avatar.png'" lazy-src="@/assets/images/avatar.png"/>
               </v-avatar>
               <p class="text-body-2 text-md-body-1 text-lg-h6 text-center">{{ profileStore.profile?.firstName }}
                 {{ profileStore.profile?.lastName }}</p>
@@ -78,15 +78,15 @@
             </v-col>
 
             <v-col cols="12" sm="6">
-              <router-link to="/app/profile/viewNotifications" class="text-decoration-none">
+              <router-link to="/app/profile/verifyAccount" class="text-decoration-none">
                 <v-sheet rounded="lg" class="pa-2 d-flex align-center ga-4">
                   <v-sheet width="50" height="50" color="indigo" class="d-flex justify-center align-center" dark
                            rounded="lg"
                   >
-                    <v-icon>mdi-bell</v-icon>
+                    <v-icon>mdi-account-check</v-icon>
                   </v-sheet>
 
-                  <p class="text-caption text-sm-body-2 text-md-body-1">Notifications</p>
+                  <p class="text-caption text-sm-body-2 text-md-body-1">Verify Account</p>
                 </v-sheet>
               </router-link>
             </v-col>

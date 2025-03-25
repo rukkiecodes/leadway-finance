@@ -140,9 +140,10 @@
 import {useCountryStore} from '@/stores/user/countries'
 import {useAppStore} from '@/stores/app'
 import {createUserWithEmailAndPassword} from 'firebase/auth'
-import {setDoc, doc, getDoc, serverTimestamp} from 'firebase/firestore'
+import {setDoc, doc, serverTimestamp} from 'firebase/firestore'
 import {auth, db} from '@/firebase'
 import {useRouter} from "vue-router";
+
 const router = useRouter()
 
 import {ref} from "vue";
@@ -192,15 +193,7 @@ const registerUser = async () => {
       snackbarObject.color = "info";
 
       loading.value = false
-
-      const profile = (await getDoc(doc(db, 'leadway_users', user.user.uid))).data()
-
-      if (profile.admin) {
-        window.localStorage.setItem('leadway_admin', JSON.stringify(profile.admin))
-        router.push('/overview')
-      } else {
-        router.push('/overview')
-      }
+      router.push('/app/overview')
     } catch (error) {
       snackbarObject.show = true;
       snackbarObject.message = `Error: ${error.message}`;

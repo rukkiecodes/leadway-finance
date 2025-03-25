@@ -121,9 +121,9 @@ const staticRoutes = [
             component: () => import("@/pages/user/account/updateEmail.vue"),
           },
           {
-            path: "viewNotifications",
-            name: "user_profile_viewNotifications",
-            component: () => import("@/pages/user/account/viewNotifications.vue"),
+            path: "verifyAccount",
+            name: "user_profile_verifyAccount",
+            component: () => import("@/pages/user/account/verifyAccount.vue"),
           },
         ],
       },

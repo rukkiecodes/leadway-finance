@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-card-title class="d-flex align-center pe-2">
-      <v-icon icon="mdi-account-group"></v-icon> &nbsp;
+      <v-icon icon="mdi-account-group" /> &nbsp;
       Clients
 
       <v-spacer></v-spacer>
@@ -31,7 +31,8 @@
       <!-- Display Image Column -->
       <template v-slot:item.displayImage="{ item }">
         <v-avatar size="50" class="my-2">
-          <v-img :src="item.displayImage.image" cover />
+          <v-img v-if="item.displayImage" :src="item.displayImage.image" cover />
+          <v-img v-else src="@/assets/images/avatar.png" cover />
         </v-avatar>
       </template>
 
@@ -78,10 +79,6 @@ const headers = computed(() => [
   { title: "Status", key: "verified" },
   { title: "", key: "actions", sortable: false }
 ]);
-
-const viewClient = (client) => {
-  console.log("Viewing client:", client);
-};
 
 const formatMoney = (amount, currency = 'USD') => {
   return new Intl.NumberFormat('en-US', {

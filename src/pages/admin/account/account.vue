@@ -6,7 +6,7 @@
           <v-card flat color="transparent" dark>
             <v-card-text class="d-flex flex-column justify-center">
               <v-avatar size="200" class="mx-auto mb-5">
-                <v-img :src="profileStore.profile?.displayImage?.image" lazy-src="@/assets/images/avatar.png"/>
+                <v-img :src="profileStore.profile?.displayImage?.image || '@/assets/images/avatar.png'" lazy-src="@/assets/images/avatar.png"/>
               </v-avatar>
               <p class="text-body-2 text-md-body-1 text-lg-h6 text-center">{{ profileStore.profile?.firstName }}
                 {{ profileStore.profile?.lastName }}</p>

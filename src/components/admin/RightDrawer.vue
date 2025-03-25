@@ -5,7 +5,8 @@
         <router-link :to="`/admin/support/${item.id}`" class="text-decoration-none">
           <v-sheet class="d-flex justify-start align-center ga-4 pa-2 mx-2" color="#292E34" rounded="pill">
             <v-avatar>
-              <v-img :src="item?.displayImage?.image"/>
+              <v-img v-if="item?.displayImage" :src="item?.displayImage?.image"/>
+              <v-img v-else src="@/assets/images/avatar.png"/>
             </v-avatar>
 
             <div class="d-flex flex-column">
