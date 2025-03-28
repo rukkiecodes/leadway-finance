@@ -17,11 +17,13 @@
     "express": "^4.21.2",
     "finnhub": "^1.2.19",
     "firebase": "^11.3.1",
+    "gsap": "^3.12.7",
     "lightweight-charts": "^5.0.3",
     "qrcode-vue3": "^1.7.1",
     "qrcode.vue": "^3.6.0",
     "roboto-fontface": "*",
     "vue": "^3.4.31",
+    "vue-kinesis": "^2.0.5",
     "vue3-apexcharts": "^1.8.0",
     "vuetify": "^3.6.14"
   },
