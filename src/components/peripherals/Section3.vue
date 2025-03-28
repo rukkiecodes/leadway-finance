@@ -1,7 +1,7 @@
 <template>
-  <v-sheet color="transparent" rounded="0" :height="height" class="gradient mt-n1 mb-n16">
-    <v-container>
-      <v-card class="mb-10 pt-16" width="450" max-width="100%" color="transparent" flat>
+  <v-sheet color="transparent" rounded="0" height="100vh" class="gradient mt-n1 mb-n16">
+    <v-container class="d-flex flex-column justify-center align-center" style="height: 100%">
+      <v-card class="mb-10 pt-16 mx-auto" width="450" max-width="100%" color="transparent" flat>
         <v-card-title class="text-center text-body-1 text-sm-h6 text-md-h5">BEST MexbitCapital TRADERS</v-card-title>
         <v-card-text class="text-center text-caption text-sm-body-2">
           The best cryptocurrency developers works in our company. They have a wealth of experience and
@@ -81,51 +81,6 @@
         </v-slide-group>
       </v-sheet>
 
-      <v-row>
-        <v-col cols="12" sm="6" md="4">
-
-        </v-col>
-
-        <!--          <v-col cols="12" sm="6" md="4">-->
-        <!--            <v-card width="400" max-width="90%" class="gradient2 card my-16 mx-5" rounded="xl" elevation="10">-->
-        <!--              <v-sheet width="100" height="100" class="d-flex justify-center align-center pa-5 head-sheet"-->
-        <!--                       rounded="xl"-->
-        <!--                       color="teal-accent-4" elevation="10">-->
-        <!--                <v-icon size="50">mdi-sitemap-outline</v-icon>-->
-        <!--              </v-sheet>-->
-        <!--              <v-sheet class="head-sheet2" width="80" height="80" elevation="5" rounded="xl"/>-->
-        <!--              <v-sheet class="head-sheet3" width="80" height="80" elevation="5" rounded="xl"/>-->
-
-        <!--              <v-card height="300" class="d-flex flex-column justify-center align-center px-10" color="transparent">-->
-        <!--                <p class="text-center text-body-1 text-sm-h6">COPY TRADING</p>-->
-        <!--                <p class="text-center text-caption text-sm-body-2">-->
-        <!--                  Having the opportunity to access the knowledge and strategies of experienced top traders.-->
-        <!--                </p>-->
-        <!--              </v-card>-->
-        <!--            </v-card>-->
-        <!--          </v-col>-->
-
-        <!--          <v-col cols="12" sm="6" md="4">-->
-        <!--            <v-card width="400" max-width="90%" class="gradient2 card my-16 mx-5" rounded="xl" elevation="10">-->
-        <!--              <v-sheet width="100" height="100" class="d-flex justify-center align-center pa-5 head-sheet"-->
-        <!--                       rounded="xl"-->
-        <!--                       color="teal-accent-4" elevation="10">-->
-        <!--                <v-icon size="50">mdi-chart-donut</v-icon>-->
-        <!--              </v-sheet>-->
-        <!--              <v-sheet class="head-sheet2" width="80" height="80" elevation="5" rounded="xl"/>-->
-        <!--              <v-sheet class="head-sheet3" width="80" height="80" elevation="5" rounded="xl"/>-->
-
-        <!--              <v-card height="300" class="d-flex flex-column justify-center align-center px-10" color="transparent">-->
-        <!--                <p class="text-center text-body-1 text-sm-h6">THE EXPERTS WILL DO EVERYTHING FOR YOU</p>-->
-        <!--                <p class="text-center text-caption text-sm-body-2">-->
-        <!--                  The highly professional MexbitCapital team controls all the processes of the trading robot around-->
-        <!--                  the clock. After investing, you will observe the growth of your capital in real time-->
-        <!--                </p>-->
-        <!--              </v-card>-->
-        <!--            </v-card>-->
-        <!--          </v-col>-->
-      </v-row>
-
       <v-btn
         rounded="xl"
         size="x-large"
@@ -142,40 +97,14 @@
 </template>
 
 <script setup>
-import {computed} from 'vue'
-import {useDisplay} from 'vuetify'
-
-const {name} = useDisplay()
-import {ref} from 'vue'
+import {ref} from "vue"
 
 const model = ref(null)
-
-const height = computed(() => {
-  // name is reactive and
-  // must use .value
-  switch (name.value) {
-    case 'xs':
-      return '150vh'
-    case 'sm':
-      return 400
-    case 'md':
-      return 500
-    case 'lg':
-      return 600
-    case 'xl':
-      return 800
-    case 'xxl':
-      return 1200
-  }
-
-  return undefined
-})
 </script>
 
 <style scoped>
 .gradient {
   width: 100vw;
-  height: 100%;
   background: linear-gradient(#182A26, #111C1810);
 }
 
