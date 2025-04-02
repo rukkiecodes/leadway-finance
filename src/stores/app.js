@@ -11,7 +11,9 @@ export const useAppStore = defineStore('app', {
     drawer: true,
     rightDrawer: true,
     bottomDrawer: false,
-    switchAccount: false
+    switchAccount: false,
+
+    peripheralDrawer: false,
   }),
 
   actions: {

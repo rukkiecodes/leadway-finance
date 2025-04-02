@@ -16,7 +16,7 @@ const myDarkTheme = {
   dark: true, // Ensure it's dark mode
   colors: {
     background: '#000000', // Custom dark background (deep dark gray)
-    surface: '#0B1118', // Surface elements (cards, dialogs)
+    surface: '#1D2330', // Surface elements (cards, dialogs)
     primary: '#7D3FE2', // Your accent color (indigo)
     secondary: '#03DAC6', // A complementary secondary color
     success: '#4CAF50', // Green for success

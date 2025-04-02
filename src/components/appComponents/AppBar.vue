@@ -29,7 +29,7 @@
     </template>
   </v-app-bar>
 
-  <v-app-bar :elevation="0" order="1" density="compact">
+  <v-app-bar :elevation="0" order="1" density="compact" class="pa-0">
     <Marquee/>
   </v-app-bar>
 </template>

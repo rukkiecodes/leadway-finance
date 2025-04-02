@@ -69,7 +69,7 @@
 
         <v-row class="d-flex d-sm-none">
           <v-col cols="12" sm="12" md="6" class="d-flex justify-center align-center">
-            <v-sheet :width="300" height="350" rounded="none" color="transparent">
+            <v-sheet :width="400" height="350" rounded="none" color="transparent">
               <iframe
                 lang="en"
                 scrolling="no"
@@ -83,7 +83,7 @@
           </v-col>
 
           <v-col cols="12" sm="12" md="6" class="d-flex justify-center align-center">
-            <v-sheet :width="300" height="350" rounded="none" color="transparent">
+            <v-sheet :width="400" height="350" rounded="none" color="transparent">
               <iframe
                 lang="en"
                 scrolling="no"

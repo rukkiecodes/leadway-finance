@@ -6,7 +6,9 @@
           <v-card flat color="transparent" dark>
             <v-card-text class="d-flex flex-column justify-center">
               <v-avatar size="200" class="mx-auto mb-5">
-                <v-img :src="profileStore.profile?.displayImage?.image || '@/assets/images/avatar.png'" lazy-src="@/assets/images/avatar.png"/>
+                <v-img :src="profileStore.profile?.displayImage?.image || '@/assets/images/avatar.png'"
+                       lazy-src="@/assets/images/avatar.png"
+                />
               </v-avatar>
               <p class="text-body-2 text-md-body-1 text-lg-h6 text-center">{{ profileStore.profile?.firstName }}
                 {{ profileStore.profile?.lastName }}</p>
@@ -92,15 +94,17 @@
             </v-col>
 
             <v-col cols="12" sm="6">
-              <v-sheet rounded="lg" class="pa-2 d-flex align-center ga-4">
-                <v-sheet width="50" height="50" color="indigo" class="d-flex justify-center align-center" dark
-                         rounded="lg"
-                >
-                  <v-icon>mdi-account-multiple</v-icon>
-                </v-sheet>
+              <router-link to="/app/profile/referrals" class="text-decoration-none">
+                <v-sheet rounded="lg" class="pa-2 d-flex align-center ga-4">
+                  <v-sheet width="50" height="50" color="indigo" class="d-flex justify-center align-center" dark
+                           rounded="lg"
+                  >
+                    <v-icon>mdi-account-multiple</v-icon>
+                  </v-sheet>
 
-                <p class="text-caption text-sm-body-2 text-md-body-1">Referals</p>
-              </v-sheet>
+                  <p class="text-caption text-sm-body-2 text-md-body-1">Referrals</p>
+                </v-sheet>
+              </router-link>
             </v-col>
           </v-row>
         </v-col>

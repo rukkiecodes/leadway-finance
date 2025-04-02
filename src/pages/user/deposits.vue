@@ -14,7 +14,7 @@
           hide-details
           single-line
           rounded="lg"
-        ></v-text-field>
+        />
       </v-card-title>
 
       <v-data-table
