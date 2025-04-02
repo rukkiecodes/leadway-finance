@@ -51,11 +51,10 @@ export default defineConfig({
             manifest: {
                 name: "Leadway",
                 short_name: "Leadway",
-                description: "The Niger Delta Development Commission official website.",
                 start_url: "/",
                 display: "standalone", // Ensure it's standalone instead of fullscreen
-                theme_color: "#0B1118", // White theme color
-                background_color: "#0B1118",
+                theme_color: "#1D2330", // White theme color
+                background_color: "#1D2330",
                 orientation: "portrait",
                 scope: "/",
                 lang: "en-US",

@@ -1,139 +1,176 @@
 <template>
-  <v-container class="d-flex justify-center align-center" style="height: 100%">
-    <v-card rounded="lg" flat width="800">
-      <v-card-text>
-        <v-row>
-          <v-col cols="12" sm="6">
-            <v-select
-              variant="outlined"
-              density="compact"
-              label="Account Type"
-              :items="['Demo', 'Live']"
-              v-model="accountType"
+  <v-sheet height="100vh" class="overflow-hidden">
+    <v-row style="height: 100%">
+      <v-col cols="12" md="7">
+        <v-img
+          cover
+          :height="height"
+          src="@/assets/images/bg.jpg"
+          gradient="to top right, rgba(100,115,201,.10), rgba(25,32,72,.9)"
+        >
+
+        </v-img>
+      </v-col>
+
+      <v-col cols="12" md="5" class="d-flex justify-center align-center">
+        <v-card rounded="lg" flat class="mx-auto" max-width="800">
+          <v-card-title class="mb-5">Register</v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col cols="12" sm="6">
+                <v-select
+                  rounded="lg"
+                  hide-details
+                  variant="outlined"
+                  density="compact"
+                  label="Account Type"
+                  v-model="accountType"
+                  color="indigo-accent-4"
+                  :items="['Demo', 'Live']"
+                />
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  hide-details
+                  rounded="lg"
+                  label="Email"
+                  v-model="email"
+                  density="compact"
+                  inputmode="email"
+                  variant="outlined"
+                  color="indigo-accent-4"
+                />
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  hide-details
+                  rounded="lg"
+                  type="password"
+                  label="Password"
+                  density="compact"
+                  variant="outlined"
+                  v-model="password"
+                  color="indigo-accent-4"
+                />
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  hide-details
+                  rounded="lg"
+                  type="password"
+                  density="compact"
+                  variant="outlined"
+                  color="indigo-accent-4"
+                  label="Confirm Password"
+                  v-model="confirmPassword"
+                />
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  hide-details
+                  rounded="lg"
+                  density="compact"
+                  variant="outlined"
+                  label="First Name"
+                  v-model="firstName"
+                  color="indigo-accent-4"
+                />
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  hide-details
+                  rounded="lg"
+                  density="compact"
+                  label="Last Name"
+                  variant="outlined"
+                  v-model="lastName"
+                  color="indigo-accent-4"
+                />
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  hide-details
+                  rounded="lg"
+                  v-model="phone"
+                  density="compact"
+                  variant="outlined"
+                  label="Phone Number"
+                  color="indigo-accent-4"
+                />
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-select
+                  hide-details
+                  rounded="lg"
+                  label="Currency"
+                  density="compact"
+                  variant="outlined"
+                  v-model="currency"
+                  color="indigo-accent-4"
+                  :items="['USD', 'CAD', 'EUR', 'GBP', 'AUD']"
+                />
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-autocomplete
+                  hide-details
+                  rounded="lg"
+                  label="Country"
+                  density="compact"
+                  v-model="country"
+                  variant="outlined"
+                  :items="countries"
+                  color="indigo-accent-4"
+                />
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  hide-details
+                  label="City"
+                  rounded="lg"
+                  v-model="city"
+                  density="compact"
+                  variant="outlined"
+                  color="indigo-accent-4"
+                />
+              </v-col>
+
+              <v-col cols="12" class="d-flex justify-center align-center text-center">
+                <v-checkbox v-model="checkbox" hide-details/>
+                <router-link
+                  to="/terms"
+                  class="text-caption text-sm-body-2 text-decoration-none"
+                >
+                  I declare that the information provided is correct and accept all terms of service
+                </router-link>
+              </v-col>
+            </v-row>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-btn
+              block
               rounded="lg"
-              color="indigo-accent-4"
-            />
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-text-field
-              variant="outlined"
-              density="compact"
-              label="Email"
-              inputmode="email"
-              v-model="email"
-              rounded="lg"
-              color="indigo-accent-4"
-            />
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-text-field
-              variant="outlined"
-              density="compact"
-              label="Password"
-              type="password"
-              v-model="password"
-              rounded="lg"
-              color="indigo-accent-4"
-            />
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-text-field
-              variant="outlined"
-              density="compact"
-              label="Confirm Password"
-              type="password"
-              v-model="confirmPassword"
-              rounded="lg"
-              color="indigo-accent-4"
-            />
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-text-field
-              variant="outlined"
-              density="compact"
-              label="First Name"
-              v-model="firstName"
-              rounded="lg"
-              color="indigo-accent-4"
-            />
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-text-field
-              variant="outlined"
-              density="compact"
-              label="Last Name"
-              v-model="lastName"
-              rounded="lg"
-              color="indigo-accent-4"
-            />
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-text-field
-              variant="outlined"
-              density="compact"
-              label="Phone Number"
-              v-model="phone"
-              rounded="lg"
-              color="indigo-accent-4"
-            />
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-select
-              variant="outlined"
-              density="compact"
-              label="Currency"
-              :items="['USD', 'CAD', 'EUR', 'GBP', 'AUD']"
-              v-model="currency"
-              rounded="lg"
-              color="indigo-accent-4"
-            />
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-autocomplete
-              variant="outlined"
-              density="compact"
-              label="Country"
-              :items="countries"
-              v-model="country"
-              rounded="lg"
-              color="indigo-accent-4"
-            />
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-text-field
-              variant="outlined"
-              density="compact"
-              label="City"
-              v-model="city"
-              rounded="lg"
-              color="indigo-accent-4"
-            />
-          </v-col>
-
-          <v-col cols="12" class="d-flex justify-center align-center text-center">
-            <v-checkbox v-model="checkbox" hide-details/>
-            <span>I declare that the information provided is correct and accept all terms of service</span>
-          </v-col>
-        </v-row>
-      </v-card-text>
-
-      <v-card-actions>
-        <v-btn @click="registerUser" block :loading="loading" :disabled="!checkbox || loading"
-               class="bg-indigo-accent-4 text-capitalize"
-        >Sign up
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-container>
+              :loading="loading"
+              @click="registerUser"
+              :disabled="!checkbox || loading"
+              class="bg-indigo-accent-4 text-capitalize"
+            >
+              Sign up
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-sheet>
 </template>
 
 <script setup lang="ts">
@@ -143,10 +180,11 @@ import {createUserWithEmailAndPassword} from 'firebase/auth'
 import {setDoc, doc, serverTimestamp} from 'firebase/firestore'
 import {auth, db} from '@/firebase'
 import {useRouter} from "vue-router";
+import {computed, ref} from 'vue'
+import {useDisplay} from 'vuetify'
 
+const {name} = useDisplay()
 const router = useRouter()
-
-import {ref} from "vue";
 
 const {countries} = useCountryStore()
 const {snackbarObject} = useAppStore()
@@ -163,6 +201,25 @@ const currency = ref("")
 const country = ref("Afghanistan")
 const city = ref("")
 const loading = ref(false)
+
+const height = computed(() => {
+  switch (name.value) {
+    case 'xs':
+      return 50
+    case 'sm':
+      return 50
+    case 'md':
+      return '100vh'
+    case 'lg':
+      return '100vh'
+    case 'xl':
+      return '100vh'
+    case 'xxl':
+      return '100vh'
+  }
+
+  return undefined
+})
 
 const registerUser = async () => {
   if (!checkbox.value || !accountType.value || !email.value || !password.value || !firstName.value || !lastName.value || !phone.value || !currency.value || !country.value || !city.value) {

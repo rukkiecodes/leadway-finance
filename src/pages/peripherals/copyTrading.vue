@@ -7,7 +7,7 @@
         </v-col>
 
         <v-col cols="12">
-          <p class="text-caption text-sm-body-2" style="text-transform: uppercase">HOME COPY TRADING</p>
+          <p class="text-caption text-sm-body-2" style="text-transform: uppercase !important;">HOME COPY TRADING</p>
           <p class="text-caption text-sm-body-2">
             As the name suggests, copy trading allows you to directly replicate the positions taken by another trader.
             You

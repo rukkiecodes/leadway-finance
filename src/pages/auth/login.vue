@@ -1,36 +1,65 @@
 <template>
-  <v-container class="d-flex justify-center align-center" style="height: 100%">
-    <v-card rounded="lg" flat width="400">
-      <v-card-text>
-        <v-text-field
-          variant="outlined"
-          density="compact"
-          label="Email"
-          inputmode="email"
-          v-model="email"
-          rounded="lg"
-          color="indigo-accent-4"
-        />
+  <v-sheet height="100vh" class="overflow-hidden">
+    <v-row style="height: 100%">
+      <v-col cols="12" md="7">
+        <v-img
+          cover
+          :height="height"
+          src="@/assets/images/bg.jpg"
+          gradient="to top right, rgba(100,115,201,.10), rgba(25,32,72,.9)"
+        >
 
-        <v-text-field
-          variant="outlined"
-          density="compact"
-          label="Password"
-          type="password"
-          v-model="password"
-          rounded="lg"
-          color="indigo-accent-4"
-        />
-      </v-card-text>
+        </v-img>
+      </v-col>
 
-      <v-card-actions>
-        <v-btn @click="signInUser" block :loading="loading" :disabled="loading"
-               class="bg-indigo-accent-4 text-capitalize"
-        >Login
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-container>
+      <v-col cols="12" md="5" class="d-flex justify-center align-center">
+        <v-card rounded="lg" flat class="mx-auto" width="400">
+          <v-card-title class="mb-5">Login</v-card-title>
+
+          <v-card-text>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  rounded="lg"
+                  label="Email"
+                  v-model="email"
+                  density="compact"
+                  inputmode="email"
+                  variant="outlined"
+                  color="indigo-accent-4"
+                />
+              </v-col>
+
+              <v-col cols="12">
+                <v-text-field
+                  variant="outlined"
+                  density="compact"
+                  label="Password"
+                  type="password"
+                  v-model="password"
+                  rounded="lg"
+                  color="indigo-accent-4"
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-btn
+              block
+              rounded="lg"
+              :loading="loading"
+              :disabled="loading"
+              @click="signInUser"
+              class="bg-indigo-accent-4 text-capitalize"
+            >
+              Login
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-sheet>
 </template>
 
 <script setup lang="ts">
@@ -38,8 +67,10 @@ import {useAppStore} from '@/stores/app'
 import {signInWithEmailAndPassword} from 'firebase/auth'
 import {updateDoc, doc} from 'firebase/firestore'
 import {auth, db} from '@/firebase'
+import {computed, ref} from 'vue'
+import {useDisplay} from 'vuetify'
 
-import {ref} from "vue";
+const {name} = useDisplay()
 import {useRouter} from "vue-router";
 
 const router = useRouter()
@@ -50,6 +81,25 @@ const {snackbarObject} = useAppStore()
 const email = ref("")
 const password = ref("")
 const loading = ref(false)
+
+const height = computed(() => {
+  switch (name.value) {
+    case 'xs':
+      return 50
+    case 'sm':
+      return 50
+    case 'md':
+      return '100vh'
+    case 'lg':
+      return '100vh'
+    case 'xl':
+      return '100vh'
+    case 'xxl':
+      return '100vh'
+  }
+
+  return undefined
+})
 
 const signInUser = async () => {
   if (!email.value || !password.value) {
@@ -80,7 +130,7 @@ const signInUser = async () => {
 }
 
 const verifyUser = async (user) => {
-  if(!user?.emailVerified) return
+  if (!user?.emailVerified) return
 
   await updateDoc(doc(db, 'leadway_users', user?.uid), {
     verified: true

@@ -34,5 +34,10 @@ export default {
       name: 'Peripheral_copyTrading',
       component: () => import('@/pages/peripherals/copyTrading.vue')
     },
+    {
+      path: 'terms',
+      name: 'Peripheral_terms',
+      component: () => import('@/pages/peripherals/terms.vue')
+    },
   ]
 }
