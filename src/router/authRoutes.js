@@ -17,5 +17,10 @@ export default {
       name: "getStarted",
       component: () => import("@/pages/auth/getStarted.vue"),
     },
+    {
+      path: "forgotPassword",
+      name: "forgotPassword",
+      component: () => import("@/pages/auth/forgotPassword.vue"),
+    },
   ],
 }

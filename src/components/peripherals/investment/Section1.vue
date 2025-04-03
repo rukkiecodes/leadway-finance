@@ -56,15 +56,15 @@
 
                   <v-col cols="12" sm="5">
                     <p class="text-caption text-sm-body-2 text-md-body-1">
-                      MexbitCapital developers have created a unique cryptocurrency robot. It predicts the value of
-                      Bitcoin while generating daily profit on trades. The MexbitCapital robot is able to benefit at any
+                      Leadway Finance developers have created a unique cryptocurrency robot. It predicts the value of
+                      Bitcoin while generating daily profit on trades. The Leadway Finance robot is able to benefit at any
                       stage of the market: both growth and decline.
                     </p>
                   </v-col>
 
                   <v-col cols="12" sm="5">
                     <p class="text-caption text-sm-body-2 text-md-body-1">
-                      MexbitCapital CFO has developed a unique marketing plan for the platform to function fully. The
+                      Leadway Finance CFO has developed a unique marketing plan for the platform to function fully. The
                       Investors of our company have an excellent opportunity to receive financial benefits on stable
                       terms. You can also use the profitability calculator. It will calculate the exact return on your
                       investment.

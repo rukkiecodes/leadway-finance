@@ -12,7 +12,7 @@
 
       <v-col cols="12" md="5" class="d-sm-flex justify-md-center align-md-center">
         <v-card flat class="mx-auto" width="400" elevation="0">
-          <v-card-title class="mb-5">Login</v-card-title>
+          <v-card-title class="mb-5">Send Password reset Email</v-card-title>
 
           <v-card-text>
             <v-row>
@@ -27,27 +27,6 @@
                   color="indigo-accent-4"
                 />
               </v-col>
-
-              <v-col cols="12">
-                <v-text-field
-                  variant="outlined"
-                  density="compact"
-                  label="Password"
-                  type="password"
-                  v-model="password"
-                  rounded="lg"
-                  color="indigo-accent-4"
-                />
-              </v-col>
-
-              <v-col cols="12" class="d-flex justify-end align-center">
-                <router-link
-                  to="/auth/forgotPassword"
-                  class="text-caption text-sm-body-2 text-white"
-                >
-                  Forgot Password?
-                </router-link>
-              </v-col>
             </v-row>
           </v-card-text>
 
@@ -57,10 +36,10 @@
               rounded="lg"
               :loading="loading"
               :disabled="loading"
-              @click="signInUser"
+              @click="resetPassword"
               class="bg-indigo-accent-4 text-capitalize"
             >
-              Login
+              Get Email
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -71,22 +50,16 @@
 
 <script setup lang="ts">
 import {useAppStore} from '@/stores/app'
-import {signInWithEmailAndPassword} from 'firebase/auth'
-import {updateDoc, doc} from 'firebase/firestore'
+import { sendPasswordResetEmail} from 'firebase/auth'
 import {auth, db} from '@/firebase'
 import {computed, ref} from 'vue'
 import {useDisplay} from 'vuetify'
 
 const {name} = useDisplay()
-import {useRouter} from "vue-router";
-
-const router = useRouter()
-
 
 const {snackbarObject} = useAppStore()
 
 const email = ref("")
-const password = ref("")
 const loading = ref(false)
 
 const height = computed(() => {
@@ -108,22 +81,19 @@ const height = computed(() => {
   return undefined
 })
 
-const signInUser = async () => {
-  if (!email.value || !password.value) {
+const resetPassword = async () => {
+  if (!email.value) {
     alert("Please fill in all fields")
     return
   } else {
     try {
       loading.value = true;
 
-      const {user} = await signInWithEmailAndPassword(auth, email.value, password.value);
+      await sendPasswordResetEmail(auth, email.value)
 
       snackbarObject.show = true;
-      snackbarObject.message = "Login successful!";
+      snackbarObject.message = "Email Sent!";
       snackbarObject.color = "info";
-
-      router.push('/app/overview')
-      verifyUser(user)
 
       loading.value = false
     } catch (error) {
@@ -134,17 +104,5 @@ const signInUser = async () => {
       loading.value = false;
     }
   }
-}
-
-const verifyUser = async (user) => {
-  if (!user?.emailVerified) return
-
-  await updateDoc(doc(db, 'leadway_users', user?.uid), {
-    verified: true
-  })
-
-  snackbarObject.show = true;
-  snackbarObject.message = "Account verification successful!";
-  snackbarObject.color = "green";
 }
 </script>

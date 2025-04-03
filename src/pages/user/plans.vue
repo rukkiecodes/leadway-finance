@@ -3,7 +3,8 @@
     <v-card class="mt-16 mx-auto" max-width="1000" rounded="lg">
       <v-img src="@/assets/images/hue.png" min-height="300" cover>
         <v-sheet class="d-flex flex-column justify-space-between align-start pa-5" min-height="300"
-                 color="transparent">
+                 color="transparent"
+        >
           <div class="d-flex flex-column">
             <p class="text-caption text-sm-body-2 text-md-body-1">Total Balance</p>
             <p class="text-body-1 text-sm-h6 text-md-h5">${{ formatMoney(profile?.totalBalance || 0) }}</p>
@@ -17,7 +18,6 @@
               the
               address provided on the payment page
             </p>
-
             <div class="d-flex">
               <v-hover>
                 <template v-slot:default="{ isHovering, props }">
@@ -116,7 +116,8 @@
                   <p class="text-caption">
                     Add funds to your signals wallet to access premium trading insights.
                     Ensure your balance is sufficient before proceeding. The minimum deposit is <strong>$5</strong>.
-                    Funds are credited instantly, but in rare cases, processing may take up to <strong>5 minutes</strong>.
+                    Funds are credited instantly, but in rare cases, processing may take up to <strong>5
+                    minutes</strong>.
                     Deposits are non-refundable, so please verify the amount before confirming your transaction.
                   </p>
                 </v-card-text>
@@ -171,7 +172,8 @@
           <p class="text-caption">{{ address.wallet }}</p>
 
           <v-btn @click="copyToClipboard(address.wallet)" prepend-icon="mdi-content-copy" rounded-lg
-                 color="indigo-accent-4" class="text-caption text-sm-body-2">
+                 color="indigo-accent-4" class="text-caption text-sm-body-2"
+          >
             Copy Address
           </v-btn>
         </v-sheet>
@@ -255,8 +257,6 @@ const loading = vueRef(false)
 
 const trading = vueRef('')
 const signals = vueRef('')
-const mining = vueRef('')
-const staking = vueRef('')
 
 
 const formatMoney = (amount, currency = 'USD') => {

@@ -108,24 +108,10 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useCopyTradeStore } from '@/stores/user/copyTrade'
-import { useProfileStore } from '@/stores/user/profile'
-
-const {copyTraders} = useCopyTradeStore()
-const profileStore = useProfileStore()
 
 
 const investment = ref([]);
 const total = ref([]);
-
-const gradients = [
-  ['#222'],
-  ['#42b3f4'],
-  ['red', 'orange', 'yellow'],
-  ['purple', 'violet'],
-  ['#00c6ff', '#F0F', '#FF0'],
-  ['#f72047', '#ffd200', '#1feaea'],
-];
 
 // Function to generate random values
 const generateRandomInvestment = () => {

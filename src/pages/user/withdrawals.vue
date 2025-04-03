@@ -132,7 +132,7 @@
                   v-model="country"
                   variant="outlined"
                   density="compact"
-                  label="Phone Number"
+                  label="Country"
                   :items="countries"
                   hide-details
                   rounded="lg"

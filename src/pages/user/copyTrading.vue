@@ -3,10 +3,12 @@
     <v-row>
       <v-col v-for="(trader, index) in copyTraders" :key="index" cols="12" sm="6" md="4" lg="3">
         <v-card rounded="xl" height="470">
-          <v-img :src="trader.image" lazy-src="@/assets/images/avatar.png" height="100%" cover>
+          <v-img :src="trader.displayImage?.image" lazy-src="@/assets/images/avatar.png" height="100%" cover>
             <div class="glass rounded-xl d-flex flex-column align-center justify-center text-center px-10">
               <v-avatar size="150">
-                <v-img :src="trader.image" lazy-src="@/assets/images/avatar.png" aspect-ratio="1" position="center"/>
+                <v-img :src="trader.displayImage?.image" lazy-src="@/assets/images/avatar.png" aspect-ratio="1"
+                       position="center"
+                />
               </v-avatar>
 
               <p class="text-center text-body-1 text-sm-h6 text-md-h5 mt-5">
@@ -20,7 +22,7 @@
                 variant="flat"
                 size="large"
                 class="font-weight-light text-body-2 text-sm-body-1 mt-2"
-                @click="isCopied(index) ? stopCopyingThisTrader(trader, index) : copyThisTrader(trader, index)"
+                @click="isCopied(index) ? stopCopyingThisTrader(trader) : copyThisTrader(trader, index)"
               >
                 {{ isCopied(index) ? 'STOP COPYING' : 'COPY TRADER' }}
               </v-btn>
@@ -44,18 +46,37 @@
 </template>
 
 <script setup lang="ts">
-import {useCopyTradeStore} from '@/stores/user/copyTrade'
 import {useAppStore} from '@/stores/app'
 import {useProfileStore} from '@/stores/user/profile'
-import {setDoc, deleteDoc, doc, updateDoc, arrayUnion, arrayRemove, serverTimestamp} from 'firebase/firestore'
+import {setDoc, deleteDoc, doc, updateDoc, arrayRemove, serverTimestamp} from 'firebase/firestore'
 import {auth, db} from '@/firebase'
+import {onMounted, ref} from "vue";
+import {collection, query, orderBy, onSnapshot} from "firebase/firestore";
+import {useCopyTradeStore} from '@/stores/user/copyTrade'
+import {storeToRefs} from 'pinia'
 
-const {copyTraders} = useCopyTradeStore()
 const {snackbarObject} = useAppStore()
 const profileStore = useProfileStore()
+const copyTradersStore = useCopyTradeStore()
+
+const { copyTraders } = storeToRefs(copyTradersStore)
+
+onMounted(() => {
+  fetCopytraders()
+})
+
+const fetCopytraders = async () => {
+  const q = query(collection(db, "leadway_copy_traders"), orderBy("timestamp", "asc"));
+
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    copyTraders.value = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+  });
+
+  return unsubscribe;
+}
 
 const isCopied = (index) => {
-  return profileStore.profile?.tradersCopied?.includes(index)
+  return profileStore.profile?.tradersCopied === index;
 }
 
 const copyThisTrader = async (trader, index) => {
@@ -70,7 +91,7 @@ const copyThisTrader = async (trader, index) => {
   })
 
   await updateDoc(doc(db, 'leadway_users', uid), {
-    tradersCopied: arrayUnion(index)
+    tradersCopied: index
   })
 
   snackbarObject.show = true
@@ -78,16 +99,16 @@ const copyThisTrader = async (trader, index) => {
   snackbarObject.color = 'green'
 
   // Force reactivity update
-  profileStore.profile.tradersCopied.push(index)
+  profileStore.profile.tradersCopied = index
 }
 
-const stopCopyingThisTrader = async (trader, index) => {
+const stopCopyingThisTrader = async (trader) => {
   const {uid} = auth.currentUser
 
   await deleteDoc(doc(db, 'leadway_users', uid, 'copy traders', trader.name))
 
   await updateDoc(doc(db, 'leadway_users', uid), {
-    tradersCopied: arrayRemove(index)
+    tradersCopied: null
   })
 
   snackbarObject.show = true

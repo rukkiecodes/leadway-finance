@@ -3,7 +3,9 @@
     <template v-slot:prepend>
       <v-sheet class="d-flex flex-column justify-center align-center ga-5" dark :height="250">
         <v-avatar :size="100">
-          <v-img :src="profile?.displayImage?.image || '@/assets/images/avatar.png'" lazy-src="@/assets/images/avatar.png"/>
+          <v-img :src="profile?.displayImage?.image || '@/assets/images/avatar.png'"
+                 lazy-src="@/assets/images/avatar.png"
+          />
         </v-avatar>
 
         <span class="text-body-2 text-sm-body-1 text-md-h6 font-weight-black">{{
@@ -13,6 +15,18 @@
     </template>
 
     <v-list :items="routes" density="compact" color="indigo-accent-4" nav/>
+
+    <v-expansion-panels elevation="0" density="compact">
+      <v-expansion-panel>
+        <v-expansion-panel-title>
+          Live Analytics
+        </v-expansion-panel-title>
+
+        <v-expansion-panel-text>
+          <v-list :items="liveAnalytics" density="compact" color="indigo-accent-4" nav/>
+        </v-expansion-panel-text>
+      </v-expansion-panel>
+    </v-expansion-panels>
 
     <template v-slot:append>
       <v-sheet class="pa-2">
@@ -66,128 +80,94 @@ const {profile} = storeToRefs(profileStore);
 
 const routes = [
   {
-    value: 'overview',
+    title: 'Home',
     props: {
       to: '/app/overview',
       prependIcon: 'mdi-home',
-      title: 'Home',
       class: 'rounded-lg',
     }
   },
   {
-    value: 'copyTrading',
+    title: 'Copy trading',
     props: {
       to: '/app/copyTrading',
       prependIcon: 'mdi-file-tree',
-      title: 'Copy trading',
       class: 'rounded-lg',
     }
   },
   {
-    value: 'deposit',
+    title: 'Deposit',
     props: {
       to: '/app/plans',
       prependIcon: 'mdi-currency-usd',
-      title: 'Deposit',
       class: 'rounded-lg',
     }
   },
   {
-    value: 'history',
+    title: 'History',
     props: {
       to: '/app/history',
       prependIcon: 'mdi-swap-horizontal',
-      title: 'History',
       class: 'rounded-lg',
     }
   },
   {
+    title: 'Transactions',
     value: 'transactions',
     props: {
       to: '/app/transactions',
       prependIcon: 'mdi-swap-horizontal',
-      title: 'Transactions',
       class: 'rounded-lg',
     }
   },
-  // {
-  //   value: 'mining',
-  //   props: {
-  //     to: '/app/mining',
-  //     prependIcon: 'mdi-server-network',
-  //     title: 'Mining',
-  //     class: 'rounded-lg',
-  //   }
-  // },
-  // {
-  //   value: 'trading',
-  //   props: {
-  //     to: '/app/trading',
-  //     prependIcon: 'mdi-poll',
-  //     title: 'Trading',
-  //     class: 'rounded-lg',
-  //   }
-  // },
-  // {
-  //   value: 'holding',
-  //   props: {
-  //     to: '/app/holding',
-  //     prependIcon: 'mdi-wallet',
-  //     title: 'Holding',
-  //     class: 'rounded-lg',
-  //   }
-  // },
-  // {
-  //   value: 'staking',
-  //   props: {
-  //     to: '/app/staking',
-  //     prependIcon: 'mdi-wallet-membership',
-  //     title: 'Staking',
-  //     class: 'rounded-lg',
-  //   }
-  // },
-  // {
-  //   value: 'deposits',
-  //   props: {
-  //     to: '/app/deposits',
-  //     prependIcon: 'mdi-bank-plus',
-  //     title: 'Deposits',
-  //     class: 'rounded-lg',
-  //   }
-  // },
   {
-    value: 'withdrawals',
+    title: 'Withdrawals',
     props: {
       to: '/app/withdrawals',
       prependIcon: 'mdi-cash-register',
-      title: 'Withdrawals',
       class: 'rounded-lg',
     }
   },
   {
-    value: 'news',
+    title: 'News',
     props: {
       to: '/app/news',
       prependIcon: 'mdi-newspaper-variant-multiple-outline',
-      title: 'News',
       class: 'rounded-lg',
     }
   },
   {
-    value: 'support',
+    title: 'Support',
     props: {
       to: '/app/support',
       prependIcon: 'mdi-wechat',
-      title: 'Support',
       class: 'rounded-lg',
     }
   },
   {
-    value: 'profile',
+    title: 'My Account',
     props: {
       to: '/app/profile',
       prependIcon: 'mdi-account',
-      title: 'My Account',
+      class: 'rounded-lg',
+    }
+  },
+]
+
+const liveAnalytics = [
+  {
+    title: 'Technical Analysis',
+    props: {
+      to: '/app/technical',
+      prependIcon: 'mdi-google-analytics',
+      class: 'rounded-lg',
+    }
+  },
+  {
+    title: 'Live Market Chart',
+    props: {
+      to: '/app/chart',
+      prependIcon: 'mdi-finance',
       class: 'rounded-lg',
     }
   },

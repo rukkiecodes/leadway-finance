@@ -46,13 +46,13 @@ const faqs = [
     image: information,
     subContent: [
       {
-        title: 'WHAT IS MexbitCapital?',
-        text: `MexbitCapital - Professional team of cryptocurrency industry developers. The main advantage
+        title: 'WHAT IS Leadway Finance?',
+        text: `Leadway Finance - Professional team of cryptocurrency industry developers. The main advantage
                 of the company is a unique trading bot that makes a profit at the stage of growth and market
                 decline.`
       },
       {
-        title: 'IS MexbitCapital the OFFICIALLY REGISTERED COMPANY?',
+        title: 'IS Leadway Finance the OFFICIALLY REGISTERED COMPANY?',
         text: `Yes, we are legally binding and officially registered in Malta under the company
                             registration number #ut8935ungbiou5ob45oo3`
       },
@@ -83,7 +83,7 @@ const faqs = [
       },
       {
         title: 'CAN I REGISTER MY CHILD?',
-        text: `Any person who has reached the age of majority in their country of residence can register in MexbitCapital`
+        text: `Any person who has reached the age of majority in their country of residence can register in Leadway Finance`
       },
       {
         title: 'CAN I LOSE MY FUNDS BY INVESTING IN YOUR COMPANY?',
@@ -112,7 +112,7 @@ const faqs = [
         text: `
         3 steps to get started with our company\n
         1. REGISTRATION BUTTON\n
-        Click the Register button. Enter your details to quickly create a FREE MexbitCapital account.\n
+        Click the Register button. Enter your details to quickly create a FREE Leadway Finance account.\n
         2. OPEN A DEPOSIT\n
         We offer different investment plans. You need to choose a plan that suits your financial goals. Make a deposit after reading.\n
         3. START EARNING\n
@@ -127,7 +127,7 @@ const faqs = [
     image: coin2,
     subContent: [
       {
-        title: 'WHAT WAYS TO OBTAIN INCOME IN MexbitCapital ARE?',
+        title: 'WHAT WAYS TO OBTAIN INCOME IN Leadway Finance ARE?',
         text: `Users have the opportunity to earn in two ways: by opening a deposit for the chosen
                             investment plan, as well as by receiving partner rewards for attracting new members.`
       }
@@ -199,10 +199,10 @@ const faqs = [
       },
       {
         title: 'HOW DOES THE AFFILIATE PROGRAM WORK?',
-        text: `MexbitCapital offers a unique investment and referral program that rewards you not only for
+        text: `Leadway Finance offers a unique investment and referral program that rewards you not only for
                             partners who came from you to the platform, but also for partners from levels 2,3 and 4.
                             This unique affiliate program brings you passive referral income. First, you earn by
-                            inviting friends to MexbitCapital, and then you earn when people in your structure refer new
+                            inviting friends to Leadway Finance, and then you earn when people in your structure refer new
                             investors to the company. Affiliate system level: 7% - 3% - 2% - 1%`
       },
       {
@@ -210,7 +210,7 @@ const faqs = [
         text: `You do not need to apply for participation, own an industry web resource with a large
                             audience of investors or meet other abstract requirements to participate in the referral
                             program. We assign each user a unique referral link immediately after registration, which
-                            you can already use to attract other investors, simply by inviting them to the MexbitCapital website using the referral link.`
+                            you can already use to attract other investors, simply by inviting them to the Leadway Finance website using the referral link.`
       },
       {
         title: `DO YOU PROVIDE ADVERTISING MATERIALS?`,
@@ -239,7 +239,7 @@ const faqs = [
         title: `WHAT TO DO IF I FORGOT MY PASSWORD?`,
         text: `Click on the reset password link on the main page of the site in the login section. Enter
                             your username and email address and follow the instructions. You will receive information on
-                            how to reset your MexbitCapital account password.`
+                            how to reset your Leadway Finance account password.`
       }
     ]
   },

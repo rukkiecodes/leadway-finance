@@ -1,19 +1,19 @@
 <template>
-  <v-sheet color="transparent" rounded="0" height="100vh" class="gradient mt-n1 mb-n16">
+  <v-card color="transparent" rounded="0" height="100vh" class="gradient mt-n1 mb-n16">
     <v-container class="d-flex flex-column justify-center align-center" style="height: 100%">
       <v-card class="mb-10 pt-16 mx-auto" width="450" max-width="100%" color="transparent" flat>
-        <v-card-title class="text-center text-body-1 text-sm-h6 text-md-h5">BEST MexbitCapital TRADERS</v-card-title>
+        <v-card-title class="text-center text-body-1 text-sm-h6 text-md-h5">BEST Leadway Finance TRADERS</v-card-title>
         <v-card-text class="text-center text-caption text-sm-body-2">
           The best cryptocurrency developers works in our company. They have a wealth of experience and
-          understanding of the crypto market behind them. They brought MexbitCapital to the world level of
+          understanding of the crypto market behind them. They brought Leadway Finance to the world level of
           development
         </v-card-text>
       </v-card>
 
-      <v-sheet
+      <v-card
         class="mx-auto"
         elevation="0"
-        max-width="1200"
+        max-width="100vw"
         color="transparent"
       >
         <v-slide-group
@@ -21,7 +21,7 @@
           :show-arrow="false"
         >
           <v-slide-group-item>
-            <v-card width="400" class="gradient2 card my-16 mx-5" rounded="xl" elevation="10" flat>
+            <v-card width="350" class="gradient2 card my-16 mx-5" rounded="xl" elevation="10" flat>
               <v-sheet width="100" height="100" class="d-flex justify-center align-center pa-5 head-sheet"
                        rounded="xl"
                        color="teal-accent-4" elevation="10">
@@ -33,7 +33,7 @@
               <v-card height="300" class="d-flex flex-column justify-center align-center px-10" color="transparent">
                 <p class="text-center text-body-1 text-sm-h6">UNIQUE TRADE BOT</p>
                 <p class="text-center text-caption text-sm-body-2">
-                  MexbitCapital team of professionals has created a unique trading robot that makes profit at any
+                  Leadway Finance team of professionals has created a unique trading robot that makes profit at any
                   stage of the market: rise or fall
                 </p>
               </v-card>
@@ -41,7 +41,7 @@
           </v-slide-group-item>
 
           <v-slide-group-item>
-            <v-card width="400" class="gradient2 card my-16 mx-5" rounded="xl" elevation="10" flat>
+            <v-card width="350" class="gradient2 card my-16 mx-5" rounded="xl" elevation="10" flat>
               <v-sheet width="100" height="100" class="d-flex justify-center align-center pa-5 head-sheet"
                        rounded="xl"
                        color="teal-accent-4" elevation="10">
@@ -60,7 +60,7 @@
           </v-slide-group-item>
 
           <v-slide-group-item>
-            <v-card width="400" class="gradient2 card my-16 mx-5" rounded="xl" elevation="10" flat>
+            <v-card width="350" class="gradient2 card my-16 mx-5" rounded="xl" elevation="10" flat>
               <v-sheet width="100" height="100" class="d-flex justify-center align-center pa-5 head-sheet"
                        rounded="xl"
                        color="teal-accent-4" elevation="10">
@@ -72,14 +72,14 @@
               <v-card height="300" class="d-flex flex-column justify-center align-center px-10" color="transparent">
                 <p class="text-center text-body-1 text-sm-h6">THE EXPERTS WILL DO EVERYTHING FOR YOU</p>
                 <p class="text-center text-caption text-sm-body-2">
-                  The highly professional MexbitCapital team controls all the processes of the trading robot around
+                  The highly professional Leadway Finance team controls all the processes of the trading robot around
                   the clock. After investing, you will observe the growth of your capital in real time
                 </p>
               </v-card>
             </v-card>
           </v-slide-group-item>
         </v-slide-group>
-      </v-sheet>
+      </v-card>
 
       <v-btn
         rounded="xl"
@@ -93,7 +93,7 @@
         INVEST WITH US AND GET STABLE INCOME
       </v-btn>
     </v-container>
-  </v-sheet>
+  </v-card>
 </template>
 
 <script setup>

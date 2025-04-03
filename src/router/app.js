@@ -47,11 +47,6 @@ export default {
       ],
     },
     {
-      path: "deposits",
-      name: "deposits",
-      component: () => import("@/pages/user/deposits.vue"),
-    },
-    {
       path: "profile",
       name: "profile_page",
       component: () => import("@/layouts/user/account.vue"),
@@ -113,6 +108,16 @@ export default {
       path: "copyTrading",
       name: "user_copyTrading_page",
       component: () => import("@/pages/user/copyTrading.vue"),
+    },
+    {
+      path: "technical",
+      name: "user_technical",
+      component: () => import("@/pages/user/technical.vue"),
+    },
+    {
+      path: "chart",
+      name: "user_chart",
+      component: () => import("@/pages/user/chart.vue"),
     },
   ],
 }

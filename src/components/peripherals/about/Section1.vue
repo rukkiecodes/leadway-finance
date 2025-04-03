@@ -44,7 +44,7 @@
             <v-row class="pt-5 pt-sm-16">
               <v-col cols="12" class="d-flex flex-column justify-center align-sm-center">
                 <p class="text-body-2 text-sm-body-1 text-md-h6 text-lg-h5 font-weight-light">
-                  MexbitCapital- PROFESSIONAL TEAM
+                  Leadway Finance- PROFESSIONAL TEAM
                 </p>
                 <p class="text-body-2 text-sm-body-1 text-md-h6 text-lg-h5 font-weight-light">
                   CRYPTO INDUSTRY DEVELOPERS
@@ -59,9 +59,9 @@
 
                   <v-col cols="12" sm="5">
                     <p class="text-caption text-sm-body-2 text-md-body-1">
-                      Our company has been developing stable cryptocurrency for years. Today MexbitCapital employees are
+                      Our company has been developing stable cryptocurrency for years. Today Leadway Finance employees are
                       leaders in the field of IT technologies. They have created a unique robot that generates daily
-                      profit and guesses the steps of the Bitcoin value. That is why the MexbitCapital robot is able to
+                      profit and guesses the steps of the Bitcoin value. That is why the Leadway Finance robot is able to
                       benefit at any stage of the market: both growth and decline. This development is unique in that it
                       is the first
                     </p>

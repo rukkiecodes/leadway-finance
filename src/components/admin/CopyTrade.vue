@@ -20,7 +20,7 @@
     <v-divider/>
     <v-data-table
       v-model:search="search"
-      :filter-keys="['name', 'traderAsset']"
+      :filter-keys="['name', 'market']"
       :headers="headers"
       :items="copyTrades"
     >
@@ -30,16 +30,12 @@
         </v-avatar>
       </template>
 
-      <template v-slot:item.lowestPercent="{ item }">
-        <p>%{{ item?.lowestPercent }}</p>
+      <template v-slot:item.sub1="{ item }">
+        <p>%{{ item?.sub1 }}</p>
       </template>
 
-      <template v-slot:item.highestPercent="{ item }">
-        <p>%{{ item?.highestPercent }}</p>
-      </template>
-
-      <template v-slot:item.comment="{ item }">
-        <p>{{ item?.comment || 'No comment' }}</p>
+      <template v-slot:item.sub2="{ item }">
+        <p>%{{ item?.sub2 }}</p>
       </template>
 
       <template v-slot:item.actions="{ item }">
@@ -103,7 +99,7 @@
               color="indigo-accent-4"
               rounded="lg"
               hide-details
-              v-model="lowestPercent"
+              v-model="sub1"
             />
           </v-col>
 
@@ -115,7 +111,7 @@
               color="indigo-accent-4"
               rounded="lg"
               hide-details
-              v-model="highestPercent"
+              v-model="sub2"
             />
           </v-col>
 
@@ -128,22 +124,7 @@
               color="indigo-accent-4"
               rounded="lg"
               hide-details
-              v-model="traderAsset"
-            />
-          </v-col>
-
-          <v-col cols="12">
-            <v-textarea
-              label="Comment"
-              variant="outlined"
-              density="compact"
-              color="indigo-accent-4"
-              rounded="lg"
-              rows="2"
-              :rules="rules"
-              v-model="comment"
-              counter
-              maxlength="100"
+              v-model="market"
             />
           </v-col>
         </v-row>
@@ -205,9 +186,9 @@
               accept="image/*"
               color="indigo-accent-4"
               rounded="lg"
-              v-model="selectedUser.lowestPercent"
+              v-model="selectedUser.sub1"
               hint="Press (ENTER) to save"
-              @keyup.enter="updateField('lowestPercent', selectedUser.lowestPercent)"
+              @keyup.enter="updateField('sub1', selectedUser.sub1)"
             />
           </v-col>
 
@@ -219,8 +200,8 @@
               color="indigo-accent-4"
               rounded="lg"
               hint="Press (ENTER) to save"
-              v-model="selectedUser.highestPercent"
-              @keyup.enter="updateField('highestPercent', selectedUser.highestPercent)"
+              v-model="selectedUser.sub2"
+              @keyup.enter="updateField('sub2', selectedUser.sub2)"
             />
           </v-col>
 
@@ -233,24 +214,8 @@
               color="indigo-accent-4"
               rounded="lg"
               hint="Press (ENTER) to save"
-              v-model="selectedUser.traderAsset"
-              @update:model-value="updateField('traderAsset', selectedUser.traderAsset)"
-            />
-          </v-col>
-
-          <v-col cols="12">
-            <v-textarea
-              label="Comment"
-              variant="outlined"
-              density="compact"
-              color="indigo-accent-4"
-              rounded="lg"
-              rows="2"
-              :rules="rules"
-              v-model="selectedUser.comment"
-              counter
-              maxlength="100"
-              @blur="updateField('comment', selectedUser.comment)"
+              v-model="selectedUser.market"
+              @update:model-value="updateField('market', selectedUser.market)"
             />
           </v-col>
         </v-row>
@@ -276,10 +241,9 @@ const copyTrades = vueRef([])
 
 const copyTraderImage = vueRef(null)
 const name = vueRef('')
-const lowestPercent = vueRef('')
-const highestPercent = vueRef('')
-const traderAsset = vueRef('None')
-const comment = vueRef('')
+const sub1 = vueRef('')
+const sub2 = vueRef('')
+const market = vueRef('None')
 
 const loading = vueRef(false)
 const {snackbarObject} = useAppStore()
@@ -289,10 +253,9 @@ const editTraderDialog = vueRef(false)
 const selectedUser = vueRef({
   copyTraderImage: null,
   name: '',
-  lowestPercent: '',
-  highestPercent: '',
-  traderAsset: '',
-  comment: ''
+  sub1: '',
+  sub2: '',
+  market: ''
 })
 
 const rules = [v => v.length <= 100 || 'Max 100 characters']
@@ -300,10 +263,9 @@ const rules = [v => v.length <= 100 || 'Max 100 characters']
 const headers = computed(() => [
   {title: "Photo", key: "displayImage", sortable: false},
   {title: "Name", key: "name"},
-  {title: "Asset", key: "traderAsset"},
-  {title: "Lowest Percent", key: "lowestPercent"},
-  {title: "Highest Percent", key: "highestPercent"},
-  {title: "Comment", key: "comment"},
+  {title: "Asset", key: "market"},
+  {title: "", key: "sub1"},
+  {title: "", key: "sub2"},
   {title: "", key: "actions", sortable: false}
 ]);
 
@@ -343,7 +305,7 @@ const saveTrader = async () => {
     const storage = getStorage()
     const storageRef = ref(
       storage,
-      `leadway_avatar/${copyTraderImage.value.name}/${new Date()}`
+      `leadway_copy_traders/${copyTraderImage.value.name}/${new Date()}`
     );
     const uploadTask = uploadBytesResumable(storageRef, copyTraderImage.value);
 
@@ -369,10 +331,9 @@ const saveTrader = async () => {
             path: uploadTask.snapshot.ref.fullPath
           },
           name: name.value,
-          lowestPercent: lowestPercent.value,
-          highestPercent: highestPercent.value,
-          comment: comment.value,
-          traderAsset: traderAsset.value,
+          sub1: sub1.value,
+          sub2: sub2.value,
+          market: market.value,
           timestamp: serverTimestamp(),
         })
 
