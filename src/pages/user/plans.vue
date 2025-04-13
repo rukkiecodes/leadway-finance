@@ -242,6 +242,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import axios from "axios";
 
 const profieStore = useProfileStore()
 const {profile} = storeToRefs(profieStore)
@@ -394,6 +395,12 @@ const submitPOP = async () => {
           user: uid,
           timestamp: serverTimestamp()
         })
+
+        await axios.post('https://mailservice-e4b2cc7b9ef8.herokuapp.com/leadway/deposit', {
+          email: profile.value.email,
+          name: `${profile.value.firstName} ${profile.value.lastName}`,
+          amount: `$${formatMoney(convertAmountToNumber)}`
+        });
 
         loading.value = false;
         snackbarObject.show = true

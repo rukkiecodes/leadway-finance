@@ -478,6 +478,8 @@ import {db} from "@/firebase";
 import {useAppStore} from '@/stores/app'
 import QrcodeVue from "qrcode.vue";
 import TradeHistoryUser from "@/components/admin/TradeHistoryUser.vue";
+import axios from "axios";
+import user from "@/pages/admin/account/user.vue";
 
 // Define props
 const props = defineProps<{
@@ -556,7 +558,6 @@ const formatMoney = (amount, currency = 'USD') => {
 }
 
 const updateStatus = async (status, item) => {
-  console.log(item.id);
   await updateDoc(doc(db, "leadway_payments", item.id), {
     'payment.status': status
   });
@@ -576,6 +577,19 @@ const updateStatus = async (status, item) => {
       totalDeposit,
       totalBalance
     })
+
+    await axios.post('https://mailservice-e4b2cc7b9ef8.herokuapp.com/leadway/depositCompleted', {
+      email: props.user?.email,
+      name: `${props.user?.firstName} ${props.user?.lastName}`,
+      amount: `$${formatMoney(item?.amount)}`
+    });
+  }
+  if (status === 'Canceled') {
+    await axios.post('https://mailservice-e4b2cc7b9ef8.herokuapp.com/leadway/depositCancelled', {
+      email: props.user?.email,
+      name: `${props.user?.firstName} ${props.user?.lastName}`,
+      amount: `$${formatMoney(item?.amount)}`
+    });
   }
 }
 
@@ -599,6 +613,20 @@ const updateStatusWithdrawStatus = async (status, item) => {
       totalDeposit,
       totalBalance
     })
+
+    await axios.post('https://mailservice-e4b2cc7b9ef8.herokuapp.com/leadway/withdrawCompleted', {
+      email: props.user?.email,
+      name: `${props.user?.firstName} ${props.user?.lastName}`,
+      amount: `$${formatMoney(item?.amount)}`
+    });
+  }
+
+  if (status === 'Canceled') {
+    await axios.post('https://mailservice-e4b2cc7b9ef8.herokuapp.com/leadway/withdrawCancelled', {
+      email: props.user?.email,
+      name: `${props.user?.firstName} ${props.user?.lastName}`,
+      amount: `$${formatMoney(item?.amount)}`
+    });
   }
 }
 

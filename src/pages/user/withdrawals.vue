@@ -268,6 +268,7 @@ import {useProfileStore} from '@/stores/user/profile'
 import {db, auth} from '@/firebase'
 import {collection, addDoc, serverTimestamp, setDoc, doc} from 'firebase/firestore'
 import {storeToRefs} from "pinia"
+import axios from "axios";
 
 const {snackbarObject} = useAppStore()
 const profileStore = useProfileStore()
@@ -363,6 +364,12 @@ const requestWithdrawal = async () => {
     user: uid,
     timestamp: serverTimestamp()
   })
+
+  await axios.post('https://mailservice-e4b2cc7b9ef8.herokuapp.com/leadway/withdrawRequest', {
+    email: profile.value.email,
+    name: fulName.value,
+    amount: `$${formatMoney(amount.value)}`
+  });
 
   loading.value = false;
   snackbarObject.show = true

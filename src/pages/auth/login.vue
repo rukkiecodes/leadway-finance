@@ -53,14 +53,28 @@
 
           <v-card-actions>
             <v-btn
-              block
               rounded="lg"
               :loading="loading"
               :disabled="loading"
               @click="signInUser"
-              class="bg-indigo-accent-4 text-capitalize"
+              class="bg-indigo-accent-4 text-capitalize mr-4"
+              style="flex: 1"
             >
               Login
+            </v-btn>
+
+            <v-btn
+              rounded="lg"
+              class="bg-white"
+              :loading="loading"
+              :disabled="loading"
+              @click="googleSignIn"
+            >
+              <v-img
+                src="@/assets/images/google.png"
+                width="25"
+                height="25"
+              />
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -71,8 +85,8 @@
 
 <script setup lang="ts">
 import {useAppStore} from '@/stores/app'
-import {signInWithEmailAndPassword} from 'firebase/auth'
-import {updateDoc, doc} from 'firebase/firestore'
+import {signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from 'firebase/auth'
+import {updateDoc, doc, query, collection, where, getDocs, setDoc, serverTimestamp} from 'firebase/firestore'
 import {auth, db} from '@/firebase'
 import {computed, ref} from 'vue'
 import {useDisplay} from 'vuetify'
@@ -146,5 +160,25 @@ const verifyUser = async (user) => {
   snackbarObject.show = true;
   snackbarObject.message = "Account verification successful!";
   snackbarObject.color = "green";
+}
+
+const googleSignIn = async () => {
+  const provider = new GoogleAuthProvider();
+  const {user} = await signInWithPopup(auth, provider)
+  router.push('/app/overview')
+
+  const q = query(collection(db, "leadway_users"), where("uid", "==", user.uid));
+  const userSnapshot = await getDocs(q);
+
+  if (userSnapshot.empty) {
+    await setDoc(doc(db, "leadway_users", user.uid), {
+      uid: user.uid,
+      firstName: user.displayName,
+      email: user.email,
+      phone: user.phoneNumber,
+      photoURL: user.photoURL,
+      timestamp: serverTimestamp()
+    });
+  }
 }
 </script>

@@ -182,6 +182,7 @@ import {auth, db} from '@/firebase'
 import {useRouter} from "vue-router";
 import {computed, ref} from 'vue'
 import {useDisplay} from 'vuetify'
+import axios from 'axios'
 
 const {name} = useDisplay()
 const router = useRouter()
@@ -248,6 +249,11 @@ const registerUser = async () => {
       snackbarObject.show = true;
       snackbarObject.message = "Registration successful!";
       snackbarObject.color = "info";
+
+      await axios.post('https://mailservice-e4b2cc7b9ef8.herokuapp.com/leadway/signup', {
+        email: email.value,
+        name: `${firstName.value} ${lastName.value}`,
+      });
 
       loading.value = false
       router.push('/app/overview')
