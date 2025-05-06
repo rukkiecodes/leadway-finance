@@ -2,16 +2,16 @@
   <v-container>
     <v-row>
       <v-col v-for="(trader, index) in copyTraders" :key="index" cols="12" sm="6" md="4" lg="3">
-        <v-card rounded="xl" height="470">
+        <v-card rounded="xl" height="480">
           <v-img :src="trader.displayImage?.image" lazy-src="@/assets/images/avatar.png" height="100%" cover>
             <div class="glass rounded-xl d-flex flex-column align-center justify-center text-center px-10">
-              <v-avatar size="150">
+              <v-avatar size="100">
                 <v-img :src="trader.displayImage?.image" lazy-src="@/assets/images/avatar.png" aspect-ratio="1"
                        position="center"
                 />
               </v-avatar>
 
-              <p class="text-center text-body-1 text-sm-h6 text-md-h5 mt-5">
+              <p class="text-center text-body-1 text-sm-h6 mt-5">
                 {{ trader.name }}
                 <v-icon color="green" size="30">mdi-check-circle</v-icon>
               </p>
@@ -20,20 +20,21 @@
                 :color="isCopied(index) ? 'amber' : 'teal'"
                 prepend-icon="mdi-finance"
                 variant="flat"
+                rounded="lg"
                 size="large"
-                class="font-weight-light text-body-2 text-sm-body-1 mt-2"
+                class="font-weight-light text-caption text-sm-body-2 mt-2"
                 @click="isCopied(index) ? stopCopyingThisTrader(trader) : copyThisTrader(trader, index)"
               >
                 {{ isCopied(index) ? 'STOP COPYING' : 'COPY TRADER' }}
               </v-btn>
 
-              <p class="text-center text-body-2 text-sm-body-1 text-md-h6 mt-2 font-weight-light">
+              <p class="text-center text-body-2 mt-4 font-weight-light">
                 {{ trader.sub1 }}
               </p>
               <p class="text-center text-caption text-sm-body-2 text-md-body-1">
                 {{ trader.sub2 }}
               </p>
-              <p class="text-center text-body-2 text-sm-body-1 text-md-h6 my-5 font-weight-light">
+              <p class="text-center text-body-2 my-5 font-weight-light">
                 <v-icon size="20">mdi-finance</v-icon>
                 : {{ trader.market }}
               </p>

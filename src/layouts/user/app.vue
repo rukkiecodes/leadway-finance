@@ -2,6 +2,7 @@
   <AppBar v-if="!switchAccount"/>
   <LeftDrawer v-if="!switchAccount"/>
   <RightDrawer v-if="!switchAccount"/>
+  <BottomNavigation v-if="!switchAccount"/>
 
   <v-app>
     <v-main>
@@ -33,6 +34,7 @@ import AppBar from "@/components/appComponents/AppBar.vue";
 import LeftDrawer from "@/components/appComponents/LeftDrawer.vue";
 import RightDrawer from "@/components/appComponents/RightDrawer.vue";
 import {storeToRefs} from 'pinia';
+import BottomNavigation from "@/components/appComponents/BottomNavigation.vue";
 
 const profileStore = useProfileStore();
 const appStore = useAppStore();
