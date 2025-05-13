@@ -59,6 +59,24 @@ export default {
       component: () => import('@/pages/admin/settings.vue'),
     },
     {
+      path: "tradeGenerator",
+      name: 'admin_tradeGenerator',
+      component: () => import('@/layouts/admin/tradeGenerator.vue'),
+
+      children: [
+        {
+          path: "",
+          name: 'admin_tradeGenerator_overview',
+          component: () => import('@/pages/admin/tradeGenerator/overview.vue')
+        },
+        {
+          path: "generator",
+          name: 'admin_tradeGenerator_generator',
+          component: () => import('@/pages/admin/tradeGenerator/generator.vue')
+        }
+      ]
+    },
+    {
       path: "account",
       name: "admin_account",
       component: () => import("@/layouts/admin/account.vue"),

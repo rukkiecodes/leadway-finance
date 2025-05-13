@@ -46,107 +46,6 @@
     </v-data-table>
   </v-card>
 
-  <v-btn
-    @click="addTraderDialog = true"
-    position="fixed"
-    location="bottom right"
-    class="ma-5 text-caption text-sm-body-2 text-md-body-1"
-    variant="flat"
-    color="indigo-accent-4"
-    prepend-icon="mdi-plus"
-    rounded
-  >
-    Add Copy Trader
-  </v-btn>
-
-<!--  Add Trader Dialog Start-->
-  <v-dialog v-model="addTraderDialog" max-width="500">
-    <v-card title="Add Copy Trader" :loading="loading" :disabled="loading" rounded="lg">
-      <v-card-text>
-        <v-row>
-          <v-col cols="12">
-            <v-file-input
-              label="Copy Trader Image"
-              @change="selectCopyTraderImage"
-              variant="outlined"
-              density="compact"
-              accept="image/*"
-              color="indigo-accent-4"
-              rounded="lg"
-              hide-details
-            />
-          </v-col>
-
-          <v-col cols="12">
-            <v-text-field
-              label="Copy Trader Name"
-              variant="outlined"
-              density="compact"
-              accept="image/*"
-              color="indigo-accent-4"
-              rounded="lg"
-              hide-details
-              v-model="name"
-            />
-          </v-col>
-
-          <v-col cols="6">
-            <v-text-field
-              label="Lowest percent"
-              variant="outlined"
-              density="compact"
-              accept="image/*"
-              color="indigo-accent-4"
-              rounded="lg"
-              hide-details
-              v-model="sub1"
-            />
-          </v-col>
-
-          <v-col cols="6">
-            <v-text-field
-              label="Highest percent"
-              variant="outlined"
-              density="compact"
-              color="indigo-accent-4"
-              rounded="lg"
-              hide-details
-              v-model="sub2"
-            />
-          </v-col>
-
-          <v-col cols="12">
-            <v-select
-              label="Select trader assets"
-              :items="['Forex', 'Stock', 'Crypto Currency', 'Commodities', 'Mining', 'Indices', 'Bonds', 'Random']"
-              variant="outlined"
-              density="compact"
-              color="indigo-accent-4"
-              rounded="lg"
-              hide-details
-              v-model="market"
-            />
-          </v-col>
-        </v-row>
-      </v-card-text>
-
-      <v-card-actions>
-        <v-spacer/>
-
-        <v-btn
-          @click="saveTrader"
-          text="Save Trader"
-          color="indigo-accent-4"
-          variant="flat"
-          class="text-caption text-sm-body-2 text-md-body-1"
-          :loading="loading"
-          :disabled="loading"
-        />
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-  <!--  Add Trader Dialog end-->
-
   <!--  Edit Trader Dialog Start-->
   <v-dialog v-model="editTraderDialog" max-width="500">
     <v-card title="Add Copy Trader" :loading="loading" :disabled="loading" rounded="lg">
@@ -231,7 +130,7 @@
 
 <script lang="ts" setup>
 import {computed, onMounted, ref as vueRef} from 'vue'
-import {collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import {collection, query, orderBy, onSnapshot, updateDoc, doc, deleteDoc} from "firebase/firestore";
 import {db} from '@/firebase'
 import {useAppStore} from '@/stores/app'
 import {getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
@@ -239,16 +138,9 @@ import {getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/st
 const search = vueRef('')
 const copyTrades = vueRef([])
 
-const copyTraderImage = vueRef(null)
-const name = vueRef('')
-const sub1 = vueRef('')
-const sub2 = vueRef('')
-const market = vueRef('None')
-
 const loading = vueRef(false)
 const {snackbarObject} = useAppStore()
 
-const addTraderDialog = vueRef(false)
 const editTraderDialog = vueRef(false)
 const selectedUser = vueRef({
   copyTraderImage: null,
@@ -257,8 +149,6 @@ const selectedUser = vueRef({
   sub2: '',
   market: ''
 })
-
-const rules = [v => v.length <= 100 || 'Max 100 characters']
 
 const headers = computed(() => [
   {title: "Photo", key: "displayImage", sortable: false},
@@ -281,78 +171,6 @@ const fetchCopyTrades = async () => {
 onMounted(() => {
   fetchCopyTrades()
 })
-
-const selectCopyTraderImage = (e) => {
-  const file = e.target.files[0]
-
-  if (file) copyTraderImage.value = file
-}
-
-const saveTrader = async () => {
-  if (!copyTraderImage.value) return
-
-  const MAX_FILE_SIZE = 2 * 1024 * 1024;
-
-  if (copyTraderImage.value.size > MAX_FILE_SIZE) {
-    snackbarObject.show = true
-    snackbarObject.message = 'File size exceeds the 2MB limit. Please select a smaller image.'
-    snackbarObject.color = 'red'
-
-    return
-  }
-
-  try {
-    const storage = getStorage()
-    const storageRef = ref(
-      storage,
-      `leadway_copy_traders/${copyTraderImage.value.name}/${new Date()}`
-    );
-    const uploadTask = uploadBytesResumable(storageRef, copyTraderImage.value);
-
-    loading.value = true;
-    // Monitor the upload process
-    uploadTask.on("state_changed", (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload is ${progress}% done`);
-      },
-      (error) => {
-        console.error("Upload failed:", error);
-        loading.value = false;
-      },
-      async () => {
-        // Upload completed, get the download URL
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        console.log("File available at:", downloadURL);
-        console.log("Path:", uploadTask.snapshot.ref.fullPath);
-
-        await addDoc(collection(db, 'leadway_copy_traders'), {
-          displayImage: {
-            image: downloadURL,
-            path: uploadTask.snapshot.ref.fullPath
-          },
-          name: name.value,
-          sub1: sub1.value,
-          sub2: sub2.value,
-          market: market.value,
-          timestamp: serverTimestamp(),
-        })
-
-        loading.value = false;
-        addTraderDialog.value = false;
-
-        snackbarObject.show = true
-        snackbarObject.message = "Trader Successfully uploaded";
-        snackbarObject.color = "green"
-      }
-    )
-  } catch (error) {
-    console.log(error)
-    loading.value = false;
-    snackbarObject.show = true
-    snackbarObject.message = "There was an error uploading Avatar";
-    snackbarObject.color = "green"
-  }
-}
 
 const openEditDialog = (item) => {
   selectedUser.value = item;
@@ -451,6 +269,5 @@ const deleteTrader = async () => {
   snackbarObject.show = true
   snackbarObject.message = "Avatar Successfully deleted";
   snackbarObject.color = "green"
-
 }
 </script>

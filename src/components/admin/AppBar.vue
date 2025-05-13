@@ -17,7 +17,8 @@
 
       <v-chip to="/admin/account" :size="drawer ? 'large' : 'x-large'" class="pl-1">
         <v-avatar size="40">
-          <v-img :src="profile.profile?.displayImage?.image || '@/assets/images/avatar.png'" lazy-src="@/assets/images/avatar.png" />
+          <v-img v-if="profile.profile?.displayImage" :src="profile.profile?.displayImage?.image" />
+          <v-img v-else src="@/assets/images/avatar.png" />
         </v-avatar>
 
         <span class="ml-2 text-caption text-sm-body-2 text-md-body-1">{{ profile.profile?.firstName }}</span>

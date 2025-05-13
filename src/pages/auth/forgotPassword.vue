@@ -51,7 +51,7 @@
 <script setup lang="ts">
 import {useAppStore} from '@/stores/app'
 import { sendPasswordResetEmail} from 'firebase/auth'
-import {auth, db} from '@/firebase'
+import {auth} from '@/firebase'
 import {computed, ref} from 'vue'
 import {useDisplay} from 'vuetify'
 

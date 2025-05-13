@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="d-flex d-sm-none">
-      <v-list lines="two" width="100%">
+      <v-list lines="two" rounded="lg" width="100%">
         <v-list-item
           v-for="client in clients"
           :key="client.id"
@@ -14,7 +14,8 @@
 
           <template v-slot:prepend>
             <v-avatar size="50">
-              <v-img :src="client?.displayImage?.image || '@/assets/images/avatar.png'" lazy-src="@/assets/images/avatar.png" cover/>
+              <v-img v-if="client?.displayImage" :src="client?.displayImage?.image" lazy-src="@/assets/images/avatar.png" cover/>
+              <v-img v-else src="@/assets/images/avatar.png" lazy-src="@/assets/images/avatar.png" cover/>
             </v-avatar>
           </template>
         </v-list-item>
@@ -27,7 +28,8 @@
           <v-card rounded="xl">
             <v-card-text class="d-flex flex-column justify-center align-center py-5">
               <v-avatar size="100">
-                <v-img :src="client?.displayImage?.image || '@/assets/images/avatar.png'" lazy-src="@/assets/images/avatar.png" cover/>
+                <v-img v-if="client?.displayImage" :src="client?.displayImage?.image" lazy-src="@/assets/images/avatar.png" cover/>
+                <v-img v-else src="@/assets/images/avatar.png" lazy-src="@/assets/images/avatar.png" cover/>
               </v-avatar>
 
               <p class="text-body-2 text-sm-body-1 mt-5">{{ client?.firstName }} {{ client?.lastName }}</p>

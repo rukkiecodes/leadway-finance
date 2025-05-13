@@ -23,8 +23,9 @@
                 rounded="lg"
                 size="large"
                 class="font-weight-light text-caption text-sm-body-2 mt-2"
-                @click="isCopied(index) ? stopCopyingThisTrader(trader) : copyThisTrader(trader, index)"
+                @click="selectTrader(trader, index)"
               >
+                <!--                @click="isCopied(index) ? stopCopyingThisTrader(trader) : copyThisTrader(trader, index)"-->
                 {{ isCopied(index) ? 'STOP COPYING' : 'COPY TRADER' }}
               </v-btn>
 
@@ -44,12 +45,29 @@
       </v-col>
     </v-row>
   </v-container>
+
+  <v-dialog v-model="selectDate" width="400">
+    <v-card rounded="lg">
+      <v-card-text class="pa-0">
+        <v-date-picker
+          v-model="selectedDate"
+          :min="today"
+          show-adjacent-months
+          class="w-100"
+        />
+      </v-card-text>
+
+      <v-card-actions>
+        <v-btn @click="copyThisTrader" variant="flat" color="indigo-accent-4" rounded="lg">Copy</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
 import {useAppStore} from '@/stores/app'
 import {useProfileStore} from '@/stores/user/profile'
-import {setDoc, deleteDoc, doc, updateDoc, arrayRemove, serverTimestamp} from 'firebase/firestore'
+import {setDoc, deleteDoc, doc, updateDoc, arrayRemove, serverTimestamp, addDoc} from 'firebase/firestore'
 import {auth, db} from '@/firebase'
 import {onMounted, ref} from "vue";
 import {collection, query, orderBy, onSnapshot} from "firebase/firestore";
@@ -60,11 +78,24 @@ const {snackbarObject} = useAppStore()
 const profileStore = useProfileStore()
 const copyTradersStore = useCopyTradeStore()
 
-const { copyTraders } = storeToRefs(copyTradersStore)
+const {copyTraders} = storeToRefs(copyTradersStore)
+const selectDate = ref(false)
+const selectedDate = ref(null)
+const selectedTrader = ref(null)
+const today = new Date().toISOString().split('T')[0]
 
 onMounted(() => {
   fetCopytraders()
 })
+
+const selectTrader =
+  (trader, index) => {
+    selectDate.value = true
+    selectedTrader.value = {
+      index,
+      ...trader
+    }
+  }
 
 const fetCopytraders = async () => {
   const q = query(collection(db, "leadway_copy_traders"), orderBy("timestamp", "asc"));
@@ -80,27 +111,75 @@ const isCopied = (index) => {
   return profileStore.profile?.tradersCopied === index;
 }
 
-const copyThisTrader = async (trader, index) => {
-  if (isCopied(index)) return
+const assets = ['EUR/USD', 'GBP/USD', 'USD/JPY', 'BTC/USD', 'ETH/USD']
 
+const generateRandomTrade = (date: string, uid: string) => {
+  const win = Math.random() < 0.6
+  const amount = Math.floor(Math.random() * 90 + 10) // $10–$100
+  const entryPrice = +(Math.random() * 100).toFixed(2)
+  const exitPrice = win
+    ? +(entryPrice + Math.random() * 5).toFixed(2)
+    : +(entryPrice - Math.random() * 5).toFixed(2)
+
+  return {
+    uid,
+    asset: assets[Math.floor(Math.random() * assets.length)],
+    amount,
+    currency: 'USD',
+    result: win ? 'WIN' : 'LOSS',
+    entryPrice,
+    exitPrice,
+    duration: `${Math.floor(Math.random() * 10 + 1)}m`,
+    date: date, // store as string or convert to Firestore Timestamp if needed
+    createdAt: new Date(),
+  }
+}
+
+const copyThisTrader = async () => {
+  const user = auth.currentUser
+  if (!user || !selectedDate.value) return
+
+  registerTrader()
+
+  const uid = user.uid
+  const formattedDate = selectedDate.value // ideally in YYYY-MM-DD or Timestamp
+
+  const tradesToGenerate = 20
+  const trades = Array.from({length: tradesToGenerate}, () =>
+    generateRandomTrade(formattedDate, uid)
+  )
+
+  const tradesCollection = collection(db, 'leadway_users', uid, 'trades') // You can nest under users if needed
+
+  try {
+    const batchPromises = trades.map((trade) => addDoc(tradesCollection, trade))
+    await Promise.all(batchPromises)
+    console.log(`${trades.length} trades copied successfully for ${formattedDate}`)
+    selectDate.value = false
+  } catch (err) {
+    console.error('Error generating trades:', err)
+  }
+}
+
+const registerTrader = async () => {
   const {uid} = auth.currentUser
 
-  await setDoc(doc(db, 'leadway_users', uid, 'copy traders', trader.name), {
-    traderPosition: index,
-    ...trader,
+  await setDoc(doc(db, 'leadway_users', uid, 'copy traders', selectedTrader.value.name), {
+    traderPosition: selectedTrader.value.index,
+    ...selectedTrader.value,
     timestamp: serverTimestamp()
   })
 
   await updateDoc(doc(db, 'leadway_users', uid), {
-    tradersCopied: index
+    tradersCopied: selectedTrader.value.index
   })
 
   snackbarObject.show = true
-  snackbarObject.message = `You are now copying ${trader.name}`
+  snackbarObject.message = `You are now copying ${selectedTrader.value.name}`
   snackbarObject.color = 'green'
 
   // Force reactivity update
-  profileStore.profile.tradersCopied = index
+  profileStore.profile.tradersCopied = selectedTrader.value.index
 }
 
 const stopCopyingThisTrader = async (trader) => {

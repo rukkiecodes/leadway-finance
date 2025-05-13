@@ -3,7 +3,8 @@
     <template v-slot:prepend>
       <v-sheet class="d-flex flex-column justify-center align-center ga-5" dark :height="250">
         <v-avatar :size="100">
-          <v-img :src="profile.profile?.displayImage?.image || '@/assets/images/avatar.png'" lazy-src="@/assets/images/avatar.png"/>
+          <v-img v-if="profile.profile?.displayImage" :src="profile.profile?.displayImage?.image"/>
+          <v-img v-else src="@/assets/images/avatar.png"/>
         </v-avatar>
 
         <span class="text-body-2 text-sm-body-1 text-md-h6 font-weight-black">{{
@@ -107,6 +108,15 @@ const routes = [
       to: '/admin/support',
       prependIcon: 'mdi-wechat',
       title: 'Customer Support',
+      class: 'rounded-lg',
+    }
+  },
+  {
+    value: 'tradeGenerator',
+    props: {
+      to: '/admin/tradeGenerator',
+      prependIcon: 'mdi-cog',
+      title: 'Trade Generator',
       class: 'rounded-lg',
     }
   },

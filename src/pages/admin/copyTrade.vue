@@ -15,85 +15,108 @@
     <CopyTrade/>
   </v-container>
 
-  <v-dialog v-model="dialog" width="600" persistent>
-    <v-card rounded="lg" :loading="loading" :disabled="loading">
-      <v-toolbar density="compact" color="transparent">
-        <v-spacer/>
-
-        <v-btn icon text @click="dialog = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-
+  <v-dialog v-model="dialog" width="500">
+    <v-card
+      rounded="lg"
+      title="Add Copy Trader"
+      :loading="loading"
+      :disabled="loading"
+    >
       <v-card-text>
-        <v-text-field
-          label="Name"
-          rounded="lg"
-          v-model="name"
-          density="compact"
-          variant="outlined"
-          color="indigo-accent-4"
-        />
+        <v-row>
+          <v-col cols="12">
+            <v-file-input
+              label="Copy Trader Image"
+              @change="selectCopyTraderImage"
+              variant="outlined"
+              density="compact"
+              accept="image/*"
+              color="indigo-accent-4"
+              rounded="lg"
+              hide-details
+            />
+          </v-col>
 
-        <v-text-field
-          label="Sub1"
-          rounded="lg"
-          v-model="sub1"
-          density="compact"
-          variant="outlined"
-          color="indigo-accent-4"
-        />
+          <v-col cols="12">
+            <v-text-field
+              label="Copy Trader Name"
+              variant="outlined"
+              density="compact"
+              accept="image/*"
+              color="indigo-accent-4"
+              rounded="lg"
+              hide-details
+              v-model="name"
+            />
+          </v-col>
 
-        <v-text-field
-          label="Sub2"
-          rounded="lg"
-          v-model="sub2"
-          density="compact"
-          variant="outlined"
-          color="indigo-accent-4"
-        />
+          <v-col cols="6">
+            <v-text-field
+              label="Lowest percent"
+              variant="outlined"
+              density="compact"
+              accept="image/*"
+              color="indigo-accent-4"
+              rounded="lg"
+              hide-details
+              v-model="sub1"
+            />
+          </v-col>
 
-        <v-text-field
-          label="Market"
-          rounded="lg"
-          v-model="market"
-          density="compact"
-          variant="outlined"
-          color="indigo-accent-4"
-        />
+          <v-col cols="6">
+            <v-text-field
+              label="Highest percent"
+              variant="outlined"
+              density="compact"
+              color="indigo-accent-4"
+              rounded="lg"
+              hide-details
+              v-model="sub2"
+            />
+          </v-col>
 
-        <v-file-input
-          density="compact"
-          label="Proof Of Payment"
-          variant="outlined"
-          rounded="lg"
-          color="indigo-accent-4"
-          @change="selectImage"
-        />
+          <v-col cols="12">
+            <v-select
+              label="Select trader assets"
+              :items="['Forex', 'Stock', 'Crypto Currency', 'Commodities', 'Mining', 'Indices', 'Bonds', 'Random']"
+              variant="outlined"
+              density="compact"
+              color="indigo-accent-4"
+              rounded="lg"
+              hide-details
+              v-model="market"
+            />
+          </v-col>
+        </v-row>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn @click="submitPOP" :loading="loading" :disabled="loading" variant="flat" color="indigo-accent-4">
-          Submit
-        </v-btn>
+        <v-spacer/>
+
+        <v-btn
+          @click="saveTrader"
+          text="Save Trader"
+          color="indigo-accent-4"
+          variant="flat"
+          class="text-caption text-sm-body-2 text-md-body-1"
+          :loading="loading"
+          :disabled="loading"
+        />
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 <script setup lang="ts">
 import CopyTrade from "@/components/admin/CopyTrade.vue";
-import {ref as vueRef, onMounted} from 'vue'
-import {db, auth} from '@/firebase'
+import {ref as vueRef} from 'vue'
+import {db} from '@/firebase'
 import {useAppStore} from '@/stores/app'
 
 const {snackbarObject} = useAppStore()
 import {
-  doc,
-  getDoc,
   addDoc,
   collection,
   serverTimestamp,
-  setDoc, updateDoc,
 } from 'firebase/firestore'
 import {
   getDownloadURL,
@@ -107,38 +130,37 @@ const name = vueRef('')
 const sub1 = vueRef('')
 const sub2 = vueRef('')
 const market = vueRef('')
-const POPImage = vueRef(null)
+const copyTraderImage = vueRef(null)
 const loading = vueRef(false)
 
-const selectImage = (event) => {
-  const file = event.target.files[0];
+const selectCopyTraderImage = (e) => {
+  const file = e.target.files[0]
 
-  if (file) POPImage.value = file
+  if (file) copyTraderImage.value = file
 }
 
-const submitPOP = async () => {
+const saveTrader = async () => {
+  if (!copyTraderImage.value) return
+
   const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
-  if (POPImage.value.size > MAX_FILE_SIZE) {
-    alert(
-      "File size exceeds the 2MB limit. Please select a smaller image."
-    );
-    return;
+  if (copyTraderImage.value.size > MAX_FILE_SIZE) {
+    snackbarObject.show = true
+    snackbarObject.message = 'File size exceeds the 2MB limit. Please select a smaller image.'
+    snackbarObject.color = 'red'
+
+    return
   }
 
   try {
-    // Initialize Firebase Storage
-    loading.value = true;
-    const {uid} = auth.currentUser;
-    if (!uid) return
-
     const storage = getStorage()
     const storageRef = ref(
       storage,
-      `leadway_copy_traders/${POPImage.value.name}/${new Date()}`
+      `leadway_copy_traders/${copyTraderImage.value.name}/${new Date()}`
     );
-    const uploadTask = uploadBytesResumable(storageRef, POPImage.value);
+    const uploadTask = uploadBytesResumable(storageRef, copyTraderImage.value);
 
+    loading.value = true;
     // Monitor the upload process
     uploadTask.on("state_changed", (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -154,25 +176,32 @@ const submitPOP = async () => {
         console.log("File available at:", downloadURL);
         console.log("Path:", uploadTask.snapshot.ref.fullPath);
 
-        await setDoc(doc(db, 'leadway_copy_traders', name.value), {
+        await addDoc(collection(db, 'leadway_copy_traders'), {
+          displayImage: {
+            image: downloadURL,
+            path: uploadTask.snapshot.ref.fullPath
+          },
           name: name.value,
           sub1: sub1.value,
           sub2: sub2.value,
           market: market.value,
-          displayImage: {image: downloadURL, path: uploadTask.snapshot.ref.fullPath},
-          timestamp: serverTimestamp()
+          timestamp: serverTimestamp(),
         })
 
         loading.value = false;
+        dialog.value = false;
+
         snackbarObject.show = true
-        snackbarObject.message = "Successfully uploaded";
+        snackbarObject.message = "Trader Successfully uploaded";
         snackbarObject.color = "green"
-        dialog.value = false
       }
     )
   } catch (error) {
-    console.error("Error uploading image:", error);
+    console.log(error)
     loading.value = false;
+    snackbarObject.show = true
+    snackbarObject.message = "There was an error uploading Avatar";
+    snackbarObject.color = "green"
   }
 }
 </script>
