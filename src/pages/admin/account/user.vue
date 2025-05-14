@@ -90,6 +90,7 @@
             <v-tab value="profile" class="text-caption text-sm-body-2 text-md-body-1">Profile</v-tab>
             <v-tab value="account" class="text-caption text-sm-body-2 text-md-body-1">Account</v-tab>
             <v-tab value="history" class="text-caption text-sm-body-2 text-md-body-1">History</v-tab>
+            <v-tab value="trades" class="text-caption text-sm-body-2 text-md-body-1">Trades</v-tab>
             <v-tab value="tansactions" class="text-caption text-sm-body-2 text-md-body-1">Tansactions</v-tab>
             <v-tab value="support" class="text-caption text-sm-body-2 text-md-body-1">Support</v-tab>
           </v-tabs>
@@ -99,6 +100,7 @@
               <ProfileTab v-if="user" :user="user"/>
               <AccountTab v-if="user" :user="user"/>
               <HistoryTab v-if="user" :user="user"/>
+              <Trades v-if="user" :user="user"/>
               <TransactionTab v-if="user" :user="user"/>
               <SupportTab v-if="user" :user="user"/>
             </v-tabs-window>
@@ -116,10 +118,11 @@ import ProfileTab from "@/components/admin/user/ProfileTab.vue";
 import AccountTab from "@/components/admin/user/AccountTab.vue";
 import HistoryTab from "@/components/admin/user/HistoryTab.vue";
 import TransactionTab from "@/components/admin/user/TransactionTab.vue";
+import Trades from "@/components/admin/user/Trades.vue";
 import SupportTab from "@/components/admin/user/SupportTab.vue";
 
 export default {
-  components: {SupportTab, TransactionTab, HistoryTab, AccountTab, ProfileTab},
+  components: {SupportTab, TransactionTab, HistoryTab, AccountTab, ProfileTab, Trades},
   data: () => ({
     user: null,
     tab: null,

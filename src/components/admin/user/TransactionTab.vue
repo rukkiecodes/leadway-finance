@@ -12,7 +12,8 @@
         <v-card rounded="lg" min-height="300">
           <v-img src="@/assets/images/hue.png" min-height="200" cover>
             <v-sheet class="d-flex flex-column justify-space-between align-start pa-5" min-height="300"
-                     color="transparent">
+                     color="transparent"
+            >
               <div class="d-flex flex-column">
                 <p class="text-caption text-sm-body-2 text-md-body-1">Total Balance</p>
                 <p class="text-body-1 text-sm-h6 text-md-h5">${{ formatMoney(user?.totalBalance || 0) }}</p>
@@ -46,11 +47,13 @@
             <p class="text-caption text-sm-body-2 text-center mb-8">{{ convertedRate }} {{ address?.code }}</p>
 
             <v-sheet class="d-flex justify-space-between align-center mb-8 pl-2" width="100%" color="white"
-                     rounded="lg">
+                     rounded="lg"
+            >
               <p class="text-caption">{{ address.wallet }}</p>
 
               <v-btn @click="copyToClipboard(address.wallet)" prepend-icon="mdi-content-copy" rounded-lg
-                     color="indigo-accent-4" class="text-caption text-sm-body-2">
+                     color="indigo-accent-4" class="text-caption text-sm-body-2"
+              >
                 Copy Address
               </v-btn>
             </v-sheet>
@@ -171,7 +174,9 @@
                   </template>
 
                   <template v-slot:item.timestamp="{ item }">
-                    <p class="text-caption text--sm-body-2">{{ new Date(item?.timestamp?.seconds * 1000).toDateString() }}</p>
+                    <p class="text-caption text--sm-body-2">{{
+                        new Date(item?.timestamp?.seconds * 1000).toDateString()
+                      }}</p>
                   </template>
 
 
@@ -183,7 +188,8 @@
                             <v-dialog max-width="800">
                               <template v-slot:activator="{ props: activatorProps }">
                                 <v-avatar :image="item?.POP?.pop" v-bind="activatorProps" size="100"
-                                          class="cursor-pointer"/>
+                                          class="cursor-pointer"
+                                />
                               </template>
 
                               <template v-slot:default="{ isActive }">
@@ -216,7 +222,8 @@
                             <div class="d-flex justify-start align-center ga-5 mt-2">
                               <span style="width: 150px">Transaction Status</span>
                               <v-chip
-                                :color="item?.status == 'Completed' ? 'green' : item?.status == 'Canceled' ? 'red' : 'amber'">
+                                :color="item?.status == 'Completed' ? 'green' : item?.status == 'Canceled' ? 'red' : 'amber'"
+                              >
                                 {{
                                   item?.status
                                 }}
@@ -253,15 +260,16 @@
                     </tr>
                   </template>
 
-                  <template v-slot:item.data-table-expand="{ internalItem, isExpanded, toggleExpand, item }">
+                  <template v-slot:item.actions="{ internalItem, isExpanded, toggleExpand, item }">
                     <v-btn
                       class="text-none"
                       color="medium-emphasis"
                       size="small"
                       icon
+                      elevation="0"
                       @click="() => {toggleExpand(internalItem); autoCompleteStatus(item?.status)}"
                     >
-                      <v-icon>{{isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
+                      <v-icon>{{ isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                     </v-btn>
                   </template>
                 </v-data-table>
@@ -296,10 +304,6 @@
                     <p class="text-caption text--sm-body-2">{{ item?.id }}</p>
                   </template>
 
-                  <template v-slot:item.user="{ item }">
-                    <TradeHistoryUser :user="user?.uid"/>
-                  </template>
-
                   <template v-slot:item.amount="{ item }">
                     <p class="text-caption text--sm-body-2">${{ formatMoney(item?.amount) }}</p>
                   </template>
@@ -322,7 +326,9 @@
                   </template>
 
                   <template v-slot:item.timestamp="{ item }">
-                    <p class="text-caption text--sm-body-2">{{ new Date(item?.timestamp?.seconds * 1000).toDateString() }}</p>
+                    <p class="text-caption text--sm-body-2">{{
+                        new Date(item?.timestamp?.seconds * 1000).toDateString()
+                      }}</p>
                   </template>
 
 
@@ -433,15 +439,16 @@
                     </tr>
                   </template>
 
-                  <template v-slot:item.data-table-expand="{ internalItem, isExpanded, toggleExpand, item }">
+                  <template v-slot:item.actions="{ internalItem, isExpanded, toggleExpand, item }">
                     <v-btn
                       class="text-none"
                       color="medium-emphasis"
                       size="small"
                       icon
+                      elevation="0"
                       @click="() => {toggleExpand(internalItem); autoCompleteStatus(item?.status)}"
                     >
-                      <v-icon>{{isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down'}}</v-icon>
+                      <v-icon>{{ isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                     </v-btn>
                   </template>
                 </v-data-table>
@@ -505,6 +512,7 @@ const deposits = ref([])
 const withdrawals = ref([])
 
 const headers = [
+  {title: "", key: "actions", sortable: false},
   {key: 'id', title: 'Payment ID'},
   {key: 'amount', title: 'Amount'},
   {key: 'convertedRate', title: 'Rate'},
@@ -514,14 +522,14 @@ const headers = [
 ]
 
 const withdrawHeaders = [
-    {key: 'id', title: 'Payment ID'},
-    {key: 'user', title: 'User'},
-    {key: 'amount', title: 'Amount'},
-    {key: 'withdrawalMethod', title: 'Method'},
-    {key: 'type', title: 'Type'},
-    {key: 'status', title: 'Status'},
-    {key: 'timestamp', title: 'Date'}
-  ]
+  {title: "", key: "actions", sortable: false},
+  {key: 'id', title: 'Payment ID'},
+  {key: 'amount', title: 'Amount'},
+  {key: 'withdrawalMethod', title: 'Method'},
+  {key: 'type', title: 'Type'},
+  {key: 'status', title: 'Status'},
+  {key: 'timestamp', title: 'Date'}
+]
 
 const fetchDeposits = async () => {
   const q = query(collection(db, "leadway_users", props.user?.uid, 'payments'), where('type', '==', 'deposit'), orderBy("timestamp", "desc"));

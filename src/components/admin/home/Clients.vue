@@ -4,7 +4,7 @@
       <v-icon icon="mdi-account-group" /> &nbsp;
       Clients
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
       <v-text-field
         v-model="search"
@@ -16,10 +16,10 @@
         hide-details
         single-line
         rounded="lg"
-      ></v-text-field>
+      />
     </v-card-title>
 
-    <v-divider></v-divider>
+    <v-divider />
 
     <v-data-table
       v-model:search="search"
@@ -50,7 +50,7 @@
 
       <!-- Actions Column -->
       <template v-slot:item.actions="{ item }">
-        <v-btn :to="`/admin/account/${item.uid}`" variant="outlined" size="small">View Account</v-btn>
+        <v-btn :to="`/admin/account/${item.uid}`" variant="outlined" size="small" class="text-caption" rounded="pill">View Account</v-btn>
       </template>
     </v-data-table>
   </v-card>
@@ -67,6 +67,7 @@ const search = ref('');
 
 // Define headers explicitly to exclude ID/UID
 const headers = computed(() => [
+  { title: "", key: "actions", sortable: false },
   { title: "Photo", key: "displayImage", sortable: false },
   { title: "First Name", key: "firstName" },
   { title: "Last Name", key: "lastName" },
@@ -77,7 +78,6 @@ const headers = computed(() => [
   { title: "Balance", key: "totalBalance" },
   { title: "Joined At", key: "timestamp" },
   { title: "Status", key: "verified" },
-  { title: "", key: "actions", sortable: false }
 ]);
 
 const formatMoney = (amount, currency = 'USD') => {

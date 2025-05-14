@@ -23,9 +23,8 @@
                 rounded="lg"
                 size="large"
                 class="font-weight-light text-caption text-sm-body-2 mt-2"
-                @click="selectTrader(trader, index)"
+                @click="isCopied(index) ? stopCopyingThisTrader(trader) : selectTrader(trader, index)"
               >
-                <!--                @click="isCopied(index) ? stopCopyingThisTrader(trader) : copyThisTrader(trader, index)"-->
                 {{ isCopied(index) ? 'STOP COPYING' : 'COPY TRADER' }}
               </v-btn>
 
@@ -185,7 +184,7 @@ const registerTrader = async () => {
 const stopCopyingThisTrader = async (trader) => {
   const {uid} = auth.currentUser
 
-  await deleteDoc(doc(db, 'leadway_users', uid, 'copy traders', trader.name))
+  await deleteDoc(doc(db, 'leadway_users', uid, 'copy traders', trader.id))
 
   await updateDoc(doc(db, 'leadway_users', uid), {
     tradersCopied: null
