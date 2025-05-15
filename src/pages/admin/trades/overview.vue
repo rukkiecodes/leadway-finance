@@ -32,6 +32,7 @@ const {clients} = storeToRefs(clientsStore);
                 color="indigo-accent-4"
                 rounded="xl"
                 class="text-caption mt-5"
+                :to="`/admin/trades/${client.uid}`"
               >
                 Manage User Trades
               </v-btn>
