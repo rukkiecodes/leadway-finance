@@ -59,20 +59,20 @@ export default {
       component: () => import('@/pages/admin/settings.vue'),
     },
     {
-      path: "tradeGenerator",
+      path: "trades",
       name: 'admin_tradeGenerator',
-      component: () => import('@/layouts/admin/tradeGenerator.vue'),
+      component: () => import('@/layouts/admin/trades.vue'),
 
       children: [
         {
           path: "",
-          name: 'admin_tradeGenerator_overview',
-          component: () => import('@/pages/admin/tradeGenerator/overview.vue')
+          name: 'admin_trades',
+          component: () => import('@/pages/admin/trades/overview.vue')
         },
         {
-          path: "generator",
-          name: 'admin_tradeGenerator_generator',
-          component: () => import('@/pages/admin/tradeGenerator/generator.vue')
+          path: ":user",
+          name: 'admin_trade_manage',
+          component: () => import('@/pages/admin/trades/manage.vue')
         }
       ]
     },

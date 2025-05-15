@@ -112,11 +112,11 @@ const routes = [
     }
   },
   {
-    value: 'tradeGenerator',
+    value: 'trades',
     props: {
-      to: '/admin/tradeGenerator',
+      to: '/admin/trades',
       prependIcon: 'mdi-cog',
-      title: 'Trade Generator',
+      title: 'Trades',
       class: 'rounded-lg',
     }
   },
