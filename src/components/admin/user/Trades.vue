@@ -277,7 +277,8 @@ import {
   query,
   orderBy,
   doc,
-  updateDoc
+  updateDoc,
+  setDoc, deleteDoc, serverTimestamp
 } from "firebase/firestore";
 import {db} from "@/firebase";
 
@@ -359,6 +360,15 @@ const showTradeToClient = async (trade: {
     isVisible: value
   })
 
+  if (value) {
+    await setDoc(doc(db, 'leadway_users', String(props.user?.uid), 'trade_history', trade.id), {...trade, timestamp: serverTimestamp()})
+    await setDoc(doc(db, 'trade_history', trade.id), {...trade, user: props.user?.uid, timestamp: serverTimestamp()})
+  }
+  else {
+    await deleteDoc(doc(db, 'leadway_users', String(props.user?.uid), 'trade_history', trade.id))
+    await deleteDoc(doc(db, 'trade_history', trade.id))
+  }
+
   recalculateFunds(trade, value)
 }
 
@@ -388,10 +398,9 @@ const calculateFunds = (trade, value) => {
   }
 
   if (value) {
-    if(trade.result === 'WIN') return positiveValues
+    if (trade.result === 'WIN') return positiveValues
     else return negativeValues
-  }
-  else {
+  } else {
     return negativeValues
   }
 }

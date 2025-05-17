@@ -94,6 +94,23 @@
                 @keyup.enter="updateField('reference1', reference1)"
               />
             </v-col>
+
+            <v-col cols="12">
+              <v-btn
+                @click="saveMultiple({
+                bankName1,
+                beneficiaryName1,
+                accountNumber1,
+                branchCode1,
+                reference1
+                })"
+                color="indigo-accent-4"
+                rounded="lg"
+                class="px-10 text-capitalize"
+              >
+                Save
+              </v-btn>
+            </v-col>
           </v-row>
         </v-col>
       </v-row>
@@ -192,6 +209,24 @@
                 v-model="reference2"
                 @keyup.enter="updateField('reference2', reference2)"
               />
+            </v-col>
+
+            <v-col cols="12">
+              <v-btn
+                @click="saveMultiple({
+                bankName2,
+                beneficiaryName2,
+                accountNumber2,
+                accountType2,
+                branchCode2,
+                reference2
+                })"
+                color="indigo-accent-4"
+                rounded="lg"
+                class="px-10 text-capitalize"
+              >
+                Save
+              </v-btn>
             </v-col>
           </v-row>
         </v-col>
@@ -292,6 +327,24 @@
                 @keyup.enter="updateField('reference3', reference3)"
               />
             </v-col>
+
+            <v-col cols="12">
+              <v-btn
+                @click="saveMultiple({
+                bankName3,
+                beneficiaryName3,
+                accountNumber3,
+                accountType3,
+                branchCode3,
+                reference3
+                })"
+                color="indigo-accent-4"
+                rounded="lg"
+                class="px-10 text-capitalize"
+              >
+                Save
+              </v-btn>
+            </v-col>
           </v-row>
         </v-col>
       </v-row>
@@ -339,6 +392,21 @@
                     @update:modelValue="updateField('showWhatsapp', showWhatsapp)"
                   />
                 </v-card-text>
+
+                <v-card-actions>
+                  <v-btn
+                    @click="saveMultiple({
+                    phone,
+                    whatsAppPhone
+                    })"
+                    variant="flat"
+                    color="indigo-accent-4"
+                    rounded="lg"
+                    class="px-10 text-capitalize"
+                  >
+                    Save
+                  </v-btn>
+                </v-card-actions>
               </v-card>
             </v-col>
 
@@ -400,6 +468,24 @@
                     @keyup.enter="updateField('XRP', XRP)"
                   />
                 </v-card-text>
+
+                <v-card-actions>
+                  <v-btn
+                    @click="saveMultiple({
+                    bitcoinWallet,
+                    ethereum,
+                    USDT,
+                    LTC,
+                    XRP
+                    })"
+                    variant="flat"
+                    color="indigo-accent-4"
+                    rounded="lg"
+                    class="px-10 text-capitalize"
+                  >
+                    Save
+                  </v-btn>
+                </v-card-actions>
               </v-card>
             </v-col>
           </v-row>
@@ -415,12 +501,12 @@ import {doc, updateDoc} from "firebase/firestore";
 import {db, auth} from '@/firebase'
 import {onMounted, ref} from 'vue'
 import {useAppStore} from '@/stores/app'
-import { useProfileStore } from '@/stores/user/profile'
+import {useProfileStore} from '@/stores/user/profile'
 import {storeToRefs} from 'pinia';
 
 const {snackbarObject} = useAppStore()
 const profileStore = useProfileStore()
-const { profile } = storeToRefs(profileStore);
+const {profile} = storeToRefs(profileStore);
 
 const bankName1 = ref('')
 const beneficiaryName1 = ref('')
@@ -459,7 +545,6 @@ onMounted(() => {
 })
 
 
-
 const autoFillFields = () => {
   bankName1.value = profile.value.bankName1
   beneficiaryName1.value = profile.value.beneficiaryName1
@@ -496,10 +581,7 @@ const autoFillFields = () => {
 const updateField = async (field: string, value: any) => {
   const {uid} = auth.currentUser
 
-  if (!uid) {
-    console.error("User UID is missing!");
-    return;
-  }
+  if (!uid) return
 
   try {
     await updateDoc(doc(db, "leadway_users", uid), {
@@ -512,4 +594,20 @@ const updateField = async (field: string, value: any) => {
     console.error("Error updating field:", error);
   }
 };
+
+const saveMultiple = async (fields) => {
+  const {uid} = auth.currentUser
+  if (!uid) return
+
+  try {
+    await updateDoc(doc(db, "leadway_users", uid), {
+      ...fields
+    });
+    snackbarObject.show = true
+    snackbarObject.message = `Updated Successfully`
+    snackbarObject.color = "green"
+  } catch (error) {
+    console.log("Error saving changes: ", error)
+  }
+}
 </script>

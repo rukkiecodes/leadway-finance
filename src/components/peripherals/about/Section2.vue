@@ -10,7 +10,7 @@
                   <p class="text-caption text-sm-body-2">Reg name:</p>
                 </v-col>
                 <v-col cols="6" lg="3">
-                  <p class="text-caption text-sm-body-2 opacity-50">Leadway Finance LTD</p>
+                  <p class="text-caption text-sm-body-2 opacity-50">Bluezone Finance LTD</p>
                 </v-col>
               </v-row>
 
@@ -37,7 +37,7 @@
               <p class="text-h5 text-sm-h4 text-md-h3 text-lg-h2 font-weight-light">Officially registered <br> <span
                 class="font-weight-bold"
               >company</span></p>
-              <p class="mt-5 text-body-2 text-sm-body-1">Leadway Finance Limited</p>
+              <p class="mt-5 text-body-2 text-sm-body-1">Bluezone Finance Limited</p>
               <p class="text-caption text-sm-body-2 mt-5">
                 The unique development of our company has an official legal registration. You can check this
                 information by clicking on the registration number.
@@ -53,7 +53,7 @@
             <p class="text-body-2 text-sm-body-1 text-md-h6 text-lg-h5 font-weight-light text-teal-accent-4"
                style="text-transform: uppercase !important;"
             >
-              Leadway Finance Stats
+              Bluezone Finance Stats
             </p>
           </v-col>
 
@@ -66,7 +66,7 @@
               <v-col cols="12" sm="5">
                 <p class="text-caption text-sm-body-2 text-md-body-1">
                   Here are online statistics of our company. Competent distribution of investments in the
-                  Leadway Finance robot allows you to maximize profits at all stages of the market. Gradual development is
+                  Bluezone Finance robot allows you to maximize profits at all stages of the market. Gradual development is
                   a guarantee of world recognition
                 </p>
               </v-col>
@@ -74,7 +74,7 @@
               <v-col cols="12" sm="5">
                 <p class="text-caption text-sm-body-2 text-md-body-1">
                   in the market. It is important for us to ensure the protection of our
-                  investors, as well as the stability and uninterrupted operation of the platform. The Leadway Finance
+                  investors, as well as the stability and uninterrupted operation of the platform. The Bluezone Finance
                   robot is fully automated to operate without user intervention.
                 </p>
               </v-col>

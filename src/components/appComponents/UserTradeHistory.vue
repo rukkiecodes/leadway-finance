@@ -6,27 +6,27 @@
       :headers="headers"
     >
       <template v-slot:item.asset="{ item }">
-        <p class="text-caption text-sm-body-2">{{item.asset}}</p>
-      </template>
-
-      <template v-slot:item.contract="{ item }">
-        <v-icon :color="item.contract == 'LOSS' ? 'red' : 'green'" size="25">{{ item.contract == 'LOSS' ? 'mdi-menu-down' : 'mdi-menu-up' }}</v-icon>
-      </template>
-
-      <template v-slot:item.tradingAmount="{ item }">
-        <p class="text-caption text-sm-body-2">${{formatMoney(item.tradingAmount)}}</p>
+        <p class="text-caption">{{item.asset}}</p>
       </template>
 
       <template v-slot:item.timestamp="{ item }">
-        <p class="text-caption text-sm-body-2">{{ new Date(item.timestamp.seconds * 1000).toDateString() }}}</p>
+        <p class="text-caption">{{ new Date(item.date ? (item.date.seconds * 1000) : (item.timestamp.seconds * 1000)).toDateString() }}</p>
       </template>
 
       <template v-slot:item.tradeStatus="{ item }">
-        <p class="text-caption text-sm-body-2" :class="item.tradeStatus == 'WIN' ? 'text-green' : 'text-red'">{{ item.tradeStatus }}</p>
+        <p class="text-caption" :class="(item.tradeStatus || item.result) == 'WIN' ? 'text-green' : 'text-red'">{{ item.tradeStatus || item.result }}</p>
+      </template>
+
+      <template v-slot:item.tradingAmount="{ item }">
+        <p class="text-caption">${{formatMoney(item.tradingAmount || item.amount)}}</p>
+      </template>
+
+      <template v-slot:item.amount="{ item }">
+        <p class="text-caption">${{formatMoney(item.amount || item.entryPrice || item.tradingAmount)}}</p>
       </template>
 
       <template v-slot:item.profitOrLossPayout="{ item }">
-        <p class="text-caption text-sm-body-2">${{ item.tradeStatus == 'WIN' ? '' : '-' }}{{ formatMoney(item.profitOrLossPayout) }}</p>
+        <p class="text-caption text-sm-body-2">${{ (item.tradeStatus || item.result) == 'WIN' ? '' : '-' }}{{ formatMoney(item.profitOrLossPayout || item.exitPrice) }}</p>
       </template>
     </v-data-table>
   </v-card>
@@ -43,11 +43,11 @@ export default {
       trades: [],
       headers: [
         {key: 'asset', title: 'Asset'},
-        {key: 'contract', title: 'WIN / LOSS'},
-        {key: 'tradingAmount', title: 'Trade'},
         {key: 'timestamp', title: 'Date'},
-        {key: 'tradeStatus', title: 'Status'},
-        {key: 'profitOrLossPayout', title: 'Payout'},
+        {key: 'tradeStatus', title: 'Result'},
+        {key: 'tradingAmount', title: 'Trade'},
+        {key: 'amount', title: 'Entry'},
+        {key: 'profitOrLossPayout', title: 'Exit'},
       ],
     }
   },

@@ -23,7 +23,7 @@
 
         <v-col cols="12" sm="10" md="6" lg="4">
           <h1 class="text-h5 text-sm-h4 text-md-h3 text-lg-h2 font-weight-light text-right text-md-left">Secure Your
-            Future with Leadway Finance</h1>
+            Future with Bluezone Finance</h1>
           <p class="text-caption text-sm-body-2 text-md-body-1 text-lg-h6 text-right text-md-left">Enjoy lifetime
             returns and grow your wealth with confidence.</p>
 

@@ -8,7 +8,7 @@
 
         <v-col cols="12" class="mt-16">
           <p class="text-caption text-sm-body-2" style="text-transform: uppercase !important;">
-            Leadway Finance Terms and Conditions of Use
+            Bluezone Finance Terms and Conditions of Use
           </p>
         </v-col>
 
@@ -34,7 +34,7 @@
           <p class="text-caption text-sm-body-2">
             Permission is granted to
             temporarily download one copy of the materials (information or software) on
-            Leadway Finance’s
+            Bluezone Finance’s
             web site for personal, non-commercial transitory viewing only. This is the
             grant of a license, not a transfer of title, and under this license, you may
             not:
@@ -48,7 +48,7 @@
             commercial purpose, or for any public display (commercial or
             non-commercial);<br>
             attempt to decompile or reverse
-            engineer any software contained on Leadway Finance’s web site;<br>
+            engineer any software contained on Bluezone Finance’s web site;<br>
             remove any copyright or other
             proprietary notations from the materials; or <br>
             transfer the materials to
@@ -61,12 +61,12 @@
             3. Disclaimer
           </p>
           <p class="text-caption text-sm-body-2">
-            The materials on Leadway Finance’s
-            web site are provided “as is”. Leadway Finance makes no warranties, expressed
+            The materials on Bluezone Finance’s
+            web site are provided “as is”. Bluezone Finance makes no warranties, expressed
             or implied, and hereby disclaims and negates all other warranties, including
             without limitation, implied warranties or conditions of merchantability,
             fitness for a particular purpose, or non-infringement of intellectual property
-            or other violation of rights. Further, Leadway Finance does not warrant or
+            or other violation of rights. Further, Bluezone Finance does not warrant or
             make any representations concerning the accuracy, likely results, or
             reliability of the use of the materials on its Internet web site or otherwise
             relating to such materials or on any sites linked to this site.
@@ -78,11 +78,11 @@
             4. Limitations
           </p>
           <p class="text-caption text-sm-body-2">
-            In no event shall Leadway Finance be liable for any damages (including, without limitation, damages for loss
+            In no event shall Bluezone Finance be liable for any damages (including, without limitation, damages for loss
             of
             data or profit, or due to business interruption,) arising out of the use or
-            inability to use the materials on Leadway Finance’s Internet site, even if
-            Leadway Finance or a Leadway Finance authorized representative has been notified orally or in
+            inability to use the materials on Bluezone Finance’s Internet site, even if
+            Bluezone Finance or a Bluezone Finance authorized representative has been notified orally or in
             writing of the possibility of such damage. Because some jurisdictions do not
             allow limitations on implied warranties, or limitations of liability for
             consequential or incidental damages, these limitations may not apply to you.
@@ -95,11 +95,11 @@
           </p>
           <p class="text-caption text-sm-body-2">
             The materials
-            appearing on Leadway Finance’s web site could include technical,
-            typographical, or photographic errors. Leadway Finance does not warrant that
+            appearing on Bluezone Finance’s web site could include technical,
+            typographical, or photographic errors. Bluezone Finance does not warrant that
             any of the materials on its web site are accurate, complete, or current.
-            Leadway Finance may make changes to the materials contained on its web site at any time without
-            notice. Leadway Finance does not, however, make any commitment to update the
+            Bluezone Finance may make changes to the materials contained on its web site at any time without
+            notice. Bluezone Finance does not, however, make any commitment to update the
             materials.
           </p>
         </v-col>
@@ -109,10 +109,10 @@
             6. Links
           </p>
           <p class="text-caption text-sm-body-2">
-            Leadway Finance has
+            Bluezone Finance has
             not reviewed all of the sites linked to its Internet web site and is not
             responsible for the contents of any such linked site. The inclusion of any link
-            does not imply endorsement by Leadway Finance of the site. Use of any such
+            does not imply endorsement by Bluezone Finance of the site. Use of any such
             linked web site is at the user’s own risk.
           </p>
         </v-col>
@@ -122,7 +122,7 @@
             7. Site Terms of Use Modifications
           </p>
           <p class="text-caption text-sm-body-2">
-            Leadway Finance may
+            Bluezone Finance may
             revise these terms of use for its web site at any time without notice. By using
             this web site you are agreeing to be bound by the then current version of these
             Terms and Conditions of Use.
@@ -134,7 +134,7 @@
             8. Governing Law
           </p>
           <p class="text-caption text-sm-body-2">
-            Any claim relating to Leadway Finance`s
+            Any claim relating to Bluezone Finance`s
             web site shall be governed by the laws of the State of Nigeria without regard
             to its conflict of law provisions.
           </p>

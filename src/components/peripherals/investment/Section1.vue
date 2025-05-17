@@ -18,7 +18,7 @@
             <v-col cols="0" sm="9" md="9">
               <h1 class="text-h5 text-sm-h4 text-md-h3 text-lg-h2 font-weight-light">
                 RELIABLE INVESTMENT WITH <br>
-                Leadway Finance
+                Bluezone Finance
               </h1>
             </v-col>
           </v-row>
@@ -44,7 +44,7 @@
             <v-row class="pt-5 pt-sm-16">
               <v-col cols="12" class="d-flex flex-column justify-center align-sm-center">
                 <p class="text-body-2 text-sm-body-1 text-md-h6 text-lg-h5 font-weight-light">
-                  Leadway Finance MARKETING PLAN
+                  Bluezone Finance MARKETING PLAN
                 </p>
               </v-col>
 
@@ -56,15 +56,15 @@
 
                   <v-col cols="12" sm="5">
                     <p class="text-caption text-sm-body-2 text-md-body-1">
-                      Leadway Finance developers have created a unique cryptocurrency robot. It predicts the value of
-                      Bitcoin while generating daily profit on trades. The Leadway Finance robot is able to benefit at any
+                      Bluezone Finance developers have created a unique cryptocurrency robot. It predicts the value of
+                      Bitcoin while generating daily profit on trades. The Bluezone Finance robot is able to benefit at any
                       stage of the market: both growth and decline.
                     </p>
                   </v-col>
 
                   <v-col cols="12" sm="5">
                     <p class="text-caption text-sm-body-2 text-md-body-1">
-                      Leadway Finance CFO has developed a unique marketing plan for the platform to function fully. The
+                      Bluezone Finance CFO has developed a unique marketing plan for the platform to function fully. The
                       Investors of our company have an excellent opportunity to receive financial benefits on stable
                       terms. You can also use the profitability calculator. It will calculate the exact return on your
                       investment.

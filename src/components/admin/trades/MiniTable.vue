@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import {computed, defineProps, onMounted, ref} from "vue";
 import {db} from '@/firebase'
-import {collection, doc, onSnapshot, orderBy, query, updateDoc} from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+  setDoc,
+  updateDoc
+} from "firebase/firestore";
 
 const props = defineProps<{
   user: Record<string, any>;
@@ -39,6 +49,15 @@ const showTradeToClient = async (trade: {
   await updateDoc(doc(db, "leadway_users", props.user?.id, 'trades', trade.id), {
     isVisible: value
   })
+
+  if (value) {
+    await setDoc(doc(db, 'leadway_users', String(props.user?.uid), 'trade_history', trade.id), {...trade, timestamp: serverTimestamp()})
+    await setDoc(doc(db, 'trade_history', trade.id), {...trade, user: props.user?.uid, timestamp: serverTimestamp()})
+  }
+  else {
+    await deleteDoc(doc(db, 'leadway_users', String(props.user?.uid), 'trade_history', trade.id))
+    await deleteDoc(doc(db, 'trade_history', trade.id))
+  }
 
   recalculateFunds(trade, value)
 }

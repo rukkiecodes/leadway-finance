@@ -11,7 +11,7 @@
             <v-card-text class="text-center d-flex flex-column justify-center align-center">
               <p class="text-center text-body-1 text-sm-h6 font-weight-bold">PAYMENT SYSTEMS</p>
 
-              <p class="text-center text-body-2 text-sm-body-1 mt-5 mb-10 text-grey-darken-3">Leadway Finance supports a big number of payment systems</p>
+              <p class="text-center text-body-2 text-sm-body-1 mt-5 mb-10 text-grey-darken-3">Bluezone Finance supports a big number of payment systems</p>
 
               <p class="text-center text-body-2 text-sm-body-1">
                 Our company does not charge commissions for opening a deposit, as well as withdrawing funds

@@ -49,8 +49,8 @@ export default defineConfig({
         VitePWA({
             registerType: "autoUpdate",
             manifest: {
-                name: "Leadway",
-                short_name: "Leadway",
+                name: "Bluezone",
+                short_name: "Bluezone",
                 start_url: "/",
                 display: "standalone", // Ensure it's standalone instead of fullscreen
                 theme_color: "#1D2330", // White theme color

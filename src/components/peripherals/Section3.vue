@@ -2,10 +2,10 @@
   <v-card color="transparent" rounded="0" height="100vh" class="gradient mt-n1 mb-n16">
     <v-container class="d-flex flex-column justify-center align-center" style="height: 100%">
       <v-card class="mb-10 pt-16 mx-auto" width="450" max-width="100%" color="transparent" flat>
-        <v-card-title class="text-center text-body-1 text-sm-h6 text-md-h5">BEST Leadway Finance TRADERS</v-card-title>
+        <v-card-title class="text-center text-body-1 text-sm-h6 text-md-h5">BEST Bluezone Finance TRADERS</v-card-title>
         <v-card-text class="text-center text-caption text-sm-body-2">
           The best cryptocurrency developers works in our company. They have a wealth of experience and
-          understanding of the crypto market behind them. They brought Leadway Finance to the world level of
+          understanding of the crypto market behind them. They brought Bluezone Finance to the world level of
           development
         </v-card-text>
       </v-card>
@@ -33,7 +33,7 @@
               <v-card height="300" class="d-flex flex-column justify-center align-center px-10" color="transparent">
                 <p class="text-center text-body-1 text-sm-h6">UNIQUE TRADE BOT</p>
                 <p class="text-center text-caption text-sm-body-2">
-                  Leadway Finance team of professionals has created a unique trading robot that makes profit at any
+                  Bluezone Finance team of professionals has created a unique trading robot that makes profit at any
                   stage of the market: rise or fall
                 </p>
               </v-card>
@@ -72,7 +72,7 @@
               <v-card height="300" class="d-flex flex-column justify-center align-center px-10" color="transparent">
                 <p class="text-center text-body-1 text-sm-h6">THE EXPERTS WILL DO EVERYTHING FOR YOU</p>
                 <p class="text-center text-caption text-sm-body-2">
-                  The highly professional Leadway Finance team controls all the processes of the trading robot around
+                  The highly professional Bluezone Finance team controls all the processes of the trading robot around
                   the clock. After investing, you will observe the growth of your capital in real time
                 </p>
               </v-card>

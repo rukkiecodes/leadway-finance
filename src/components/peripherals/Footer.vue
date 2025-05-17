@@ -54,10 +54,10 @@
           <div class="d-flex justify-start align-center ga-5 mt-5 opacity-90">
             <v-icon color="teal-accent-3" size="18">mdi-email</v-icon>
             <a
-              href="mailto:support@leadwayfinance.com"
+              href="mailto:support@bluezonefinance.com"
               class="text-caption text-sm-body-2 text-teal-accent-3 text-decoration-none"
             >
-              Email: support@leadwayfinance.com
+              Email: support@bluezonefinance.com
             </a>
           </div>
 

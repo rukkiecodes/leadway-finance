@@ -13,7 +13,7 @@
             <p class="text-body-2 text-sm-body-1 text-md-h6 mt-3">REGISTRATION</p>
 
             <p class="text-caption text-sm-body-2 mt-7">
-              Click the Register button. Fill in your details to create a FREE Leadway Finance account in seconds
+              Click the Register button. Fill in your details to create a FREE Bluezone Finance account in seconds
             </p>
           </v-card-text>
         </v-card>
